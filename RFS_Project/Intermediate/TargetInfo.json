@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "RFS_Project",
+			"Path": "C:\\Uni Lab Work\\DES310\\RockFlockStudios-Prof-Project\\RFS_Project\\Source\\RFS_Project.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "RFS_ProjectEditor",
+			"Path": "C:\\Uni Lab Work\\DES310\\RockFlockStudios-Prof-Project\\RFS_Project\\Source\\RFS_ProjectEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
