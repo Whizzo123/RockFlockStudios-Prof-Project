@@ -4,9 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "FShadowAbility.generated.h"
 #include "UShadowWall.h"
 #include "Ability.h"
+#include "FShadowAbility.generated.h"
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class RFS_PROJECT_API UFShadowAbility : public UActorComponent, public IRechargeAbility

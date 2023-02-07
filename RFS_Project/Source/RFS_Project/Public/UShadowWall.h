@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "../Combat.h"
 #include "UShadowWall.generated.h"
 
 UCLASS()
-class RFS_PROJECT_API AUShadowWall : public AActor
+class RFS_PROJECT_API AUShadowWall : public AActor, public IHealth
 {
 	GENERATED_BODY()
 	
@@ -17,7 +18,7 @@ public:
 	UObject* AttachedWall;
 	int Size;
 	void Spawn();
-	void OnDeath();//TODO health ovveride;
+	void OnDeath() override;//TODO health ovveride;
 
 protected:
 	// Called when the game starts or when spawned
@@ -31,15 +32,18 @@ public:
 
 
 UCLASS()
-class RFS_PROJECT_API AUShadowEntrence : public AUShadowWall
+class RFS_PROJECT_API AUShadowEntrence : public AActor
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	AUShadowEntrence() {bContainsPlayer };
-	void OnDeath();//TODO health ovveride;
+	AUShadowEntrence(int wSize) { bContainsPlayer = false; Size = WSize; };
 	bool bContainsPlayer;
+
+	UObject* AttachedWall;
+	int Size;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
