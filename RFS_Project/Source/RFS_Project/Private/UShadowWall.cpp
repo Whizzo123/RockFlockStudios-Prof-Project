@@ -11,6 +11,14 @@ AUShadowWall::AUShadowWall()
 
 }
 
+void AUShadowWall::Spawn()
+{
+}
+
+void AUShadowWall::OnDeath()
+{
+}
+
 // Called when the game starts or when spawned
 void AUShadowWall::BeginPlay()
 {
@@ -25,3 +33,10 @@ void AUShadowWall::Tick(float DeltaTime)
 
 }
 
+void AUShadowEntrence::BeginPlay()
+{
+}
+
+void AUShadowEntrence::Tick(float DeltaTime)
+{
+}

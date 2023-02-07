@@ -14,6 +14,7 @@ class RFS_PROJECT_API AUShadowWall : public AActor, public IHealth
 	
 public:	
 	// Sets default values for this actor's properties
+	AUShadowWall();
 	AUShadowWall(int WSize) { Size = WSize; };
 	UObject* AttachedWall;
 	int Size;
@@ -38,7 +39,8 @@ class RFS_PROJECT_API AUShadowEntrence : public AActor
 
 public:
 	// Sets default values for this actor's properties
-	AUShadowEntrence(int wSize) { bContainsPlayer = false; Size = WSize; };
+	AUShadowEntrence() {};
+	AUShadowEntrence(int WSize) { bContainsPlayer = false; Size = WSize; };
 	bool bContainsPlayer;
 
 	UObject* AttachedWall;
