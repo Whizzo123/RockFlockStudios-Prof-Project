@@ -11,6 +11,7 @@ class RFS_PROJECT_API IAbility
 {
 public:
 	virtual void Use() = 0;
+	
 };
 
 /// <summary>
@@ -25,7 +26,7 @@ public:
 	virtual void Use() = 0;
 	int GetUseAmount() { return UseAmount; }
 	int GetUseCapacity() { return UseCapacity; }
-private:
+protected:
 	int UseAmount;//Current amount of ability usages that can be used.
 	int UseCapacity;//How many ability usages can be stored.
 };
@@ -42,7 +43,7 @@ public:
 	virtual void Use() = 0;
 	int GetChargeAmount() { return ChargeAmount; }
 	int GetChargeCapacity() { return ChargeCapacity; }
-private:
+protected:
 	int ChargeAmount;//The ultimate charge counter
 	int ChargeCapacity;//Ultimate charge capacity, once full, ability can be used.
 };
