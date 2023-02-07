@@ -22,19 +22,56 @@ void UFShadowAbility::BeginPlay()
 {
 	Super::BeginPlay();
 
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Starting Shadow Ability"));
 	// ...
 	
 }
 
 void UFShadowAbility::Use()
 {
-	if (UseAmount <= 0)
-		return;
+	bool debug = true;
+	if (!debug)
+	{
+		if (UseAmount <= 0)
+			return;
 
-	UseAmount--;
+		UseAmount--;
+	}
+
 	
 	//Use Ability
+	GetWalls();
 	SpawnPortals();
+}
+
+void UFShadowAbility::GetWalls()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Getting Walls"));
+	FVector actorLocation = GetOwner()->GetActorLocation();
+	FRotator actorRotation = GetOwner()->GetActorRotation();
+
+	for (int currentLine = 0; currentLine < TraceAmounts; currentLine++)
+	{
+		FVector actorForward = actorLocation + (actorRotation.Vector() * AbilityRange);
+		TArray<FHitResult> hits;
+
+		FCollisionQueryParams traceParams;
+		GetWorld()->LineTraceMultiByChannel(hits, actorLocation, actorForward, ECC_Visibility, traceParams);
+
+		for (int hitIndex = 0; hitIndex < hits.Num(); hitIndex++)
+		{
+			FHitResult result = hits[hitIndex];
+			if (result.GetActor()->Tags.Contains("SolidWall"))
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("I have hit a SolidWall"));
+			}
+			else {
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("I have NOT hit a SolidWall"));
+
+			}
+		}
+
+	}
 }
 
 void UFShadowAbility::SpawnPortals()
