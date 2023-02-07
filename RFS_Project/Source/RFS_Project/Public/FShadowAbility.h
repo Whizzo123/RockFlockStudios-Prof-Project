@@ -19,22 +19,14 @@ public:
 	UFShadowAbility();
 	TArray<AUShadowWall*> FakeWalls;
 	AUShadowEntrence* ShadowEntrence;
+protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void Use() override;
-
-	UPROPERTY(EditAnywhere)
-	float AbilityRange = 500.0f;
-	UPROPERTY(EditAnywhere)
-	int TraceAmounts = 10;//This determines how many line traces get sent. Alter for accuracy and performance.
-
-private:
-	void GetWalls();
 	void SpawnPortals();
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-private:
+		
 };
