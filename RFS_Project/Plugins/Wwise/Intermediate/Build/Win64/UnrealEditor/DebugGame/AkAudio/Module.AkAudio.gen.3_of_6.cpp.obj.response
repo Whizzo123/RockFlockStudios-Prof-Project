@@ -1,7 +1,7 @@
-"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Module.AkAudio.gen.3_of_6.cpp"
+"C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Module.AkAudio.gen.3_of_6.cpp"
 /I .
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AkAudio\Private"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AkAudio\Classes\GTE"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AkAudio\Private"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AkAudio\Classes\GTE"
 /I Runtime
 /I Runtime\TraceLog\Public
 /I Runtime\Core\Public
@@ -254,14 +254,14 @@
 /I ..\Intermediate\Build\Win64\UnrealEditor\Inc\AnimationDataController
 /I Developer\AnimationDataController\Public
 /I Runtime\XmlParser\Public
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseFileHandler"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseFileHandler\Public"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseConcurrency\Public"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseSoundEngine"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine\Public"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\ThirdParty\include"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine_2022_1\Public"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseFileHandler"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseFileHandler\Public"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseConcurrency\Public"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseSoundEngine"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine\Public"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\ThirdParty\include"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine_2022_1\Public"
 /I Developer\DesktopPlatform\Public
 /I ..\Plugins\Editor\GeometryMode\Intermediate\Build\Win64\UnrealEditor\Inc\GeometryMode
 /I ..\Plugins\Editor\GeometryMode\Source
@@ -269,15 +269,15 @@
 /I ..\Plugins\Editor\GeometryMode\Source\GeometryMode\Public
 /I Developer\SharedSettingsWidgets\Public
 /I Developer\ExternalImagePicker\Public
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseProjectDatabase"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseProjectDatabase\Public"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseResourceCooker"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseResourceCooker\Public"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\AkAudio"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AkAudio\Classes"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AkAudio\Public"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseResourceLoader"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseResourceLoader\Public"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseProjectDatabase"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseProjectDatabase\Public"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseResourceCooker"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseResourceCooker\Public"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\AkAudio"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AkAudio\Classes"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AkAudio\Public"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseResourceLoader"
+/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseResourceLoader\Public"
 /I ThirdParty\mimalloc\include
 /I ThirdParty\LibTiff\Source\Win64
 /I ThirdParty\LibTiff\Source
@@ -305,17 +305,17 @@
 /I ThirdParty\PhysX3\APEX_1.4\shared\general\PairFilter\include
 /I ThirdParty\PhysX3\APEX_1.4\shared\internal\include
 /I "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\INCLUDE"
-/I "C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8.1\include\um"
+/I "C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"
-/FI"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\DebugGame\UnrealEd\SharedPCH.UnrealEd.NonOptimized.ShadowErrors.h"
-/FI"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Definitions.AkAudio.h"
-/Yu"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\DebugGame\UnrealEd\SharedPCH.UnrealEd.NonOptimized.ShadowErrors.h"
-/Fp"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\DebugGame\UnrealEd\SharedPCH.UnrealEd.NonOptimized.ShadowErrors.h.pch"
-/Fo"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Module.AkAudio.gen.3_of_6.cpp.obj"
-/sourceDependencies "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Module.AkAudio.gen.3_of_6.cpp.json"
+/FI"C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\DebugGame\UnrealEd\SharedPCH.UnrealEd.NonOptimized.ShadowErrors.h"
+/FI"C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Definitions.AkAudio.h"
+/Yu"C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\DebugGame\UnrealEd\SharedPCH.UnrealEd.NonOptimized.ShadowErrors.h"
+/Fp"C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\DebugGame\UnrealEd\SharedPCH.UnrealEd.NonOptimized.ShadowErrors.h.pch"
+/Fo"C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Module.AkAudio.gen.3_of_6.cpp.obj"
+/sourceDependencies "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Module.AkAudio.gen.3_of_6.cpp.json"
 /Zc:inline
 /nologo
 /Oi

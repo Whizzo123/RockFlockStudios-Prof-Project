@@ -1,14 +1,14 @@
 {
     "Version": "1.1",
     "Data": {
-        "Source": "c:\\unreal projects\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\debuggame\\wwiseresourcecooker\\module.wwiseresourcecooker.gen.cpp",
+        "Source": "c:\\uni lab work\\des310\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\debuggame\\wwiseresourcecooker\\module.wwiseresourcecooker.gen.cpp",
         "ProvidedModule": "",
-        "PCH": "c:\\unreal projects\\rockflockstudios-prof-project\\rfs_project\\intermediate\\build\\win64\\rfs_projecteditor\\debuggame\\unrealed\\sharedpch.unrealed.nonoptimized.shadowerrors.h.pch",
+        "PCH": "c:\\uni lab work\\des310\\rockflockstudios-prof-project\\rfs_project\\intermediate\\build\\win64\\rfs_projecteditor\\debuggame\\unrealed\\sharedpch.unrealed.nonoptimized.shadowerrors.h.pch",
         "Includes": [
-            "c:\\unreal projects\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\debuggame\\wwiseresourcecooker\\definitions.wwiseresourcecooker.h",
-            "c:\\unreal projects\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\inc\\wwiseresourcecooker\\wwiseresourcecooker.init.gen.cpp",
-            "c:\\unreal projects\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\inc\\wwiseresourcecooker\\wwiseresourcecookermodule.gen.cpp",
-            "c:\\unreal projects\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\source\\wwiseresourcecooker\\public\\wwise\\wwiseresourcecookermodule.h"
+            "c:\\uni lab work\\des310\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\debuggame\\wwiseresourcecooker\\definitions.wwiseresourcecooker.h",
+            "c:\\uni lab work\\des310\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\inc\\wwiseresourcecooker\\wwiseresourcecooker.init.gen.cpp",
+            "c:\\uni lab work\\des310\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\inc\\wwiseresourcecooker\\wwiseresourcecookermodule.gen.cpp",
+            "c:\\uni lab work\\des310\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\source\\wwiseresourcecooker\\public\\wwise\\wwiseresourcecookermodule.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []
