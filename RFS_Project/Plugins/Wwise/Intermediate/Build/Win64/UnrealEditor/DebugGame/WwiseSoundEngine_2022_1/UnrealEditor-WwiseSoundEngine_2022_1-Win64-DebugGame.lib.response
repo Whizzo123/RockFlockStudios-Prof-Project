@@ -1,0 +1,12 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-WwiseSoundEngine_2022_1-Win64-DebugGame.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\DebugGame\Engine\SharedPCH.Engine.NonOptimized.ShadowErrors.h.obj"
+"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\WwiseSoundEngine_2022_1\Module.WwiseSoundEngine_2022_1.cpp.obj"
+"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\WwiseSoundEngine_2022_1\Default.rc2.res"
+/OUT:"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\WwiseSoundEngine_2022_1\UnrealEditor-WwiseSoundEngine_2022_1-Win64-DebugGame.lib"

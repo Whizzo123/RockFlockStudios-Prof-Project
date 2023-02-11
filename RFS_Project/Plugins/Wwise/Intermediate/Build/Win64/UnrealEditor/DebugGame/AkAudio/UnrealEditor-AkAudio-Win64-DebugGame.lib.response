@@ -1,0 +1,20 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-AkAudio-Win64-DebugGame.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\DebugGame\UnrealEd\SharedPCH.UnrealEd.NonOptimized.ShadowErrors.h.obj"
+"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Module.AkAudio.1_of_3.cpp.obj"
+"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Module.AkAudio.2_of_3.cpp.obj"
+"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Module.AkAudio.3_of_3.cpp.obj"
+"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Module.AkAudio.gen.1_of_6.cpp.obj"
+"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Module.AkAudio.gen.2_of_6.cpp.obj"
+"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Module.AkAudio.gen.3_of_6.cpp.obj"
+"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Module.AkAudio.gen.4_of_6.cpp.obj"
+"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Module.AkAudio.gen.5_of_6.cpp.obj"
+"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Module.AkAudio.gen.6_of_6.cpp.obj"
+"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\Default.rc2.res"
+/OUT:"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\DebugGame\AkAudio\UnrealEditor-AkAudio-Win64-DebugGame.lib"

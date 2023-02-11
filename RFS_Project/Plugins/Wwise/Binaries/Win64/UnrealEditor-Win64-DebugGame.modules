@@ -1,0 +1,18 @@
+{
+	"BuildId": "19505902",
+	"Modules": 
+	{
+		"AkAudio": "UnrealEditor-AkAudio-Win64-DebugGame.dll",
+		"AkAudioMixer": "UnrealEditor-AkAudioMixer-Win64-DebugGame.dll",
+		"AudiokineticTools": "UnrealEditor-AudiokineticTools-Win64-DebugGame.dll",
+		"Wwise": "UnrealEditor-Wwise-Win64-DebugGame.dll",
+		"WwiseConcurrency": "UnrealEditor-WwiseConcurrency-Win64-DebugGame.dll",
+		"WwiseFileHandler": "UnrealEditor-WwiseFileHandler-Win64-DebugGame.dll",
+		"WwiseProjectDatabase": "UnrealEditor-WwiseProjectDatabase-Win64-DebugGame.dll",
+		"WwiseResourceCooker": "UnrealEditor-WwiseResourceCooker-Win64-DebugGame.dll",
+		"WwiseResourceLoader": "UnrealEditor-WwiseResourceLoader-Win64-DebugGame.dll",
+		"WwiseSimpleExternalSource": "UnrealEditor-WwiseSimpleExternalSource-Win64-DebugGame.dll",
+		"WwiseSoundEngine": "UnrealEditor-WwiseSoundEngine-Win64-DebugGame.dll",
+		"WwiseSoundEngine_2022_1": "UnrealEditor-WwiseSoundEngine_2022_1-Win64-DebugGame.dll"
+	}
+}

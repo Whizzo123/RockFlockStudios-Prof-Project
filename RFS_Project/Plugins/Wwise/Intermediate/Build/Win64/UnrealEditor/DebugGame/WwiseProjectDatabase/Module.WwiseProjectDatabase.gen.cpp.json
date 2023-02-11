@@ -1,0 +1,19 @@
+{
+    "Version": "1.1",
+    "Data": {
+        "Source": "c:\\unreal projects\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\debuggame\\wwiseprojectdatabase\\module.wwiseprojectdatabase.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\unreal projects\\rockflockstudios-prof-project\\rfs_project\\intermediate\\build\\win64\\rfs_projecteditor\\debuggame\\unrealed\\sharedpch.unrealed.nonoptimized.shadowerrors.h.pch",
+        "Includes": [
+            "c:\\unreal projects\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\debuggame\\wwiseprojectdatabase\\definitions.wwiseprojectdatabase.h",
+            "c:\\unreal projects\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\inc\\wwiseprojectdatabase\\wwisedatabaseidentifiers.gen.cpp",
+            "c:\\unreal projects\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\source\\wwiseprojectdatabase\\public\\wwise\\wwisedatabaseidentifiers.h",
+            "c:\\unreal projects\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\inc\\wwiseprojectdatabase\\wwisedatabaseidentifiers.generated.h",
+            "c:\\unreal projects\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\inc\\wwiseprojectdatabase\\wwiseprojectdatabase.init.gen.cpp",
+            "c:\\unreal projects\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\inc\\wwiseprojectdatabase\\wwisereftype.gen.cpp",
+            "c:\\unreal projects\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\source\\wwiseprojectdatabase\\public\\wwise\\ref\\wwisereftype.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
