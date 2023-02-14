@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Mac" BasePlatform="Mac" SchemaVersion="16" SoundBankVersion="145">
+	<SoundBanks>
+		<SoundBank Id="1831431028" Type="User" GUID="{10BF1388-6F34-4C42-9D58-68F44A9E794E}" Language="SFX" Hash="{19FFC3B6-7054-AD85-4FCD-081AEB33F3FF}">
+			<ObjectPath>\SoundBanks\Default Work Unit\TestSoundBank</ObjectPath>
+			<ShortName>TestSoundBank</ShortName>
+			<Path>TestSoundBank.bnk</Path>
+			<Media>
+				<File Id="484811040" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Music_Bassoon_Drone_LowC.wav</ShortName>
+					<CachePath>SFX/Music_Bassoon_Drone_LowC_19E6270F.wem</CachePath>
+				</File>
+			</Media>
+			<Plugins>
+				<ShareSets>
+					<Plugin Id="2849147824" Name="Medium" ObjectPath="\Effects\Factory Effects\RoomVerb\Cathedrals\Medium" GUID="{AEB3F175-958B-45F2-A4C2-3FBD4F456568}" LibName="Wwise RoomVerb" LibId="7733251"/>
+				</ShareSets>
+			</Plugins>
+			<Events>
+				<Event Id="155015304" Name="TestEvent1" ObjectPath="\Events\Default Work Unit\TestEvent1" GUID="{40BB72F3-EECF-4D09-B543-36C6C6318FEB}" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="484811040"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2849147824"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+			</Events>
+		</SoundBank>
+	</SoundBanks>
+	<FileHash>{60424C1F-D80F-E602-26B9-CAA7C50A3617}</FileHash>
+</SoundBanksInfo>
