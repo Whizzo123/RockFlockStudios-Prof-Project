@@ -22,11 +22,12 @@
 				<Property Name="Game Profiler\Voice Monitor\LastBus" Type="string" Value="{00000000-0000-0000-0000-000000000000}"/>
 				<Property Name="General\LatestLanguage" Type="int32" Value="684519430"/>
 				<Property Name="General\LatestPlatform" Type="string" Value="Mac"/>
+				<Property Name="General\SourceControlPluginID" Type="string" Value="{C403A906-0C19-4ED5-808E-748707065301}"/>
 				<Property Name="GenerateSoundBanks\x64_SelectedLanguages" Type="string" Value="BvDMKA=="/>
 				<Property Name="GenerateSoundBanks\x64_SelectedPlatforms" Type="string" Value="XRfTTgFbmUGmFiNMCt0JKqTEPKWpQcdLvyW5Kf1en9w="/>
 				<Property Name="GenerateSoundBanks\x64_SelectedSoundBanks" Type="string" Value="iBO/EDRvQkydWGj0Sp55Tg=="/>
 				<Property Name="HardwareController\CurrentSession" Type="string" Value="{2451DD2E-A7B2-45E6-B93B-6F49B9B887AD}"/>
-				<Property Name="HardwareController\{2451DD2E-A7B2-45E6-B93B-6F49B9B887AD}\x64_ActiveGroups_v2" Type="string" Value="jtz5riZYs0qJPmwmdE1CqQEAn0X1AAAAwKRmqvl/AAAY9MJyNQIAAAAAAAA1AgAAwKRmqvl/AAAEkuGq+X8AAHAh7341AgAAAAAAADUCAAAIAAAAAAAAAOjln0X1AAAAAAD2qvl/AAAfAfaq+X8AAAAA9qr5fwAAwKRmqvl/AADApGaq+X8AABj0wnI1AgAAAQAAACPXOBeZV9BArgCX3hajBEUBAJ9F9QAAAMCkZqr5fwAAGPTCcjUCAAAAAAAANQIAAMCkZqr5fwAABJLhqvl/AABwIe9+NQIAAAAAAAA1AgAACAAAAAAAAADo5Z9F9QAAAAAA9qr5fwAAHwH2qvl/AAAAAPaq+X8AAMCkZqr5fwAAwKRmqvl/AAAY9MJyNQIAAAEAAAA="/>
+				<Property Name="HardwareController\{2451DD2E-A7B2-45E6-B93B-6F49B9B887AD}\x64_ActiveGroups_v2" Type="string" Value="jtz5riZYs0qJPmwmdE1CqQEAb3XFAAAAwKSYvvl/AABIRegSIAIAAAAAAAAgAgAAwKSYvvl/AAAEkiu/+X8AAEDuZjQgAgAAAAAAACACAAAIAAAAAAAAAFjob3XFAAAAAABAv/l/AAAfAUC/+X8AAAAAQL/5fwAAwKSYvvl/AADApJi++X8AAEhF6BIgAgAAAQAAACPXOBeZV9BArgCX3hajBEUBAG91xQAAAMCkmL75fwAASEXoEiACAAAAAAAAIAIAAMCkmL75fwAABJIrv/l/AABA7mY0IAIAAAAAAAAgAgAACAAAAAAAAABY6G91xQAAAAAAQL/5fwAAHwFAv/l/AAAAAEC/+X8AAMCkmL75fwAAwKSYvvl/AABIRegSIAIAAAEAAAA="/>
 				<Property Name="Interactive Music\x64_{57B56B11-77BE-409D-853D-9F6D4B7B43D6} - SegmentEditorZoomInfo" Type="string" Value="AAAAAAAA8D8AAAAAAADwP6lVFfcZazBAAAAAAAAA8D8AAAAAAAAAAAAAAAAAAAAA"/>
 				<Property Name="Interactive Music\x64_{F863E0FA-5046-4F76-9C62-4FBE9EE1F872} - SegmentEditorZoomInfo" Type="string" Value="AAAAAAAA8D8AAAAAAADwP1VVVVVVNU5AAAAAAAAA8D8AAAAAAAA3QAAAAAAAAAAA"/>
 				<Property Name="MeterView\LastObject1" Type="string" Value="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"/>
@@ -40,6 +41,10 @@
 				<Property Name="MonitoringManager\GameObjectFilter\GameObjectFiltersEnable" Type="bool" Value="True"/>
 				<Property Name="MonitoringManager\GameObjectFilter\x64_GameObjectFilters" Type="string" Value=""/>
 				<Property Name="ObjectTabPanel\x64_CurrentObjects_{D5805147-985E-4C5B-B817-369AF1B7184D}" Type="string" Value=""/>
+				<Property Name="OverrideCacheFolder\Active" Type="bool" Value="False"/>
+				<Property Name="OverrideCacheFolder\Path" Type="string" Value=".cache"/>
+				<Property Name="OverrideOriginalFolder\Active" Type="bool" Value="False"/>
+				<Property Name="OverrideOriginalFolder\Path" Type="string" Value="Originals"/>
 				<Property Name="ProjectExplorer\AudioSelectionChannel1\ProjectExplorer2LastScrollState" Type="int32" Value="0"/>
 				<Property Name="ProjectExplorer\AudioSelectionChannel1\x64_ProjectExplorer2LastExpandedState" Type="string" Value="iC8JJ1oiVBFnJcijTz1EguraiCN1l8ZGou3FIio5d1b4u6dewGRQSoghoH6L4h1oZtP+STC1qEKZO5JIc6q3Bw=="/>
 				<Property Name="ProjectExplorer\AudioSelectionChannel2\ProjectExplorer2LastScrollState" Type="int32" Value="0"/>
