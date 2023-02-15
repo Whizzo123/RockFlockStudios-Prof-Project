@@ -1,0 +1,19 @@
+{
+    "Version": "1.1",
+    "Data": {
+        "Source": "c:\\uni lab work\\des310\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\debuggame\\wwiseprojectdatabase\\module.wwiseprojectdatabase.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\uni lab work\\des310\\rockflockstudios-prof-project\\rfs_project\\intermediate\\build\\win64\\rfs_projecteditor\\debuggame\\unrealed\\sharedpch.unrealed.nonoptimized.shadowerrors.h.pch",
+        "Includes": [
+            "c:\\uni lab work\\des310\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\debuggame\\wwiseprojectdatabase\\definitions.wwiseprojectdatabase.h",
+            "c:\\uni lab work\\des310\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\inc\\wwiseprojectdatabase\\wwisedatabaseidentifiers.gen.cpp",
+            "c:\\uni lab work\\des310\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\source\\wwiseprojectdatabase\\public\\wwise\\wwisedatabaseidentifiers.h",
+            "c:\\uni lab work\\des310\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\inc\\wwiseprojectdatabase\\wwisedatabaseidentifiers.generated.h",
+            "c:\\uni lab work\\des310\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\inc\\wwiseprojectdatabase\\wwiseprojectdatabase.init.gen.cpp",
+            "c:\\uni lab work\\des310\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\intermediate\\build\\win64\\unrealeditor\\inc\\wwiseprojectdatabase\\wwisereftype.gen.cpp",
+            "c:\\uni lab work\\des310\\rockflockstudios-prof-project\\rfs_project\\plugins\\wwise\\source\\wwiseprojectdatabase\\public\\wwise\\ref\\wwisereftype.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
