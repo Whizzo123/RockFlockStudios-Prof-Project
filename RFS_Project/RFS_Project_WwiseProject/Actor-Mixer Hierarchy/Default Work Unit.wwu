@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}" SchemaVersion="110">
+	<AudioObjects>
+		<WorkUnit Name="Default Work Unit" ID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}" PersistMode="Standalone">
+			<ChildrenList>
+				<Sound Name="Music_Bassoon_Drone_LowC" ID="{AE9C5F07-A521-4E1E-AE33-D9DD246471CE}" ShortID="314218100">
+					<PropertyList>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>2</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F45E14D5-BA07-492D-9E19-515DC4C07F9C}"/>
+						</Reference>
+						<Reference Name="Effect0" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+							<ObjectRef Name="Medium" ID="{AEB3F175-958B-45F2-A4C2-3FBD4F456568}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="Music_Bassoon_Drone_LowC" ID="{4475F8EC-29EA-4F3D-9BD0-CBF7A26CC92E}">
+							<PropertyList>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+								<Property Name="TrimBegin" Type="Real64" Value="0.422535211267606"/>
+								<Property Name="TrimEnd" Type="Real64" Value="4.64788732394362"/>
+							</PropertyList>
+							<Language>SFX</Language>
+							<AudioFile>Music_Bassoon_Drone_LowC.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="484811040"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="Music_Bassoon_Drone_LowC" ID="{4475F8EC-29EA-4F3D-9BD0-CBF7A26CC92E}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

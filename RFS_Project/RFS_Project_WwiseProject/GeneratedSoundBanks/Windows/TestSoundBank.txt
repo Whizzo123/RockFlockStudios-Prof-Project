@@ -1,0 +1,9 @@
+Event	ID	Name			Wwise Object Path	Notes
+	155015304	TestEvent1			\Default Work Unit\TestEvent1	
+
+Effect plug-ins	ID	Name	Type				Notes
+	2849147824	Medium	Wwise RoomVerb			
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	484811040	Music_Bassoon_Drone_LowC	D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\RFS_Project_WwiseProject\.cache\Windows\SFX\Music_Bassoon_Drone_LowC_19E6270F.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music_Bassoon_Drone_LowC		745448
+

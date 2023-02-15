@@ -1,0 +1,64 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "145",
+  "SoundBanks": [
+   {
+    "Id": "1831431028",
+    "Type": "User",
+    "GUID": "{10BF1388-6F34-4C42-9D58-68F44A9E794E}",
+    "Language": "SFX",
+    "Hash": "{19FFC3B6-7054-AD85-4FCD-081AEB33F3FF}",
+    "ObjectPath": "\\SoundBanks\\Default Work Unit\\TestSoundBank",
+    "ShortName": "TestSoundBank",
+    "Path": "TestSoundBank.bnk",
+    "Media": [
+     {
+      "Id": "484811040",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Music_Bassoon_Drone_LowC.wav",
+      "CachePath": "SFX/Music_Bassoon_Drone_LowC_19E6270F.wem"
+     }
+    ],
+    "Plugins": {
+     "ShareSets": [
+      {
+       "Id": "2849147824",
+       "Name": "Medium",
+       "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Cathedrals\\Medium",
+       "GUID": "{AEB3F175-958B-45F2-A4C2-3FBD4F456568}",
+       "LibName": "Wwise RoomVerb",
+       "LibId": "7733251"
+      }
+     ]
+    },
+    "Events": [
+     {
+      "Id": "155015304",
+      "Name": "TestEvent1",
+      "ObjectPath": "\\Events\\Default Work Unit\\TestEvent1",
+      "GUID": "{40BB72F3-EECF-4D09-B543-36C6C6318FEB}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "484811040"
+       }
+      ],
+      "PluginRefs": {
+       "ShareSets": [
+        {
+         "Id": "2849147824"
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "FileHash": "{7834C093-C283-93B4-ABDE-959EF5856B50}"
+ }
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{846787C2-9B34-4735-8DA5-DD6646E42820}" SchemaVersion="110">
+	<Events>
+		<WorkUnit Name="Default Work Unit" ID="{846787C2-9B34-4735-8DA5-DD6646E42820}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="TestEvent1" ID="{40BB72F3-EECF-4D09-B543-36C6C6318FEB}">
+					<ChildrenList>
+						<Action Name="" ID="{102F2DD2-42FC-4FF0-9CA9-73B261EFFBDD}" ShortID="5164315">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Music_Bassoon_Drone_LowC" ID="{AE9C5F07-A521-4E1E-AE33-D9DD246471CE}" WorkUnitID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>
