@@ -553,18 +553,24 @@
 			"Type": "DynamicLibrary"
 		},
 		{
+<<<<<<< HEAD
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-Cbor.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-CEF3Utils.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
+<<<<<<< HEAD
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-CEF3Utils.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-Chaos.dll",
 			"Type": "DynamicLibrary"
 		},
@@ -3113,18 +3119,24 @@
 			"Type": "DynamicLibrary"
 		},
 		{
+<<<<<<< HEAD
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-VulkanShaderFormat.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-WebBrowser.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
+<<<<<<< HEAD
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-WebBrowser.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-WidgetCarousel.dll",
 			"Type": "DynamicLibrary"
 		},
@@ -3365,10 +3377,13 @@
 			"Type": "DynamicLibrary"
 		},
 		{
+<<<<<<< HEAD
 			"Path": "$(EngineDir)/Plugins/Animation/IKRig/Binaries/Win64/UnrealEditor-IKRigEditor.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
 			"Path": "$(EngineDir)/Plugins/Bridge/Binaries/Win64/UnrealEditor.modules",
 			"Type": "RequiredResource"
 		},
@@ -5369,10 +5384,13 @@
 			"Type": "DynamicLibrary"
 		},
 		{
+<<<<<<< HEAD
 			"Path": "$(EngineDir)/Plugins/XGEController/Binaries/Win64/UnrealEditor-XGEController.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
 			"Path": "$(ProjectDir)/Binaries/Win64/UnrealEditor.modules",
 			"Type": "RequiredResource"
 		},
@@ -5383,6 +5401,7 @@
 		{
 			"Path": "$(ProjectDir)/Binaries/Win64/UnrealEditor-RFS_Project.pdb",
 			"Type": "SymbolFile"
+<<<<<<< HEAD
 		},
 		{
 			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor.modules",
@@ -5483,6 +5502,8 @@
 		{
 			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseSoundEngine_2022_1.pdb",
 			"Type": "SymbolFile"
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
 		}
 	],
 	"RuntimeDependencies": [
@@ -26023,10 +26044,13 @@
 			"Type": "UFS"
 		},
 		{
+<<<<<<< HEAD
 			"Path": "$(ProjectDir)/Plugins/Wwise/Wwise.uplugin",
 			"Type": "UFS"
 		},
 		{
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
 			"Path": "$(ProjectDir)/RFS_Project.uproject",
 			"Type": "UFS"
 		}
