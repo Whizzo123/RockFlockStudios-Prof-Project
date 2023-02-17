@@ -554,23 +554,35 @@
 		},
 		{
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-Cbor.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
 =======
 >>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-CEF3Utils.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-CEF3Utils.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
 =======
 >>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-Chaos.dll",
 			"Type": "DynamicLibrary"
 		},
@@ -1243,6 +1255,8 @@
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-HoloLensPlatformEditor.dll",
 			"Type": "DynamicLibrary"
 		},
@@ -1259,6 +1273,7 @@
 			"Type": "SymbolFile"
 		},
 		{
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-HotReload.dll",
 			"Type": "DynamicLibrary"
 		},
@@ -1452,6 +1467,7 @@
 		},
 		{
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-LandscapeEditor.dll",
+<<<<<<< HEAD
 			"Type": "DynamicLibrary"
 		},
 		{
@@ -1461,6 +1477,21 @@
 		{
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-LandscapeEditorUtilities.dll",
 			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-LandscapeEditorUtilities.pdb",
+			"Type": "SymbolFile"
+=======
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-LandscapeEditor.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-LandscapeEditorUtilities.dll",
+			"Type": "DynamicLibrary"
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 		},
 		{
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-LandscapeEditorUtilities.pdb",
@@ -1724,6 +1755,7 @@
 		},
 		{
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-MeshMergeUtilities.dll",
+<<<<<<< HEAD
 			"Type": "DynamicLibrary"
 		},
 		{
@@ -1733,6 +1765,21 @@
 		{
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-MeshPaint.dll",
 			"Type": "DynamicLibrary"
+=======
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-MeshMergeUtilities.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-MeshPaint.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-MeshPaint.pdb",
+			"Type": "SymbolFile"
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 		},
 		{
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-MeshPaint.pdb",
@@ -3120,23 +3167,35 @@
 		},
 		{
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-VulkanShaderFormat.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
 =======
 >>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-WebBrowser.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-WebBrowser.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
 =======
 >>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-WidgetCarousel.dll",
 			"Type": "DynamicLibrary"
 		},
@@ -3209,10 +3268,13 @@
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
 			"Path": "$(EngineDir)/Binaries/Win64/WindowsMRAssetConverter.exe",
 			"Type": "RequiredResource"
 		},
 		{
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Plugins/2D/Paper2D/Binaries/Win64/UnrealEditor.modules",
 			"Type": "RequiredResource"
 		},
@@ -3378,12 +3440,18 @@
 		},
 		{
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Plugins/Animation/IKRig/Binaries/Win64/UnrealEditor-IKRigEditor.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
 =======
 >>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Plugins/Bridge/Binaries/Win64/UnrealEditor.modules",
 			"Type": "RequiredResource"
 		},
@@ -5385,12 +5453,18 @@
 		},
 		{
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Plugins/XGEController/Binaries/Win64/UnrealEditor-XGEController.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
 =======
 >>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(ProjectDir)/Binaries/Win64/UnrealEditor.modules",
 			"Type": "RequiredResource"
 		},
