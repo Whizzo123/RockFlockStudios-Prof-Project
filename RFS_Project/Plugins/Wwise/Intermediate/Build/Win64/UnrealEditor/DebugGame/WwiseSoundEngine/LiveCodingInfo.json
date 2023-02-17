@@ -1,0 +1,15 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.WwiseSoundEngine.cpp.obj": [
+			"AkUnrealHelper.cpp.obj",
+			"Global.cpp.obj",
+			"SoundEngine.cpp.obj",
+			"WwiseSoundEngineModule.cpp.obj"
+		],
+		"Module.WwiseSoundEngine.gen.cpp.obj": [
+			"AkUnrealHelper.gen.cpp.obj",
+			"WwiseSoundEngine.init.gen.cpp.obj"
+		]
+	}
+}

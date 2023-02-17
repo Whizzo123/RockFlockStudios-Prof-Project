@@ -1,0 +1,24 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.WwiseSoundEngine_2022_1.cpp.obj": [
+			"AndroidAPI_2022_1.cpp.obj",
+			"HoloLensAPI_2022_1.cpp.obj",
+			"IOSAPI_2022_1.cpp.obj",
+			"LinuxAPI_2022_1.cpp.obj",
+			"MacAPI_2022_1.cpp.obj",
+			"TVOSAPI_2022_1.cpp.obj",
+			"WindowsAPI_2022_1.cpp.obj",
+			"WAAPI_2022_1.cpp.obj",
+			"WwiseCommAPI_2022_1.cpp.obj",
+			"WwiseMemoryMgrAPI_2022_1.cpp.obj",
+			"WwiseMonitorAPI_2022_1.cpp.obj",
+			"WwiseMusicEngineAPI_2022_1.cpp.obj",
+			"WwiseSoundEngineAPI_2022_1.cpp.obj",
+			"WwiseSpatialAudioAPI_2022_1.cpp.obj",
+			"WwiseStreamMgrAPI_2022_1.cpp.obj",
+			"SoundEngine_2022_1.cpp.obj",
+			"WwiseSoundEngineModule_2022_1.cpp.obj"
+		]
+	}
+}

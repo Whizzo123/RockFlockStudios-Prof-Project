@@ -553,18 +553,36 @@
 			"Type": "DynamicLibrary"
 		},
 		{
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-Cbor.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-CEF3Utils.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-CEF3Utils.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-Chaos.dll",
 			"Type": "DynamicLibrary"
 		},
@@ -1237,6 +1255,25 @@
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-HoloLensPlatformEditor.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-HoloLensPlatformEditor.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-HoloLensTargetPlatform.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-HoloLensTargetPlatform.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-HotReload.dll",
 			"Type": "DynamicLibrary"
 		},
@@ -1430,6 +1467,7 @@
 		},
 		{
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-LandscapeEditor.dll",
+<<<<<<< HEAD
 			"Type": "DynamicLibrary"
 		},
 		{
@@ -1439,6 +1477,21 @@
 		{
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-LandscapeEditorUtilities.dll",
 			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-LandscapeEditorUtilities.pdb",
+			"Type": "SymbolFile"
+=======
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-LandscapeEditor.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-LandscapeEditorUtilities.dll",
+			"Type": "DynamicLibrary"
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 		},
 		{
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-LandscapeEditorUtilities.pdb",
@@ -1702,6 +1755,7 @@
 		},
 		{
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-MeshMergeUtilities.dll",
+<<<<<<< HEAD
 			"Type": "DynamicLibrary"
 		},
 		{
@@ -1711,6 +1765,21 @@
 		{
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-MeshPaint.dll",
 			"Type": "DynamicLibrary"
+=======
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-MeshMergeUtilities.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-MeshPaint.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-MeshPaint.pdb",
+			"Type": "SymbolFile"
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 		},
 		{
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-MeshPaint.pdb",
@@ -3097,18 +3166,36 @@
 			"Type": "DynamicLibrary"
 		},
 		{
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-VulkanShaderFormat.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-WebBrowser.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-WebBrowser.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Binaries/Win64/UnrealEditor-WidgetCarousel.dll",
 			"Type": "DynamicLibrary"
 		},
@@ -3181,6 +3268,13 @@
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
+			"Path": "$(EngineDir)/Binaries/Win64/WindowsMRAssetConverter.exe",
+			"Type": "RequiredResource"
+		},
+		{
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Plugins/2D/Paper2D/Binaries/Win64/UnrealEditor.modules",
 			"Type": "RequiredResource"
 		},
@@ -3345,10 +3439,19 @@
 			"Type": "DynamicLibrary"
 		},
 		{
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Plugins/Animation/IKRig/Binaries/Win64/UnrealEditor-IKRigEditor.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Plugins/Bridge/Binaries/Win64/UnrealEditor.modules",
 			"Type": "RequiredResource"
 		},
@@ -5349,10 +5452,19 @@
 			"Type": "DynamicLibrary"
 		},
 		{
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(EngineDir)/Plugins/XGEController/Binaries/Win64/UnrealEditor-XGEController.pdb",
 			"Type": "SymbolFile"
 		},
 		{
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
+>>>>>>> 6fa546ce1ccccadf54e496303f6e6c1d1c0eef63
 			"Path": "$(ProjectDir)/Binaries/Win64/UnrealEditor.modules",
 			"Type": "RequiredResource"
 		},
@@ -5363,6 +5475,109 @@
 		{
 			"Path": "$(ProjectDir)/Binaries/Win64/UnrealEditor-RFS_Project.pdb",
 			"Type": "SymbolFile"
+<<<<<<< HEAD
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor.modules",
+			"Type": "RequiredResource"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-AkAudio.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-AkAudio.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-AkAudioMixer.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-AkAudioMixer.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-AudiokineticTools.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-AudiokineticTools.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-Wwise.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-Wwise.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseConcurrency.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseConcurrency.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseFileHandler.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseFileHandler.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseProjectDatabase.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseProjectDatabase.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseResourceCooker.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseResourceCooker.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseResourceLoader.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseResourceLoader.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseSimpleExternalSource.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseSimpleExternalSource.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseSoundEngine.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseSoundEngine.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseSoundEngine_2022_1.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/Wwise/Binaries/Win64/UnrealEditor-WwiseSoundEngine_2022_1.pdb",
+			"Type": "SymbolFile"
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
 		}
 	],
 	"RuntimeDependencies": [
@@ -5389,6 +5604,30 @@
 		{
 			"Path": "$(EngineDir)/Binaries/ThirdParty/Ogg/Win64/VS2015/libogg_64.dll",
 			"Type": "NonUFS"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/APEX_ClothingPROFILE_x64.dll",
+			"Type": "NonUFS"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/APEX_ClothingPROFILE_x64.pdb",
+			"Type": "DebugNonUFS"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/APEX_LegacyPROFILE_x64.dll",
+			"Type": "NonUFS"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/APEX_LegacyPROFILE_x64.pdb",
+			"Type": "DebugNonUFS"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/ApexFrameworkPROFILE_x64.dll",
+			"Type": "NonUFS"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/ApexFrameworkPROFILE_x64.pdb",
+			"Type": "DebugNonUFS"
 		},
 		{
 			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/PhysX3CommonPROFILE_x64.dll",
@@ -23303,6 +23542,10 @@
 			"Type": "NonUFS"
 		},
 		{
+			"Path": "$(EngineDir)/Binaries/Win64/WindowsMRAssetConverter.exe",
+			"Type": "NonUFS"
+		},
+		{
 			"Path": "$(EngineDir)/Content/Slate/Checkerboard.png",
 			"Type": "UFS"
 		},
@@ -25875,6 +26118,13 @@
 			"Type": "UFS"
 		},
 		{
+<<<<<<< HEAD
+			"Path": "$(ProjectDir)/Plugins/Wwise/Wwise.uplugin",
+			"Type": "UFS"
+		},
+		{
+=======
+>>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
 			"Path": "$(ProjectDir)/RFS_Project.uproject",
 			"Type": "UFS"
 		}
