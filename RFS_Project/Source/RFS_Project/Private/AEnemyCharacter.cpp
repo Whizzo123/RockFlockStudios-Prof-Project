@@ -31,3 +31,8 @@ void AAEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 }
 
+void AAEnemyCharacter::UpdateWalkSpeed(float speed)
+{
+	GetCharacterMovement()->MaxWalkSpeed = speed;
+}
+

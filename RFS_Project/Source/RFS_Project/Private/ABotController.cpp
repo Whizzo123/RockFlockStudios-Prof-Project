@@ -18,14 +18,9 @@ void ABotController::OnPossess(APawn* pawn)
 
 void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
-	GEngine->AddOnScreenDebugMessage(0, 5.0f, FColor::Purple, TEXT("Handling stuff"));
 	bool isPlayer = Actor->ActorHasTag(playerTag);
 	bool success = Stimulus.WasSuccessfullySensed();
 	UBlackboardComponent* board = Blackboard.Get();
-	if (board == nullptr)
-		GEngine->AddOnScreenDebugMessage(0, 4.0f, FColor::Blue, "AHHHHHHH");
-	else
-		GEngine->AddOnScreenDebugMessage(0, 4.0f, FColor::Purple, "ITS ALL GOOD");
 	if (isPlayer && success)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(sightLossTimer);
