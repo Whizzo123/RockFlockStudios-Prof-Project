@@ -4,35 +4,35 @@
 #include "ABotController.h"
 
 
-
-
-void ABotController::BeginPlay()
+ABotController::ABotController(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	sensesComponent = this->FindComponentByClass<UAIPerceptionComponent>();
-	sensesComponent->OnTargetPerceptionUpdated.AddDynamic(this, &ABotController::HandleTargetPerceptionUpdated);
+	
 }
 
 void ABotController::OnPossess(APawn* pawn)
 {
-	AAIController::OnPossess(pawn);
-	bool running = RunBehaviorTree(tree);
-	FString msg = pawn->GetHumanReadableName();
-	if(running)
-		GEngine->AddOnScreenDebugMessage(0, 5.0f, FColor::Red, msg);
+	Super::OnPossess(pawn);
+
+	RunBehaviorTree(tree);
 }
 
 void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
-	bool brokenStimulus = true;
+	GEngine->AddOnScreenDebugMessage(0, 5.0f, FColor::Purple, TEXT("Handling stuff"));
+	bool isPlayer = Actor->ActorHasTag(playerTag);
+	bool success = Stimulus.WasSuccessfullySensed();
 	UBlackboardComponent* board = Blackboard.Get();
-	if (brokenStimulus)
+	if (board == nullptr)
+		GEngine->AddOnScreenDebugMessage(0, 4.0f, FColor::Blue, "AHHHHHHH");
+	else
+		GEngine->AddOnScreenDebugMessage(0, 4.0f, FColor::Purple, "ITS ALL GOOD");
+	if (isPlayer && success)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(sightLossTimer);
-		board->SetValueAsBool(lineOfSightBBKey, true);
+ 		board->SetValueAsBool(lineOfSightBBKey, true);
 		board->SetValueAsObject(enemyActorBBKey, Actor);
 		//Set distance to player
-		// TODO
-		// Convert BP_FirstPersonCharacter to c++ or just create dummy c++ class for code access
+		SetDistanceToPlayer(board);
 	}
 	else
 		GetWorld()->GetTimerManager().SetTimer(sightLossTimer, this, &ABotController::EventTimerUp, lineOfSightTime, false);
@@ -47,5 +47,21 @@ void ABotController::EventTimerUp()
 
 void ABotController::Tick(float DeltaTime)
 {
-	// TODO waiting on c++ conversion of player BP
+	SetDistanceToPlayer(Blackboard.Get());
+}
+
+void ABotController::SetDistanceToPlayer(UBlackboardComponent* board)
+{
+	APlayerCharacter* player = Cast<APlayerCharacter>(board->GetValueAsObject(enemyActorBBKey));
+	if (player)
+	{
+		FVector loc = player->GetActorLocation();
+		APawn* controlledPawn = GetPawn();
+		if (controlledPawn)
+		{
+			FVector pawnLoc = controlledPawn->GetActorLocation();
+			float dist = FVector::Dist(loc, pawnLoc);
+			board->SetValueAsFloat(distanceToPlayerBBKey, dist);
+		}
+	}
 }

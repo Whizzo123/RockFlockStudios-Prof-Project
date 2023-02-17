@@ -4,8 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "PlayerCharacter.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "BehaviorTree/BehaviorTreeComponent.h"
+#include "BrainComponent.h"
+#include "AEnemyCharacter.h"
 #include "ABotController.generated.h"
 
 /**
@@ -18,26 +22,29 @@ class RFS_PROJECT_API ABotController : public AAIController
 
 public:
 	//Functions
-	ABotController() {};
-	void HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
-	//UFunctions
+	ABotController(const FObjectInitializer& ObjectInitializer);
+	void SetDistanceToPlayer(UBlackboardComponent* board);
+	////UFunctions
 	UFUNCTION()
 		void EventTimerUp();
-	//UProperties
+	UFUNCTION(BlueprintCallable)
+		void HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
+	////UProperties
 	UPROPERTY(EditAnywhere)
 		UBehaviorTree* tree;
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(EditAnywhere)
 		float lineOfSightTime;
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(EditAnywhere)
 		FName lineOfSightBBKey;
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(EditAnywhere)
 		FName enemyActorBBKey;
-	//Events
+	UPROPERTY(EditAnywhere)
+		FName distanceToPlayerBBKey;
+	UPROPERTY(EditAnywhere)
+		FName playerTag;
+	////Events
 	void OnPossess(APawn* InPawn) override;
-	void BeginPlay() override;
 	void Tick(float DeltaTime) override;
-	//Variables
-	UAIPerceptionComponent* sensesComponent;
+	////Variables
 	FTimerHandle sightLossTimer;
-
 };
