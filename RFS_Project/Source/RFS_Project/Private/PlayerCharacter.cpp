@@ -15,7 +15,7 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	MaxHitPoints = HitPoints = characterHealth;
 }
 
 // Called every frame
@@ -32,3 +32,26 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 }
 
+void APlayerCharacter::OnHeal(float health)
+{
+	HitPoints += health;
+	if (HitPoints > MaxHitPoints)
+		HitPoints = MaxHitPoints;
+}
+
+void APlayerCharacter::OnDamage(float damage)
+{
+	HitPoints -= damage;
+	if (HitPoints <= 0)
+		OnDeath();
+}
+
+void APlayerCharacter::OnDeath()
+{
+	Destroy();
+}
+
+void APlayerCharacter::OnHitByBullet(float bulletDamage)
+{
+	OnDamage(bulletDamage);
+}

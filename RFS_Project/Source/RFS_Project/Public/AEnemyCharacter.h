@@ -5,19 +5,30 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "../Combat.h"
 #include "AEnemyCharacter.generated.h"
 
 UCLASS()
-class RFS_PROJECT_API AAEnemyCharacter : public ACharacter
+class RFS_PROJECT_API AAEnemyCharacter : public ACharacter, public IHealth
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
 	AAEnemyCharacter();
+	//UPROPERTIES
+	UPROPERTY(EditAnywhere)
+		float characterHealth;
+	//UFUNCTIONS
+	UFUNCTION(BlueprintCallable)
+		void OnHitByBullet(float bulletDamage);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	void OnHeal(float health) override;
+	void OnDamage(float damage) override;
+	void OnDeath() override;
 
 public:	
 	// Called every frame
