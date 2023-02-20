@@ -22,7 +22,7 @@ class RFS_PROJECT_API ABotController : public AAIController
 
 public:
 	//Functions
-	ABotController(const FObjectInitializer& ObjectInitializer);
+	ABotController();
 	void SetDistanceToPlayer(UBlackboardComponent* board);
 	////UFunctions
 	UFUNCTION()

@@ -4,7 +4,7 @@
 #include "ABotController.h"
 
 
-ABotController::ABotController(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+ABotController::ABotController()
 {
 	
 }
@@ -42,6 +42,7 @@ void ABotController::EventTimerUp()
 
 void ABotController::Tick(float DeltaTime)
 {
+	Super::Tick(DeltaTime);
 	SetDistanceToPlayer(Blackboard.Get());
 }
 
