@@ -14,7 +14,7 @@ AAEnemyCharacter::AAEnemyCharacter()
 void AAEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	MaxHitPoints = HitPoints = characterHealth;
 }
 
 // Called every frame
@@ -36,3 +36,26 @@ void AAEnemyCharacter::UpdateWalkSpeed(float speed)
 	GetCharacterMovement()->MaxWalkSpeed = speed;
 }
 
+void AAEnemyCharacter::OnHeal(float health)
+{
+	HitPoints += health;
+	if (HitPoints > MaxHitPoints)
+		HitPoints = MaxHitPoints;
+}
+
+void AAEnemyCharacter::OnDamage(float damage)
+{
+	HitPoints -= damage;
+	if (HitPoints <= 0)
+		OnDeath();
+}
+
+void AAEnemyCharacter::OnDeath()
+{
+	Destroy();
+}
+
+void AAEnemyCharacter::OnHitByBullet(float bulletDamage)
+{
+	OnDamage(bulletDamage);
+}

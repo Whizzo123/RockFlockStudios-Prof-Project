@@ -19,6 +19,8 @@ public:
 	UObject* AttachedWall;
 	int Size;
 	void Spawn();
+	void OnDamage(float damage) override {};
+	void OnHeal(float heal) override {};
 	void OnDeath() override;//TODO health ovveride;
 
 protected:
