@@ -21,6 +21,18 @@
 	},
 	"BuildProducts": [
 		{
+			"Path": "$(ProjectDir)/Binaries/Win64/UnrealEditor.modules",
+			"Type": "RequiredResource"
+		},
+		{
+			"Path": "$(ProjectDir)/Binaries/Win64/UnrealEditor-RFS_Project.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Binaries/Win64/UnrealEditor-RFS_Project.pdb",
+			"Type": "SymbolFile"
+		},
+		{
 			"Path": "$(EngineDir)/Binaries/Win64/AgentInterface.dll",
 			"Type": "RequiredResource"
 		},
@@ -5450,6 +5462,8 @@
 		{
 			"Path": "$(EngineDir)/Plugins/XGEController/Binaries/Win64/UnrealEditor-XGEController.dll",
 			"Type": "DynamicLibrary"
+<<<<<<< HEAD
+=======
 		},
 		{
 <<<<<<< HEAD
@@ -5578,9 +5592,14 @@
 			"Type": "SymbolFile"
 =======
 >>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
+>>>>>>> 3d1b47f47b6bcd1c2aa512c9231037029b9364e1
 		}
 	],
 	"RuntimeDependencies": [
+		{
+			"Path": "$(ProjectDir)/RFS_Project.uproject",
+			"Type": "UFS"
+		},
 		{
 			"Path": "$(EngineDir)/Binaries/ThirdParty/ARM/Win64/astcenc-sse2.exe",
 			"Type": "NonUFS"
@@ -26116,6 +26135,8 @@
 		{
 			"Path": "$(EngineDir)/Plugins/XGEController/XGEController.uplugin",
 			"Type": "UFS"
+<<<<<<< HEAD
+=======
 		},
 		{
 <<<<<<< HEAD
@@ -26127,6 +26148,7 @@
 >>>>>>> d19cfc9742921e1804f72b331100d6e44e9aa43a
 			"Path": "$(ProjectDir)/RFS_Project.uproject",
 			"Type": "UFS"
+>>>>>>> 3d1b47f47b6bcd1c2aa512c9231037029b9364e1
 		}
 	],
 	"AdditionalProperties": [
