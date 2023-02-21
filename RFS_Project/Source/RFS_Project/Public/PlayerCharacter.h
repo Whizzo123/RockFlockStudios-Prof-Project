@@ -4,8 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Kismet/GameplayStatics.h"
 #include "../Combat.h"
 #include "PlayerCharacter.generated.h"
+
+
+
+
 
 UCLASS()
 class RFS_PROJECT_API APlayerCharacter : public ACharacter, public IHealth
@@ -18,9 +23,13 @@ public:
 	//UPROPERTIES
 	UPROPERTY(EditAnywhere)
 		float characterHealth;
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAIHint, AActor*, Player, float, hintTime);
+	FAIHint OnAIHint;
 	//UFUNCTIONS
 	UFUNCTION(BlueprintCallable)
 		void OnHitByBullet(float bulletDamage);
+	UFUNCTION(BlueprintCallable)
+		void CreateHint();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -36,4 +45,5 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	
 };
