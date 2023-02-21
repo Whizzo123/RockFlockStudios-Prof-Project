@@ -1,8 +1,8 @@
-"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseConcurrency\Module.WwiseConcurrency.cpp"
+C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseConcurrency\Module.WwiseConcurrency.cpp
 /I .
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseConcurrency\Private"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseConcurrency\Public"
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseConcurrency\Private
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseConcurrency\Public
 /I Runtime
 /I Runtime\TraceLog\Public
 /I Runtime\Core\Public
@@ -254,10 +254,10 @@
 /I Runtime\ClothingSystemRuntimeInterface\Public
 /I ..\Intermediate\Build\Win64\UnrealEditor\Inc\AnimationDataController
 /I Developer\AnimationDataController\Public
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseSoundEngine"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine\Public"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\ThirdParty\include"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine_2022_1\Public"
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseSoundEngine
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine\Public
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\ThirdParty\include
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine_2022_1\Public
 /I ThirdParty\mimalloc\include
 /I ThirdParty\LibTiff\Source\Win64
 /I ThirdParty\LibTiff\Source
@@ -272,18 +272,18 @@
 /I ThirdParty\PhysX3\PhysX_3.4\Include\common
 /I ThirdParty\PhysX3\PhysX_3.4\Include\extensions
 /I ThirdParty\PhysX3\PhysX_3.4\Include\geometry
-/I "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\INCLUDE"
-/I "C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8.1\include\um"
+/I "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.29.30133\INCLUDE"
+/I "C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"
-/FI"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
-/FI"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseConcurrency\Definitions.WwiseConcurrency.h"
-/Yu"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
-/Fp"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.pch"
-/Fo"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseConcurrency\Module.WwiseConcurrency.cpp.obj"
-/sourceDependencies "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseConcurrency\Module.WwiseConcurrency.cpp.json"
+/FI"C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
+/FI"C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseConcurrency\Definitions.WwiseConcurrency.h"
+/Yu"C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
+/Fp"C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.pch"
+/Fo"C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseConcurrency\Module.WwiseConcurrency.cpp.obj"
+/sourceDependencies C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseConcurrency\Module.WwiseConcurrency.cpp.json
 /Zc:inline
 /nologo
 /Oi

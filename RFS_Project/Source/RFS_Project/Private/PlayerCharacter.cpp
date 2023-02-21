@@ -55,3 +55,8 @@ void APlayerCharacter::OnHitByBullet(float bulletDamage)
 {
 	OnDamage(bulletDamage);
 }
+
+void APlayerCharacter::CreateHint()
+{
+	OnAIHint.Broadcast(this, 10.0f);
+}

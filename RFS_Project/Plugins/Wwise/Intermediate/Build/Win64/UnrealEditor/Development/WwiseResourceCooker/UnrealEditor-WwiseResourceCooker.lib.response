@@ -6,8 +6,8 @@
 /NAME:"UnrealEditor-WwiseResourceCooker.dll"
 /IGNORE:4221
 /NODEFAULTLIB
-"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\UnrealEd\SharedPCH.UnrealEd.ShadowErrors.h.obj"
-"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceCooker\Module.WwiseResourceCooker.cpp.obj"
-"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceCooker\Module.WwiseResourceCooker.gen.cpp.obj"
-"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceCooker\Default.rc2.res"
-/OUT:"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceCooker\UnrealEditor-WwiseResourceCooker.lib"
+"C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\UnrealEd\SharedPCH.UnrealEd.ShadowErrors.h.obj"
+"C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceCooker\Module.WwiseResourceCooker.cpp.obj"
+"C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceCooker\Module.WwiseResourceCooker.gen.cpp.obj"
+"C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceCooker\Default.rc2.res"
+/OUT:"C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceCooker\UnrealEditor-WwiseResourceCooker.lib"

@@ -1,9 +1,9 @@
-"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\Wwise\Private\Wwise\WwiseModule.cpp"
+C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\Wwise\Private\Wwise\WwiseModule.cpp
 /I .
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\Wwise\Private"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AkAudioMixer\Public"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseConcurrency\Public"
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\Wwise\Private
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AkAudioMixer\Public
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseConcurrency\Public
 /I Runtime
 /I Runtime\TraceLog\Public
 /I Runtime\Core\Public
@@ -255,22 +255,22 @@
 /I Runtime\ClothingSystemRuntimeInterface\Public
 /I ..\Intermediate\Build\Win64\UnrealEditor\Inc\AnimationDataController
 /I Developer\AnimationDataController\Public
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseSoundEngine"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine\Public"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\ThirdParty\include"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine_2022_1\Public"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseSimpleExternalSource"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSimpleExternalSource\Public"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\AudiokineticTools"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AudiokineticTools\Classes"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AudiokineticTools\Public"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\AkAudio"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AkAudio\Classes"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AkAudio\Public"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseResourceLoader"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseResourceLoader\Public"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseFileHandler"
-/I "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseFileHandler\Public"
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseSoundEngine
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine\Public
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\ThirdParty\include
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine_2022_1\Public
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseSimpleExternalSource
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSimpleExternalSource\Public
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\AudiokineticTools
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AudiokineticTools\Classes
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AudiokineticTools\Public
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\AkAudio
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AkAudio\Classes
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\AkAudio\Public
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseResourceLoader
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseResourceLoader\Public
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseFileHandler
+/I C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseFileHandler\Public
 /I ThirdParty\mimalloc\include
 /I ThirdParty\LibTiff\Source\Win64
 /I ThirdParty\LibTiff\Source
@@ -297,18 +297,18 @@
 /I ThirdParty\PhysX3\APEX_1.4\shared\general\RenderDebug\public
 /I ThirdParty\PhysX3\APEX_1.4\shared\general\PairFilter\include
 /I ThirdParty\PhysX3\APEX_1.4\shared\internal\include
-/I "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\INCLUDE"
-/I "C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8.1\include\um"
+/I "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.29.30133\INCLUDE"
+/I "C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"
-/FI"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Core\SharedPCH.Core.ShadowErrors.h"
-/FI"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\Wwise\Definitions.Wwise.h"
-/Yu"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Core\SharedPCH.Core.ShadowErrors.h"
-/Fp"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Core\SharedPCH.Core.ShadowErrors.h.pch"
-/Fo"C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\Wwise\WwiseModule.cpp.obj"
-/sourceDependencies "C:\Unreal Projects\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\Wwise\WwiseModule.cpp.json"
+/FI"C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Core\SharedPCH.Core.ShadowErrors.h"
+/FI"C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\Wwise\Definitions.Wwise.h"
+/Yu"C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Core\SharedPCH.Core.ShadowErrors.h"
+/Fp"C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Core\SharedPCH.Core.ShadowErrors.h.pch"
+/Fo"C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\Wwise\WwiseModule.cpp.obj"
+/sourceDependencies C:\temp\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\Wwise\WwiseModule.cpp.json
 /Zc:inline
 /nologo
 /Oi
