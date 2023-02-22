@@ -36,7 +36,10 @@ void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus St
 		SetDistanceToPlayer(board);
 	}
 	else
+	{
+		board->SetValueAsBool(lineOfSightBBKey, false);
 		GetWorld()->GetTimerManager().SetTimer(sightLossTimer, this, &ABotController::EventTimerUp, lineOfSightTime, false);
+	}
 }
 
 void ABotController::SendHint(AActor* Actor, float hintTime)
@@ -53,7 +56,6 @@ void ABotController::SendHint(AActor* Actor, float hintTime)
 void ABotController::EventTimerUp()
 {
 	UBlackboardComponent* board = Blackboard.Get();
-	board->SetValueAsBool(lineOfSightBBKey, false);
 	board->SetValueAsObject(enemyActorBBKey, nullptr);
 }
 
@@ -88,6 +90,7 @@ void ABotController::SetDistanceToPlayer(UBlackboardComponent* board)
 void ABotController::HintTimerUp()
 {
 	UBlackboardComponent* board = Blackboard.Get();
-	board->SetValueAsObject(enemyActorBBKey, nullptr);
+	if(board->GetValueAsBool(lineOfSightBBKey) == false)
+		board->SetValueAsObject(enemyActorBBKey, nullptr);
 	GEngine->AddOnScreenDebugMessage(0, 5.0f, FColor::Red, "Hint Timer Up");
 }
