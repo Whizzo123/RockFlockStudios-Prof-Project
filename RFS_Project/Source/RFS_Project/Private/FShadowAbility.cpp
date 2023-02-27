@@ -13,6 +13,7 @@ UFShadowAbility::UFShadowAbility()
 	UseCapacity = 1;
 	ChargeAmount = 7;
 	ChargeCapacity = 7;
+
 	// ...
 }
 
@@ -53,9 +54,9 @@ void UFShadowAbility::GetWalls()
 	FVector actorLocation = GetOwner()->GetActorLocation();
 	FRotator actorRotation = GetOwner()->GetActorRotation();
 
-	for (int currentLine = 0; currentLine < TraceAmounts; currentLine++)
+	for (int currentLine = 0; currentLine < 69; currentLine++)
 	{
-		FVector actorForward = actorLocation + (actorRotation.Vector() * AbilityRange);
+		FVector actorForward = actorLocation + (actorRotation.Vector() * 69);
 		TArray<FHitResult> hits;
 
 		FCollisionQueryParams traceParams;
@@ -80,6 +81,20 @@ void UFShadowAbility::GetWalls()
 void UFShadowAbility::SpawnPortals()
 {
 
+}
+
+void UFShadowAbility::ExitWall()
+{
+}
+void UFShadowAbility::EndAbility()
+{
+	if (!bEnteredPortal)
+	{
+		if (!bExitedPortal)
+			ExitWall();
+	}
+	else {
+	}
 }
 
 

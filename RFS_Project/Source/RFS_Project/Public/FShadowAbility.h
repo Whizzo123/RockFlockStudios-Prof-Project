@@ -8,6 +8,8 @@
 #include "Ability.h"
 #include "FShadowAbility.generated.h"
 
+//class AUShadowWall;
+//class AUShadowEntrence;
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RFS_PROJECT_API UFShadowAbility : public UActorComponent, public IRechargeAbility
@@ -17,26 +19,46 @@ class RFS_PROJECT_API UFShadowAbility : public UActorComponent, public IRecharge
 public:
 	// Sets default values for this component's properties
 	UFShadowAbility();
-	TArray<AUShadowWall*> FakeWalls;
-	AUShadowEntrence* ShadowEntrence;
-protected:
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 		void Use() override;
 
-	UPROPERTY(EditAnywhere)
-		float AbilityRange = 500.0f;
-	UPROPERTY(EditAnywhere)
-		int TraceAmounts = 10;//This determines how many line traces get sent. Alter for accuracy and performance.
 
 private:
 	void GetWalls();
 	void SpawnPortals();
+	void ExitWall();
+	void EndAbility();
+	void TogglePortalUseable() { bPortalUseable = !bPortalUseable; };
 public:
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+
+	UPROPERTY(EditAnywhere)
+		int WallAmount = 3;
+	UPROPERTY(EditAnywhere)
+		float Range = 2000.0f;
+	UPROPERTY(EditAnywhere)
+		float SphereRange = 2000.0f;
+	UPROPERTY(EditAnywhere)
+		float Duration = 20.0f;
+	UPROPERTY(EditAnywhere)
+		float DurationMultiplier = 1.5f;
+	UPROPERTY(EditAnywhere)
+		float DurationEndStart = 3.0f;
+
 
 private:
+	APawn* OriginalActor;
+	float DurationTimer;
+	bool bActivated;
+	bool bEnteredPortal;
+	bool bExitedPortal;
+	bool bPortalUseable;
 
+	TArray<AUShadowWall*> AliveWalls;
+	AUShadowEntrence* Portal;
+	AUShadowWall* PortalWall;
 };
