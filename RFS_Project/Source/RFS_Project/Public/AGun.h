@@ -32,9 +32,12 @@ public:
 		TSubclassOf<AAGunProjectile> projectileToFire;
 	UPROPERTY(EditAnywhere)
 		USoundBase* fireSoundFX;
+	UPROPERTY(EditAnywhere)
+		bool playerGun;
 protected:
 	USkeletalMeshComponent* _skeletalMesh;
-
+	FVector CalculateAccuracy();
+	FVector trajectoryOffset = FVector(0.0f, 1.0f, 0.0f);
 public:	
 	UFUNCTION(BlueprintCallable)
 		void Fire();
