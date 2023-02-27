@@ -10,6 +10,7 @@
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "BrainComponent.h"
 #include "AEnemyCharacter.h"
+#include "Kismet/GameplayStatics.h"
 #include "ABotController.generated.h"
 
 /**
@@ -29,6 +30,10 @@ public:
 		void EventTimerUp();
 	UFUNCTION(BlueprintCallable)
 		void HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
+	UFUNCTION(BlueprintCallable)
+		void SendHint(AActor* Actor, float hintTime);
+	UFUNCTION()
+		void HintTimerUp();
 	////UProperties
 	UPROPERTY(EditAnywhere)
 		UBehaviorTree* tree;
@@ -45,6 +50,9 @@ public:
 	////Events
 	void OnPossess(APawn* InPawn) override;
 	void Tick(float DeltaTime) override;
+	/*void BeginPlay() override;*/
 	////Variables
 	FTimerHandle sightLossTimer;
+	FTimerHandle hintDurationTimer;
+	APlayerCharacter* local_player;
 };

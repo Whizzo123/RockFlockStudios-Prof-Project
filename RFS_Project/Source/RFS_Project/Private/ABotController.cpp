@@ -9,10 +9,16 @@ ABotController::ABotController()
 	
 }
 
+//void ABotController::BeginPlay()
+//{
+//	//APlayerCharacter* player = Cast<APlayerCharacter>(UGameplayStatics::GetActorOfClass(GetWorld(), APlayerCharacter::StaticClass()));
+//	//player->OnAIHint.AddDynamic(this, &ABotController::SendHint);
+//}
+
 void ABotController::OnPossess(APawn* pawn)
 {
 	Super::OnPossess(pawn);
-
+	
 	RunBehaviorTree(tree);
 }
 
@@ -30,19 +36,38 @@ void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus St
 		SetDistanceToPlayer(board);
 	}
 	else
+	{
+		board->SetValueAsBool(lineOfSightBBKey, false);
 		GetWorld()->GetTimerManager().SetTimer(sightLossTimer, this, &ABotController::EventTimerUp, lineOfSightTime, false);
+	}
+}
+
+void ABotController::SendHint(AActor* Actor, float hintTime)
+{
+	UBlackboardComponent* board = Blackboard.Get();
+	if (Actor)
+	{
+		board->SetValueAsObject(enemyActorBBKey, Actor);
+		GetWorld()->GetTimerManager().SetTimer(hintDurationTimer, this, &ABotController::HintTimerUp, hintTime, false);
+		GEngine->AddOnScreenDebugMessage(0, 5.0f, FColor::Red, "Sending Hint");
+	}
 }
 
 void ABotController::EventTimerUp()
 {
 	UBlackboardComponent* board = Blackboard.Get();
-	board->SetValueAsBool(lineOfSightBBKey, false);
 	board->SetValueAsObject(enemyActorBBKey, nullptr);
 }
 
 void ABotController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (!local_player)
+	{
+		local_player = Cast<APlayerCharacter>(UGameplayStatics::GetActorOfClass(GetWorld(), APlayerCharacter::StaticClass()));
+		if(local_player)
+			local_player->OnAIHint.AddDynamic(this, &ABotController::SendHint);
+	}
 	SetDistanceToPlayer(Blackboard.Get());
 }
 
@@ -60,4 +85,12 @@ void ABotController::SetDistanceToPlayer(UBlackboardComponent* board)
 			board->SetValueAsFloat(distanceToPlayerBBKey, dist);
 		}
 	}
+}
+
+void ABotController::HintTimerUp()
+{
+	UBlackboardComponent* board = Blackboard.Get();
+	if(board->GetValueAsBool(lineOfSightBBKey) == false)
+		board->SetValueAsObject(enemyActorBBKey, nullptr);
+	GEngine->AddOnScreenDebugMessage(0, 5.0f, FColor::Red, "Hint Timer Up");
 }
