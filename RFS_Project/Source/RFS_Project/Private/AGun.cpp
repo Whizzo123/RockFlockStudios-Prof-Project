@@ -30,10 +30,8 @@ void AAGun::Fire()
 		FVector offset = rotation.RotateVector(projectileOffset);
 		FVector spawnLoc = offset + skeletalSocketLoc;
 		FRotator finalRot = rotation.Add(0.0f, accOffset.Y, 0.0f);
-		//GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, accOffset.ToString());
 		FTransform transform = FTransform(finalRot, spawnLoc, FVector(1.0f, 1.0f, 1.0f));
-		AAGunProjectile* spawned = GetWorld()->SpawnActor<AAGunProjectile>(projectileToFire->GetDefaultObject()->GetClass(),
-			transform);
+		AAGunProjectile* spawned = GetWorld()->SpawnActor<AAGunProjectile>(projectileToFire->GetDefaultObject()->GetClass(), transform);
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), fireSoundFX, spawnLoc);
 	}
 	else
@@ -43,13 +41,26 @@ void AAGun::Fire()
 FVector AAGun::CalculateAccuracy()
 {
 	int random = rand() % 4;
-	//TODO introduce accuracy var back in
+	int convertedAccuracy = 1 - gunAccuracy;
+	int offsetScale = 10, maximumVelocityOffset = 300;
+	int currentVelocity = pawnEquippedTo->GetVelocity().Length();
+	
+	int movingOffset;
+	int velocityPercentage = (currentVelocity / maximumVelocityOffset);
+	if (velocityPercentage == 0)
+	{
+		movingOffset = 0;
+	}
+	else
+		movingOffset = 2 - (2 / velocityPercentage) / 10;
+	int calculatedOffset = rand() % (offsetScale - (int)((gunAccuracy - movingOffset) * offsetScale));
+	GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Yellow, FString::Printf(TEXT("%lld"), calculatedOffset));
 	if (random < 2)
 	{
-		return trajectoryOffset * (10 - rand () % 10);
+		return trajectoryOffset * -calculatedOffset;
 	}
 	else
 	{
-		return trajectoryOffset * (10 + rand () % 10);
+		return trajectoryOffset * calculatedOffset;
 	}
 }
