@@ -42,10 +42,61 @@ void UFShadowAbility::Use()
 		return;
 
 	UseAmount--;
+	if (bExitedPortal)
+		return;
 
+	if (bActivated)
+	{
+
+	}
+	else {
+		FVector location = OriginalActor->GetActorLocation();
+		FVector fwdVec = OriginalActor->GetActorForwardVector();
+		bool success = InitAbility(location, fwdVec);
+		if (!success)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Initialising ability failed"));
+
+		}
+		else {
+			DurationTimer = Duration;
+			bActivated = true;
+		}
+	}
 	//Use Ability
 	GetWalls();
 	SpawnPortals();
+}
+
+void UFShadowAbility::Init(APawn* actor)
+{
+	OriginalActor = actor;
+}
+
+bool UFShadowAbility::InitAbility(FVector position, FVector fwdVector)
+{
+	AliveWalls.Empty();
+	PlacePortal(position, fwdVector);
+}
+
+bool UFShadowAbility::PlacePortal(FVector position, FVector fwdVector)
+{
+
+		FVector endPosition = (fwdVector * Range) + position;
+		FCollisionQueryParams traceParams;
+		FHitResult hit;
+
+		GetWorld()->LineTraceSingleByChannel(hit,position,fwdVector, ECC_Visibility, traceParams);
+		if (Cast<AUShadowWall>(hit.GetActor()))
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("I have hit a SolidWall"));
+			GetWorld()->SpawnActor(position, hit.GetActor().)
+
+		}
+		else {
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("I have NOT hit a SolidWall"));
+
+		}
 }
 
 void UFShadowAbility::GetWalls()
@@ -94,7 +145,18 @@ void UFShadowAbility::EndAbility()
 			ExitWall();
 	}
 	else {
+		Portal->Destroy();
 	}
+	for each (AUShadowWall* var in AliveWalls)
+	{
+		var->ResetWall();
+	}
+
+	bActivated = false;
+	bExitedPortal = false;
+	bEnteredPortal = false;
+	bPortalUseable = false;
+	DurationTimer = Duration;
 }
 
 

@@ -10,6 +10,7 @@
 class RFS_PROJECT_API IAbility
 {
 public:
+	virtual void Init(APawn* SelfActor) = 0;
 	virtual void Use() = 0;
 	
 };
@@ -23,6 +24,7 @@ public:
 	ISingleUseAbility() {};
 	~ISingleUseAbility() {};
 
+	virtual void Init(APawn* SelfActor) = 0;
 	virtual void Use() = 0;
 	int GetUseAmount() { return UseAmount; }
 	int GetUseCapacity() { return UseCapacity; }
@@ -40,6 +42,7 @@ public:
 	IRechargeAbility() {};
 	~IRechargeAbility() {};
 
+	virtual void Init(APawn* SelfActor) = 0;
 	virtual void Use() = 0;
 	int GetChargeAmount() { return ChargeAmount; }
 	int GetChargeCapacity() { return ChargeCapacity; }

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "UShadowWall.h"
+#include "ShadowPortal.h"
 #include "Ability.h"
 #include "FShadowAbility.generated.h"
 
@@ -24,9 +25,12 @@ public:
 	virtual void BeginPlay() override;
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 		void Use() override;
-
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+		void Init(APawn* actor) override;
 
 private:
+	bool InitAbility(FVector position, FVector fwdVector);
+	bool PlacePortal(FVector position, FVector fwdVector);
 	void GetWalls();
 	void SpawnPortals();
 	void ExitWall();
@@ -59,6 +63,6 @@ private:
 	bool bPortalUseable;
 
 	TArray<AUShadowWall*> AliveWalls;
-	AUShadowEntrence* Portal;
+	AShadowPortal* Portal;
 	AUShadowWall* PortalWall;
 };

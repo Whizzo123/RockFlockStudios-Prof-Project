@@ -14,6 +14,7 @@ AUShadowWall::AUShadowWall()
 	SetRootComponent(SceneRootComponent);
 	WallPlane->SetupAttachment(RootComponent);
 	
+	
 }
 
 void AUShadowWall::Spawn()
@@ -59,46 +60,6 @@ void AUShadowWall::ResetWall()
 	{
 		HitPoints = MaxHitPoints;
 		WallPlane->SetVisibility(true);
-	}
-}
-AUShadowEntrence::AUShadowEntrence() {
-
-	PrimaryActorTick.bCanEverTick = true;
-	SceneRootComponent = CreateDefaultSubobject<USceneComponent>("Scene Root Component");
-	PortalPlane = CreateDefaultSubobject<UStaticMeshComponent>("Portal Plane");
-	TriggerBox = CreateDefaultSubobject<UBoxComponent>("Trigger Box");
-	SetRootComponent(SceneRootComponent);
-	PortalPlane->SetupAttachment(RootComponent);
-	TriggerBox->SetupAttachment(RootComponent);
-
-
-}
-void AUShadowEntrence::BeginPlay()
-{
-	if (TriggerBox)
-	{
-
-		TriggerBox->OnComponentBeginOverlap.AddDynamic(this, &AUShadowEntrence::OverlapToggle);
-		//TriggerBox->OnComponentEndOverlap.AddDynamic(this, &AUShadowEntrence::OverlapToggle);
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("UShadowWall: Successfully Added Begin Overlap Function"));
-	}
-	else
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("UShadowWall: Collision Box couldn't be created"));
-}
-
-void AUShadowEntrence::Tick(float DeltaTime)
-{
-}
-
-void AUShadowEntrence::OverlapToggle(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("ShadowEntrence is overlapped with valid controller"));
-	AController* controller = OtherActor->GetInstigatorController();
-	//UFShadowAbility* ShadowComponent = Cast<UFShadowAbility>(controller->GetComponentByClass(UFShadowAbility::StaticClass()));
-	if (controller)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("ShadowEntrence is overlapped with valid controller"));
-		//ShadowComponent->TogglePortalUseable();
 	}
 }
 
