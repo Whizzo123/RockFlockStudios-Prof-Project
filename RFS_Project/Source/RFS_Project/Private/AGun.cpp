@@ -13,6 +13,7 @@ AAGun::AAGun()
 
 void AAGun::BeginPlay()
 {
+	Super::BeginPlay();
 	_skeletalMesh = Cast<USkeletalMeshComponent>(GetComponentByClass(USkeletalMeshComponent::StaticClass()));
 }
 
@@ -23,6 +24,8 @@ void AAGun::Fire()
 		FVector skeletalSocketLoc = _skeletalMesh->GetSocketLocation(fireSocket);
 		FVector accOffset = CalculateAccuracy();
 		FRotator rotation;
+
+		//Issues being caused
 		if (playerGun)
 			rotation = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetCameraRotation();
 		else
@@ -34,9 +37,14 @@ void AAGun::Fire()
 		//AAGunProjectile* spawned = GetWorld()->SpawnActor<AAGunProjectile>(projectileToFire->GetDefaultObject()->GetClass(), transform);
 		//use line cast instead now
 		FHitResult hit;
-		FVector endPoint = FVector(1000.0f, 1000.0f, 1000.0f);
-		GetWorld()->LineTraceSingleByChannel(hit, spawnLoc, finalRot.RotateVector(endPoint), ECollisionChannel::ECC_Visibility);
-		DrawDebugLine(GetWorld(), spawnLoc, finalRot.RotateVector(endPoint), FColor::Red, true);
+		//FVector endPoint = FVector(1000.0f, 1000.0f, 1000.0f);finalRot.RotateVector(endPoint)
+		FVector temp;
+		if (playerGun)
+			temp = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetActorForwardVector() * 1000.0f;
+		else
+			temp = GetActorRightVector() * 1000.0f;
+		GetWorld()->LineTraceSingleByChannel(hit, spawnLoc, finalRot.RotateVector(spawnLoc + temp), ECollisionChannel::ECC_Visibility);
+		DrawDebugLine(GetWorld(), spawnLoc, spawnLoc + temp, FColor::Red, true);
 		AActor* hitActor = hit.GetActor();
 		//Check that the thing is hittable
 		IHealth* healthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(hit.GetActor()));
