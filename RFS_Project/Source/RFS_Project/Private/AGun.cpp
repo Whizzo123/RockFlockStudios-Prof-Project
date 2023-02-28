@@ -31,7 +31,20 @@ void AAGun::Fire()
 		FVector spawnLoc = offset + skeletalSocketLoc;
 		FRotator finalRot = rotation.Add(0.0f, accOffset.Y, 0.0f);
 		FTransform transform = FTransform(finalRot, spawnLoc, FVector(1.0f, 1.0f, 1.0f));
-		AAGunProjectile* spawned = GetWorld()->SpawnActor<AAGunProjectile>(projectileToFire->GetDefaultObject()->GetClass(), transform);
+		//AAGunProjectile* spawned = GetWorld()->SpawnActor<AAGunProjectile>(projectileToFire->GetDefaultObject()->GetClass(), transform);
+		//use line cast instead now
+		FHitResult hit;
+		FVector endPoint = FVector(1000.0f, 1000.0f, 1000.0f);
+		GetWorld()->LineTraceSingleByChannel(hit, spawnLoc, finalRot.RotateVector(endPoint), ECollisionChannel::ECC_Visibility);
+		DrawDebugLine(GetWorld(), spawnLoc, finalRot.RotateVector(endPoint), FColor::Red, true);
+		AActor* hitActor = hit.GetActor();
+		//Check that the thing is hittable
+		if (hitActor && dynamic_cast<IHealth*>(hit.GetActor()))
+		{
+			dynamic_cast<IHealth*>(hit.GetActor())->OnDamage(1.0f);
+			GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, "HITTING");
+		}
+		//--------------------------
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), fireSoundFX, spawnLoc);
 	}
 	else

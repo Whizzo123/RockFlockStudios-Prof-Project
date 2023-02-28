@@ -13,7 +13,7 @@
 
 
 UCLASS()
-class RFS_PROJECT_API APlayerCharacter : public ACharacter, public IHealth
+class RFS_PROJECT_API APlayerCharacter : public ACharacter, public UHealth
 {
 	GENERATED_BODY()
 

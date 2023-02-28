@@ -3,17 +3,27 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
+#include "Combat.generated.h"
 /**
  * 
  */
-class RFS_PROJECT_API IHealth
+UINTERFACE(meta = (CannotImplementInterfaceInBlueprint))
+class RFS_PROJECT_API UHealth : public UInterface
 {
+	GENERATED_UINTERFACE_BODY()
+};
+
+inline UHealth::UHealth(const class FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
+
+class IHealth
+{
+	GENERATED_IINTERFACE_BODY()
 public:
-	IHealth() {};
+
 	float HitPoints;
 	float MaxHitPoints;
 	virtual void OnHeal(float health) = 0;
 	virtual void OnDamage(float damage) = 0;
 	virtual void OnDeath() = 0;
 };
+
