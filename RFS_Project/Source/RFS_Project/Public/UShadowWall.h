@@ -8,7 +8,7 @@
 #include "UShadowWall.generated.h"
 
 UCLASS()
-class RFS_PROJECT_API AUShadowWall : public AActor, public UHealth
+class RFS_PROJECT_API AUShadowWall : public AActor, public IHealth
 {
 	GENERATED_BODY()
 	

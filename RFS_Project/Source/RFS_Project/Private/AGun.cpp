@@ -39,9 +39,10 @@ void AAGun::Fire()
 		DrawDebugLine(GetWorld(), spawnLoc, finalRot.RotateVector(endPoint), FColor::Red, true);
 		AActor* hitActor = hit.GetActor();
 		//Check that the thing is hittable
-		if (hitActor && dynamic_cast<IHealth*>(hit.GetActor()))
+		IHealth* healthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(hit.GetActor()));
+		if (hitActor && healthObj)
 		{
-			dynamic_cast<IHealth*>(hit.GetActor())->OnDamage(1.0f);
+			healthObj->OnDamage(1.0f);
 			GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, "HITTING");
 		}
 		//--------------------------

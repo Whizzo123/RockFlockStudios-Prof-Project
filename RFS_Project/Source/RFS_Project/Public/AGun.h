@@ -9,6 +9,7 @@
 #include "AGunProjectile.h"
 #include "../Combat.h"
 #include "DrawDebugHelpers.h"
+#include "PlayableCharacter.h"
 #include "AGun.generated.h"
 
 UCLASS()
