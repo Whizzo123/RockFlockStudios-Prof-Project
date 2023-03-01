@@ -43,12 +43,13 @@ void AAGun::Fire()
 			temp = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetActorForwardVector() * 1000.0f;
 		else
 			temp = GetActorRightVector() * 1000.0f;
-		GetWorld()->LineTraceSingleByChannel(hit, spawnLoc, finalRot.RotateVector(spawnLoc + temp), ECollisionChannel::ECC_Visibility);
-		DrawDebugLine(GetWorld(), spawnLoc, spawnLoc + temp, FColor::Red, true);
+		// was spawnLoc + temp
+		GetWorld()->LineTraceSingleByChannel(hit, spawnLoc, (spawnLoc + temp) + (accOffset * 100), ECollisionChannel::ECC_Visibility);
+		DrawDebugLine(GetWorld(), spawnLoc, (spawnLoc + temp) + (accOffset * 100), FColor::Red, true);
 		AActor* hitActor = hit.GetActor();
 		//Check that the thing is hittable
 		IHealth* healthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(hit.GetActor()));
-		if (hitActor && healthObj)
+		if (hitActor && healthObj && hitActor != pawnEquippedTo)
 		{
 			healthObj->OnDamage(1.0f);
 			GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, "HITTING");
