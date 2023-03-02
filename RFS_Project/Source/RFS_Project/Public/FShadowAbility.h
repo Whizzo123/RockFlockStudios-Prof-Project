@@ -6,6 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "UShadowWall.h"
 #include "ShadowPortal.h"
+#include "Math/UnrealMathUtility.h"
+#include "ARestrictedCamera.h"
 #include "Ability.h"
 #include "FShadowAbility.generated.h"
 
@@ -26,14 +28,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 		void Use() override;
 	UFUNCTION(BlueprintCallable, Category = "Ability")
-		void Init(APawn* actor) override;
+		void Init(APawn* SelfActor) override;
 
 private:
 	bool InitAbility(FVector position, FVector fwdVector);
 	bool PlacePortal(FVector position, FVector fwdVector);
-	void GetWalls();
-	void SpawnPortals();
+	TSet<AUShadowWall*> SphereCastWalls(FVector origin);
+	TSet<AUShadowWall*> EnableWalls(TSet<AUShadowWall*> walls);
+
+	void EnterPortal();
+
 	void ExitWall();
+
 	void EndAbility();
 	void TogglePortalUseable() { bPortalUseable = !bPortalUseable; };
 public:
@@ -56,13 +62,14 @@ public:
 
 private:
 	APawn* OriginalActor;
+	AARestrictedCamera* RestrictedActor;
 	float DurationTimer;
 	bool bActivated;
 	bool bEnteredPortal;
 	bool bExitedPortal;
 	bool bPortalUseable;
 
-	TArray<AUShadowWall*> AliveWalls;
+	TSet<AUShadowWall*> AliveWalls;
 	AShadowPortal* Portal;
 	AUShadowWall* PortalWall;
 };
