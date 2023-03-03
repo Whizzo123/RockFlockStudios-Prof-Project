@@ -13,9 +13,9 @@ class RFS_PROJECT_API APlayableCharacter : public ACharacter, public IHealth
 	GENERATED_BODY()
 	
 public:	
-		UPROPERTY(EditAnywhere, Category="Combat")
+		UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 		float HitPoints;
-		UPROPERTY(EditAnywhere, Category="Combat")
+		UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 		float MaxHitPoints;
 	// Sets default values for this actor's properties
 		UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
