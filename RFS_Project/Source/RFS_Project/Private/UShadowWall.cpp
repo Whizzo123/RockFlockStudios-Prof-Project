@@ -14,7 +14,6 @@ AUShadowWall::AUShadowWall()
 	SetRootComponent(SceneRootComponent);
 	WallPlane->SetupAttachment(RootComponent);
 	
-	
 }
 
 void AUShadowWall::Spawn()
@@ -34,7 +33,7 @@ void AUShadowWall::BeginPlay()
 
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Plane is more than 0"));
 	}*/
-	StartWall();
+	ResetWall();
 }
 
 // Called every frame
@@ -44,13 +43,16 @@ void AUShadowWall::Tick(float DeltaTime)
 
 }
 
-void AUShadowWall::StartWall()
+void AUShadowWall::StartWall(int i)
 {
-	if (WallPlane)
-		WallPlane->SetVisibility(false);
-	else
+	if (!WallPlane) {
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("No Plane Found"));
-
+		return;
+	}
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Plane Visibility On"));
+	ChangeWallTextures(i);
+	WallPlane->SetVisibility(true);
+	alive = true;
 
 }
 
@@ -58,8 +60,14 @@ void AUShadowWall::ResetWall()
 {
 	if (WallPlane)
 	{
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Plane Visibility On and Hitpoints reset"));
 		HitPoints = MaxHitPoints;
-		WallPlane->SetVisibility(true);
+		WallPlane->SetVisibility(false);
+		alive = false;
+	}
+	else {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Plane not reset"));
+
 	}
 }
 
