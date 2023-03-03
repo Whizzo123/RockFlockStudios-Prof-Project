@@ -2,19 +2,10 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-/**
- * 
- */
-class RFS_PROJECT_API IHealth
+class IHealth
 {
 public:
-	float HitPoints;
-	float MaxHitPoints;
 	virtual void OnHeal(float health) = 0;
 	virtual void OnDamage(float damage) = 0;
 	virtual void OnDeath() = 0;
 };
-
-
-
