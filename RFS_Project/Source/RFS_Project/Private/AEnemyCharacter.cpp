@@ -15,13 +15,23 @@ void AAEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	MaxHitPoints = HitPoints = characterHealth;
+	TArray<AActor*> children;
+	GetAllChildActors(children);
+	for(int i = 0; i < children.Num(); i++)
+	{
+		if (Cast<AAGun>(children[i]))
+			equippedGun = Cast<AAGun>(children[i]);
+	}
+	if (equippedGun)
+		equippedGun->pawnEquippedTo = this;
+	else
+		GEngine->AddOnScreenDebugMessage(0, 1.0f, FColor::Red, "AAEnemyCharacter::BeginPlay() has no gun equipped");
 }
 
 // Called every frame
 void AAEnemyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -58,4 +68,10 @@ void AAEnemyCharacter::OnDeath()
 void AAEnemyCharacter::OnHitByBullet(float bulletDamage)
 {
 	OnDamage(bulletDamage);
+}
+
+void AAEnemyCharacter::ShootGun()
+{
+	equippedGun->Fire();
+
 }

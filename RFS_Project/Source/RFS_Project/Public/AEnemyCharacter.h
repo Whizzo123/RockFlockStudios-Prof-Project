@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "PlayableCharacter.h"
+#include "AGun.h"
 #include "../Combat.h"
 #include "AEnemyCharacter.generated.h"
 
@@ -20,9 +21,13 @@ public:
 	//UPROPERTIES
 	UPROPERTY(EditAnywhere)
 		float characterHealth;
+	UPROPERTY(EditAnywhere)
+		AAGun* equippedGun;
 	//UFUNCTIONS
 	UFUNCTION(BlueprintCallable)
 		void OnHitByBullet(float bulletDamage);
+	UFUNCTION(BlueprintCallable)
+		void ShootGun();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -39,5 +44,4 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void UpdateWalkSpeed(float speed);
-
 };
