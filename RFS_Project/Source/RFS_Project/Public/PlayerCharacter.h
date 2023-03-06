@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
-#include "Kismet/GameplayStatics.h"
 #include "PlayableCharacter.h"
+#include "Kismet/GameplayStatics.h"
+#include "IShadowPawn.h"
 #include "../Combat.h"
 #include "PlayerCharacter.generated.h"
 
@@ -14,7 +14,7 @@
 
 
 UCLASS()
-class RFS_PROJECT_API APlayerCharacter : public APlayableCharacter
+class RFS_PROJECT_API APlayerCharacter : public APlayableCharacter, public IShadowPawn
 {
 	GENERATED_BODY()
 
