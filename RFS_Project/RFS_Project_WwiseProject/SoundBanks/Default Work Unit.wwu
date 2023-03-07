@@ -5,7 +5,19 @@
 			<ChildrenList>
 				<SoundBank Name="TestSoundBank" ID="{10BF1388-6F34-4C42-9D58-68F44A9E794E}">
 					<ObjectInclusionList>
+						<ObjectRef Name="Killing_Enemy" ID="{5A7D610C-7F9C-412A-AB75-1F7B60FC42F4}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Ability_End" ID="{006FFC2D-1517-415A-B563-4EB81F282137}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Ability_Real_Gate_Destroyed" ID="{02B1FC0B-9164-4217-BA6A-014DF93D4DE6}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Enemy_Footsteps" ID="{768247ED-5CF4-43CC-AF7D-65E6E0E7E9C3}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Ability_Activate" ID="{65FF48E7-7300-43D5-8135-590DC4F9DF53}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Omen_Death_Noise" ID="{6DA6FCD7-A4FF-43EE-98CA-AE22A0776F4E}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Omen_Footsteps" ID="{1A47FE77-0061-4685-A76B-5F76BEE07CF2}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Enemy_Spotted_Omen" ID="{43B0DBA5-1D81-482D-81CF-5935BF9D37D8}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Enemy_Death_Noise" ID="{A1B5ED86-86F2-48D5-B137-1003C2842DC2}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Enemy_Spotted_Wall" ID="{12FD9DC8-9DC5-4912-B82C-4AA73BA64605}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="TestEvent1" ID="{40BB72F3-EECF-4D09-B543-36C6C6318FEB}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Ability_Fake_Gate_Destroyed" ID="{F5B8709A-BE75-4E61-8EA5-A7DF367ACAD4}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Reloading" ID="{BB75417C-9665-4E8C-A76C-8AE90034163C}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

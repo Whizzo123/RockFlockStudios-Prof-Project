@@ -6,13 +6,19 @@
 				<Property Name="AudioFilesImporter\Path" Type="string" Value="C:\Users\basso\Documents\Des 310\Audio\Reaper folder\Voicelines trimmming area\Footsteps trimming area\"/>
 				<Property Name="EffectsView\MeteringObject\{2AFD6FB0-C906-4683-A377-FEEEF72967B0}" Type="string" Value="{D42160DA-9E1A-495E-A599-539C3A4815E3}"/>
 				<Property Name="EffectsView\MeteringObject\{F2407F0C-050C-4F1E-BD96-A80ECE8321C4}" Type="string" Value="{D42160DA-9E1A-495E-A599-539C3A4815E3}"/>
+				<Property Name="Event Action List\{006FFC2D-1517-415A-B563-4EB81F282137}\x64_Expand States" Type="string" Value=""/>
+				<Property Name="Event Action List\{02B1FC0B-9164-4217-BA6A-014DF93D4DE6}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{12FD9DC8-9DC5-4912-B82C-4AA73BA64605}\x64_Expand States" Type="string" Value=""/>
+				<Property Name="Event Action List\{1A47FE77-0061-4685-A76B-5F76BEE07CF2}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{40BB72F3-EECF-4D09-B543-36C6C6318FEB}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{43B0DBA5-1D81-482D-81CF-5935BF9D37D8}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{5A7D610C-7F9C-412A-AB75-1F7B60FC42F4}\x64_Expand States" Type="string" Value=""/>
+				<Property Name="Event Action List\{65FF48E7-7300-43D5-8135-590DC4F9DF53}\x64_Expand States" Type="string" Value=""/>
+				<Property Name="Event Action List\{6DA6FCD7-A4FF-43EE-98CA-AE22A0776F4E}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{768247ED-5CF4-43CC-AF7D-65E6E0E7E9C3}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{A1B5ED86-86F2-48D5-B137-1003C2842DC2}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{BB75417C-9665-4E8C-A76C-8AE90034163C}\x64_Expand States" Type="string" Value=""/>
+				<Property Name="Event Action List\{F5B8709A-BE75-4E61-8EA5-A7DF367ACAD4}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="EventView\FilterMode1" Type="int32" Value="2"/>
 				<Property Name="EventView\FilterMode2" Type="int32" Value="2"/>
 				<Property Name="ExternalSourcesInputPath" Type="string">

@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" GUID="{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}" Language="SFX" Hash="{33F22740-439A-14F9-FFDC-1B8095225AE2}">
+		<SoundBank Id="1355168291" Type="User" GUID="{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}" Language="SFX" Hash="{FF200604-250A-D576-EA0B-E64C0F7A52F0}">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
@@ -53,7 +53,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1831431028" Type="User" GUID="{10BF1388-6F34-4C42-9D58-68F44A9E794E}" Language="SFX" Hash="{F7B493E6-CD55-C323-41F1-864B027ED416}">
+		<SoundBank Id="1831431028" Type="User" GUID="{10BF1388-6F34-4C42-9D58-68F44A9E794E}" Language="SFX" Hash="{A9324372-9347-1713-B2B4-5785AE5C66DC}">
 			<ObjectPath>\SoundBanks\Default Work Unit\TestSoundBank</ObjectPath>
 			<ShortName>TestSoundBank</ShortName>
 			<Path>TestSoundBank.bnk</Path>
@@ -148,7 +148,7 @@
 				</File>
 				<File Id="385858231" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Dialouge_Omen_Gateway_Opening_Self_01.wav</ShortName>
-					<CachePath>SFX/Dialouge_Omen_Gateway_Opening_Self_01_A6769772.wem</CachePath>
+					<CachePath>SFX/Dialouge_Omen_Gateway_Opening_Self_01_10C4C929.wem</CachePath>
 				</File>
 				<File Id="480184511" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Dialouge_Enemy_SpottingOmen_01.wav</ShortName>
@@ -317,34 +317,44 @@
 					<Plugin Id="865001706" Name="Pitch Shifter (Custom)" ObjectPath="\Actor-Mixer Hierarchy\Default Work Unit\Omen_Death_Sounds\Pitch Shifter (Custom)" GUID="{32CE18FA-0C88-4C1F-AD08-7322CBE4E45C}" LibName="Wwise Pitch Shifter" LibId="8912899"/>
 				</Custom>
 				<ShareSets>
-					<Plugin Id="892273243" Name="Omen_TimeStretch" ObjectPath="\Effects\Default Work Unit\Omen_TimeStretch" GUID="{4FC115B1-CC81-47BB-B7D4-E225AC59B0A1}" LibName="Wwise Time Stretch" LibId="8519683"/>
 					<Plugin Id="2849147824" Name="Medium" ObjectPath="\Effects\Factory Effects\RoomVerb\Cathedrals\Medium" GUID="{AEB3F175-958B-45F2-A4C2-3FBD4F456568}" LibName="Wwise RoomVerb" LibId="7733251"/>
 				</ShareSets>
 			</Plugins>
 			<Events>
-				<Event Id="1336969754" Name="Ability_Ends" ObjectPath="\Events\Default Work Unit\Ability_Ends" GUID="{6EABC3BF-8F7B-46A4-8879-ECD455EB07DC}" DurationType="OneShot" DurationMin="2.5" DurationMax="2.5">
+				<Event Id="1108510503" Name="Ability_Activate" ObjectPath="\Events\Default Work Unit\Ability_Activate" GUID="{65FF48E7-7300-43D5-8135-590DC4F9DF53}" DurationType="OneShot" DurationMin="2" DurationMax="2">
 					<MediaRefs>
-						<MediaRef Id="134492556"/>
-						<MediaRef Id="633299744"/>
+						<MediaRef Id="385858231"/>
 					</MediaRefs>
-					<PluginRefs>
-						<ShareSets>
-							<PluginRef Id="892273243"/>
-						</ShareSets>
-					</PluginRefs>
 					<AuxBusRefs>
 						<AuxBusRef Id="1872339956" Name="Omen_Shadow_Voice" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice" GUID="{D42160DA-9E1A-495E-A599-539C3A4815E3}"/>
 					</AuxBusRefs>
 				</Event>
-				<Event Id="46790723" Name="Ability_Triggered" ObjectPath="\Events\Default Work Unit\Ability_Triggered" GUID="{8BDFCB89-AF78-4D60-A4A8-F1C34DE793F7}" DurationType="OneShot" DurationMin="1.9302325" DurationMax="1.9302325">
+				<Event Id="967029139" Name="Ability_End" ObjectPath="\Events\Default Work Unit\Ability_End" GUID="{006FFC2D-1517-415A-B563-4EB81F282137}" DurationType="OneShot" DurationMin="2.5" DurationMax="2.5">
 					<MediaRefs>
-						<MediaRef Id="385858231"/>
+						<MediaRef Id="134492556"/>
+						<MediaRef Id="633299744"/>
 					</MediaRefs>
-					<PluginRefs>
-						<ShareSets>
-							<PluginRef Id="892273243"/>
-						</ShareSets>
-					</PluginRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="1872339956" Name="Omen_Shadow_Voice" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice" GUID="{D42160DA-9E1A-495E-A599-539C3A4815E3}"/>
+					</AuxBusRefs>
+				</Event>
+				<Event Id="3222312495" Name="Ability_Fake_Gate_Destroyed" ObjectPath="\Events\Default Work Unit\Ability_Fake_Gate_Destroyed" GUID="{F5B8709A-BE75-4E61-8EA5-A7DF367ACAD4}" DurationType="OneShot" DurationMin="2.6" DurationMax="2.9">
+					<MediaRefs>
+						<MediaRef Id="245372264"/>
+						<MediaRef Id="268176058"/>
+						<MediaRef Id="607855514"/>
+						<MediaRef Id="611215325"/>
+					</MediaRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="1872339956" Name="Omen_Shadow_Voice" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice" GUID="{D42160DA-9E1A-495E-A599-539C3A4815E3}"/>
+					</AuxBusRefs>
+				</Event>
+				<Event Id="3411898474" Name="Ability_Real_Gate_Destroyed" ObjectPath="\Events\Default Work Unit\Ability_Real_Gate_Destroyed" GUID="{02B1FC0B-9164-4217-BA6A-014DF93D4DE6}" DurationType="OneShot" DurationMin="1.32" DurationMax="1.82">
+					<MediaRefs>
+						<MediaRef Id="14382088"/>
+						<MediaRef Id="176015280"/>
+						<MediaRef Id="984870725"/>
+					</MediaRefs>
 					<AuxBusRefs>
 						<AuxBusRef Id="1872339956" Name="Omen_Shadow_Voice" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice" GUID="{D42160DA-9E1A-495E-A599-539C3A4815E3}"/>
 					</AuxBusRefs>
@@ -400,22 +410,6 @@
 						<MediaRef Id="970117935"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3678874461" Name="Fake_Gateway_Destroyed" ObjectPath="\Events\Default Work Unit\Fake_Gateway_Destroyed" GUID="{B248354E-0855-4A10-B1B6-75CABEC79695}" DurationType="OneShot" DurationMin="2.6" DurationMax="2.9">
-					<MediaRefs>
-						<MediaRef Id="245372264"/>
-						<MediaRef Id="268176058"/>
-						<MediaRef Id="607855514"/>
-						<MediaRef Id="611215325"/>
-					</MediaRefs>
-					<PluginRefs>
-						<ShareSets>
-							<PluginRef Id="892273243"/>
-						</ShareSets>
-					</PluginRefs>
-					<AuxBusRefs>
-						<AuxBusRef Id="1872339956" Name="Omen_Shadow_Voice" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice" GUID="{D42160DA-9E1A-495E-A599-539C3A4815E3}"/>
-					</AuxBusRefs>
-				</Event>
 				<Event Id="1618987994" Name="Killing_Enemy" ObjectPath="\Events\Default Work Unit\Killing_Enemy" GUID="{5A7D610C-7F9C-412A-AB75-1F7B60FC42F4}" DurationType="OneShot" DurationMin="2.4" DurationMax="3">
 					<MediaRefs>
 						<MediaRef Id="107986612"/>
@@ -433,7 +427,7 @@
 						<AuxBusRef Id="1872339956" Name="Omen_Shadow_Voice" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice" GUID="{D42160DA-9E1A-495E-A599-539C3A4815E3}"/>
 					</AuxBusRefs>
 				</Event>
-				<Event Id="1761880464" Name="Omen_Death_Noise" ObjectPath="\Events\Default Work Unit\Omen_Death_Noise" GUID="{2A7E042C-49CE-4B85-8810-3E2C4B40452A}" DurationType="OneShot" DurationMin="1" DurationMax="1">
+				<Event Id="1761880464" Name="Omen_Death_Noise" ObjectPath="\Events\Default Work Unit\Omen_Death_Noise" GUID="{6DA6FCD7-A4FF-43EE-98CA-AE22A0776F4E}" DurationType="OneShot" DurationMin="1" DurationMax="1">
 					<MediaRefs>
 						<MediaRef Id="248832913"/>
 						<MediaRef Id="263262796"/>
@@ -446,15 +440,12 @@
 						<Custom>
 							<PluginRef Id="865001706"/>
 						</Custom>
-						<ShareSets>
-							<PluginRef Id="892273243"/>
-						</ShareSets>
 					</PluginRefs>
 					<AuxBusRefs>
 						<AuxBusRef Id="1872339956" Name="Omen_Shadow_Voice" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice" GUID="{D42160DA-9E1A-495E-A599-539C3A4815E3}"/>
 					</AuxBusRefs>
 				</Event>
-				<Event Id="2064032848" Name="Omen_Footsteps" ObjectPath="\Events\Default Work Unit\Omen_Footsteps" GUID="{54E4C304-2465-4543-BFEB-6879F3BAB080}" DurationType="OneShot" DurationMin="0.30002266" DurationMax="0.46999997">
+				<Event Id="2064032848" Name="Omen_Footsteps" ObjectPath="\Events\Default Work Unit\Omen_Footsteps" GUID="{1A47FE77-0061-4685-A76B-5F76BEE07CF2}" DurationType="OneShot" DurationMin="0.30002266" DurationMax="0.46999997">
 					<MediaRefs>
 						<MediaRef Id="67109582"/>
 						<MediaRef Id="376823568"/>
@@ -466,21 +457,6 @@
 						<MediaRef Id="1065559535"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="4082138212" Name="Real_Wall_Destroyed" ObjectPath="\Events\Default Work Unit\Real_Wall_Destroyed" GUID="{BF25BA92-B9C6-4B54-9B79-EB9D9E0C12FE}" DurationType="OneShot" DurationMin="1.32" DurationMax="1.82">
-					<MediaRefs>
-						<MediaRef Id="14382088"/>
-						<MediaRef Id="176015280"/>
-						<MediaRef Id="984870725"/>
-					</MediaRefs>
-					<PluginRefs>
-						<ShareSets>
-							<PluginRef Id="892273243"/>
-						</ShareSets>
-					</PluginRefs>
-					<AuxBusRefs>
-						<AuxBusRef Id="1872339956" Name="Omen_Shadow_Voice" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice" GUID="{D42160DA-9E1A-495E-A599-539C3A4815E3}"/>
-					</AuxBusRefs>
-				</Event>
 				<Event Id="3973996702" Name="Reloading" ObjectPath="\Events\Default Work Unit\Reloading" GUID="{BB75417C-9665-4E8C-A76C-8AE90034163C}" DurationType="OneShot" DurationMin="1.3" DurationMax="1.85">
 					<MediaRefs>
 						<MediaRef Id="25708226"/>
@@ -488,11 +464,6 @@
 						<MediaRef Id="741240690"/>
 						<MediaRef Id="777070066"/>
 					</MediaRefs>
-					<PluginRefs>
-						<ShareSets>
-							<PluginRef Id="892273243"/>
-						</ShareSets>
-					</PluginRefs>
 					<AuxBusRefs>
 						<AuxBusRef Id="1872339956" Name="Omen_Shadow_Voice" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice" GUID="{D42160DA-9E1A-495E-A599-539C3A4815E3}"/>
 					</AuxBusRefs>
@@ -510,5 +481,5 @@
 			</Events>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{35C9AC03-6C59-F0A4-E835-EAECDE38940F}</FileHash>
+	<FileHash>{C1948F38-2FC9-4A9E-0357-FEC8AAF1AA17}</FileHash>
 </SoundBanksInfo>

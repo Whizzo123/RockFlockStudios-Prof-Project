@@ -1,6 +1,6 @@
-"C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceLoader\Module.WwiseResourceLoader.cpp"
+"D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceLoader\Module.WwiseResourceLoader.cpp"
 /I .
-/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseResourceLoader\Private"
+/I "D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseResourceLoader\Private"
 /I Runtime
 /I Runtime\TraceLog\Public
 /I Runtime\Core\Public
@@ -252,16 +252,16 @@
 /I Runtime\ClothingSystemRuntimeInterface\Public
 /I ..\Intermediate\Build\Win64\UnrealEditor\Inc\AnimationDataController
 /I Developer\AnimationDataController\Public
-/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source"
-/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseConcurrency\Public"
-/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseSoundEngine"
-/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine\Public"
-/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\ThirdParty\include"
-/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine_2022_1\Public"
-/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseResourceLoader"
-/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseResourceLoader\Public"
-/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseFileHandler"
-/I "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseFileHandler\Public"
+/I "D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source"
+/I "D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseConcurrency\Public"
+/I "D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseSoundEngine"
+/I "D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine\Public"
+/I "D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\ThirdParty\include"
+/I "D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseSoundEngine_2022_1\Public"
+/I "D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseResourceLoader"
+/I "D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseResourceLoader\Public"
+/I "D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Inc\WwiseFileHandler"
+/I "D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Source\WwiseFileHandler\Public"
 /I ThirdParty\mimalloc\include
 /I ThirdParty\LibTiff\Source\Win64
 /I ThirdParty\LibTiff\Source
@@ -282,12 +282,12 @@
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"
-/FI"C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
-/FI"C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceLoader\Definitions.WwiseResourceLoader.h"
-/Yu"C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
-/Fp"C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.pch"
-/Fo"C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceLoader\Module.WwiseResourceLoader.cpp.obj"
-/sourceDependencies "C:\Uni Lab Work\DES310\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceLoader\Module.WwiseResourceLoader.cpp.json"
+/FI"D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
+/FI"D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceLoader\Definitions.WwiseResourceLoader.h"
+/Yu"D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
+/Fp"D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Intermediate\Build\Win64\RFS_ProjectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.pch"
+/Fo"D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceLoader\Module.WwiseResourceLoader.cpp.obj"
+/sourceDependencies "D:\Uni Work\Des 203\GithubRepo\RockFlockStudios-Prof-Project\RFS_Project\Plugins\Wwise\Intermediate\Build\Win64\UnrealEditor\Development\WwiseResourceLoader\Module.WwiseResourceLoader.cpp.json"
 /Zc:inline
 /nologo
 /Oi

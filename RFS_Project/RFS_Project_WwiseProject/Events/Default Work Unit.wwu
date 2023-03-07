@@ -80,6 +80,72 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Omen_Death_Noise" ID="{6DA6FCD7-A4FF-43EE-98CA-AE22A0776F4E}">
+					<ChildrenList>
+						<Action Name="" ID="{20D2084B-1552-4989-92CC-DA86BE7C6344}" ShortID="653024030">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Omen_Death_Sounds" ID="{CB499D1B-FC1F-4909-8AAD-37646E16D14F}" WorkUnitID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Omen_Footsteps" ID="{1A47FE77-0061-4685-A76B-5F76BEE07CF2}">
+					<ChildrenList>
+						<Action Name="" ID="{522C3C9E-0AD5-4EF5-AE4E-2D7FE488A6F7}" ShortID="359884289">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Omen_Footstep_Container" ID="{A0686AA0-09BB-471B-8AB6-1ACFEA9A5E3B}" WorkUnitID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Ability_Activate" ID="{65FF48E7-7300-43D5-8135-590DC4F9DF53}">
+					<ChildrenList>
+						<Action Name="" ID="{86A24B39-8AC3-40A5-8E47-8952C5CFF07B}" ShortID="318495545">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Omen_Gate_Opening" ID="{D05CAE20-F065-45D2-9449-11BDB80F4822}" WorkUnitID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Ability_End" ID="{006FFC2D-1517-415A-B563-4EB81F282137}">
+					<ChildrenList>
+						<Action Name="" ID="{A7D1C3C4-1C4C-4588-89D4-22CA89529E23}" ShortID="129737689">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Omen_Gateway_Ends_Self" ID="{53D64089-9BE1-49FA-965F-7B22F888D174}" WorkUnitID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Ability_Real_Gate_Destroyed" ID="{02B1FC0B-9164-4217-BA6A-014DF93D4DE6}">
+					<ChildrenList>
+						<Action Name="" ID="{8188F6E0-27FC-41D5-9B95-4BC3292911BB}" ShortID="294161896">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Gateway_Real_Destroyed_Self" ID="{69E82BDE-4E41-4466-A4CE-9F62E95BA1E6}" WorkUnitID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Ability_Fake_Gate_Destroyed" ID="{F5B8709A-BE75-4E61-8EA5-A7DF367ACAD4}">
+					<ChildrenList>
+						<Action Name="" ID="{D9AB936C-FA28-478D-8CA5-448B1CCC704F}" ShortID="498655365">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Fake_Gateway_Destroyed_Self" ID="{27FC46F7-ACA0-462D-8DD2-5000CA0A9CD6}" WorkUnitID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
