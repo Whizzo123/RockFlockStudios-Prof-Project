@@ -270,7 +270,10 @@ bool UFShadowAbility::EnterPortal()
 	bool destroyed = Portal->Destroy();
 	if (!destroyed)
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::EnterPortal : Couldn't destroy portal"));
-
+	else {
+		Portal->AddActorWorldOffset(FVector(0, 500, 0));
+		Portal->SetActorHiddenInGame(true);
+	}
 	return true;
 }
 
@@ -292,7 +295,10 @@ bool UFShadowAbility::ExitWall()
 	bool destroyed = RestrictedActor->Destroy();
 	if (!destroyed)
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::ExitWall : Couldn't destroy actor"));
-
+	else {
+		Portal->AddActorWorldOffset(FVector(0, 500, 0));
+		Portal->SetActorHiddenInGame(true);
+	}
 	OriginalActor->AddActorWorldOffset(OriginalActor->GetActorForwardVector() * 300);
 	OriginalActor->AddActorWorldOffset(FVector(0, 0, 50));
 	IShadowPawn::Execute_ToggleCollisionPhysics(OriginalActor);
