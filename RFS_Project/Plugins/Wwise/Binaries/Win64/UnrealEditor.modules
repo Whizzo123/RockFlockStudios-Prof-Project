@@ -2,17 +2,17 @@
 	"BuildId": "19505902",
 	"Modules": 
 	{
-		"AkAudio": "UnrealEditor-AkAudio-0007.dll",
-		"AkAudioMixer": "UnrealEditor-AkAudioMixer-0007.dll",
-		"AudiokineticTools": "UnrealEditor-AudiokineticTools-0007.dll",
-		"Wwise": "UnrealEditor-Wwise-0007.dll",
-		"WwiseConcurrency": "UnrealEditor-WwiseConcurrency-0007.dll",
-		"WwiseFileHandler": "UnrealEditor-WwiseFileHandler-0007.dll",
-		"WwiseProjectDatabase": "UnrealEditor-WwiseProjectDatabase-0007.dll",
-		"WwiseResourceCooker": "UnrealEditor-WwiseResourceCooker-0007.dll",
-		"WwiseResourceLoader": "UnrealEditor-WwiseResourceLoader-0007.dll",
-		"WwiseSimpleExternalSource": "UnrealEditor-WwiseSimpleExternalSource-0007.dll",
-		"WwiseSoundEngine": "UnrealEditor-WwiseSoundEngine-0007.dll",
-		"WwiseSoundEngine_2022_1": "UnrealEditor-WwiseSoundEngine_2022_1-0007.dll"
+		"AkAudio": "UnrealEditor-AkAudio.dll",
+		"AkAudioMixer": "UnrealEditor-AkAudioMixer.dll",
+		"AudiokineticTools": "UnrealEditor-AudiokineticTools.dll",
+		"Wwise": "UnrealEditor-Wwise.dll",
+		"WwiseConcurrency": "UnrealEditor-WwiseConcurrency.dll",
+		"WwiseFileHandler": "UnrealEditor-WwiseFileHandler.dll",
+		"WwiseProjectDatabase": "UnrealEditor-WwiseProjectDatabase.dll",
+		"WwiseResourceCooker": "UnrealEditor-WwiseResourceCooker.dll",
+		"WwiseResourceLoader": "UnrealEditor-WwiseResourceLoader.dll",
+		"WwiseSimpleExternalSource": "UnrealEditor-WwiseSimpleExternalSource.dll",
+		"WwiseSoundEngine": "UnrealEditor-WwiseSoundEngine.dll",
+		"WwiseSoundEngine_2022_1": "UnrealEditor-WwiseSoundEngine_2022_1.dll"
 	}
 }

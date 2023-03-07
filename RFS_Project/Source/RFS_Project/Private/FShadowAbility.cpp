@@ -9,10 +9,6 @@ UFShadowAbility::UFShadowAbility()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-	UseAmount = 1;
-	UseCapacity = 1;
-	ChargeAmount = 7;
-	ChargeCapacity = 7;
 
 	bActivated = false;
 	bExitedPortal = false;
@@ -32,7 +28,7 @@ void UFShadowAbility::BeginPlay()
 
 }
 
-void UFShadowAbility::Use()
+void UFShadowAbility::UseAbility()
 {
 
 	if (bExitedPortal)

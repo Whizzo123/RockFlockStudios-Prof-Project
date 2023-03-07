@@ -15,7 +15,7 @@
 //class AUShadowEntrence;
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class RFS_PROJECT_API UFShadowAbility : public UActorComponent, public IAbility
+class RFS_PROJECT_API UFShadowAbility : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -26,9 +26,9 @@ public:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	UFUNCTION(BlueprintCallable, Category = "Ability")
-		void Use() override;
+		void UseAbility();
 	UFUNCTION(BlueprintCallable, Category = "Ability")
-		void Init(APawn* SelfActor) override;
+		void Init(APawn* SelfActor);
 
 private:
 	bool InitAbility(FVector position, FVector fwdVector);
@@ -45,13 +45,13 @@ private:
 
 public:
 	//////////////////////BASE ABILITY FUNCTIONALITY
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
 		int UseAmount;//Current amount of ability usages that can be used.
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
 		int UseCapacity;//How many ability usages can be stored.
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
 		int ChargeAmount;//The ultimate charge counter
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
 		int ChargeCapacity;//Ultimate charge capacity, once full, ability can be used.
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 		/// <summary>
@@ -59,7 +59,7 @@ public:
 		/// </summary>
 		void AddCharge() { 
 		ChargeAmount++; 
-		if (ChargeAmount >= ChargeCapacity) {
+		if (ChargeAmount >= ChargeCapacity && UseAmount < UseCapacity) {
 			AddUse();
 			DepleteCharge();
 		}
@@ -80,25 +80,25 @@ public:
 		void DepleteUse() { UseAmount= 0; }
 
 	///////////////////////////ShadowAbility Parameters
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability Parameters")
 		int WallAmount = 4;//The amount of walls to enable, including our target
-	UPROPERTY(EditAnywhere, Category = "Ability Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability Parameters")
 		float Range = 2000.0f;//The range of our casting
-	UPROPERTY(EditAnywhere, Category = "Ability Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability Parameters")
 		float SphereRange = 2000.0f;//The range to grab walls
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability Parameters")
 		float Duration = 20.0f;//The initial duration of the ability
-	UPROPERTY(EditAnywhere, Category = "Ability Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability Parameters")
 		float DurationMultiplier = 1.5f;//How much time should be multiplied on from the current duration when entering the portal
-	UPROPERTY(EditAnywhere, Category = "Ability Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability Parameters")
 		float DurationEndStart = 3.0f;//When the player exits the portal, how much longer should walls stay
 	UPROPERTY(BlueprintReadOnly, Category = "Ability Parameters")
 		float DurationTimer;//The current time of the ability in use
 
 	/*Blueprint Reference of UsefulActor class*/
-	UPROPERTY(EditDefaultsOnly, Category = "ActorSpawning")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ActorSpawning")
 		TSubclassOf<AShadowPortal> PortalBP;	
-	UPROPERTY(EditDefaultsOnly, Category = "ActorSpawning")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ActorSpawning")
 		TSubclassOf<AARestrictedCamera> RestrictedActorBP;
 
 private:
