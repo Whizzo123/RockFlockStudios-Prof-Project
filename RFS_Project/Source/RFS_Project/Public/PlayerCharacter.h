@@ -38,6 +38,7 @@ protected:
 	void OnHeal(float health) override;
 	void OnDamage(float damage) override;
 	void OnDeath() override;
+	FVector respawnPoint;
 
 public:	
 	// Called every frame
