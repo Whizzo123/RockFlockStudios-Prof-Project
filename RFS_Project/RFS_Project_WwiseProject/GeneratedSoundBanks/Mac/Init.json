@@ -10,11 +10,47 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{11AE950E-05FF-4E91-47B0-D00A23B83BA4}",
+    "Hash": "{488E5D1B-1504-5089-58D2-F16DF130EBC6}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
+     "Custom": [
+      {
+       "Id": "797738716",
+       "Name": "Pitch Shifter (Custom)",
+       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Omen_Shadow_Voice\\Pitch Shifter (Custom)",
+       "GUID": "{F2407F0C-050C-4F1E-BD96-A80ECE8321C4}",
+       "LibName": "Wwise Pitch Shifter",
+       "LibId": "8912899"
+      }
+     ],
+     "ShareSets": [
+      {
+       "Id": "701863527",
+       "Name": "Inside_My_Head",
+       "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Claustrophobia\\Inside_My_Head",
+       "GUID": "{94B53301-9AA1-468F-8419-92AEDAAE39DF}",
+       "LibName": "Wwise RoomVerb",
+       "LibId": "7733251"
+      },
+      {
+       "Id": "2394809124",
+       "Name": "Very_Slow_Modulation",
+       "ObjectPath": "\\Effects\\Factory Effects\\Tremolo\\Very_Slow_Modulation",
+       "GUID": "{6082F901-3CE1-4D78-8F2D-B2B72CF28085}",
+       "LibName": "Wwise Tremolo",
+       "LibId": "8585219"
+      },
+      {
+       "Id": "3043085106",
+       "Name": "High_Impact",
+       "ObjectPath": "\\Effects\\Factory Effects\\Compressor\\High_Impact",
+       "GUID": "{2AFD6FB0-C906-4683-A377-FEEEF72967B0}",
+       "LibName": "Wwise Compressor",
+       "LibId": "7077891"
+      }
+     ],
      "AudioDevices": [
       {
        "Id": "2317455096",
@@ -41,9 +77,57 @@
       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus",
       "GUID": "{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"
      }
+    ],
+    "AuxBusses": [
+     {
+      "Id": "1872339956",
+      "Name": "Omen_Shadow_Voice",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Omen_Shadow_Voice",
+      "GUID": "{D42160DA-9E1A-495E-A599-539C3A4815E3}",
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "797738716"
+        }
+       ],
+       "ShareSets": [
+        {
+         "Id": "701863527"
+        },
+        {
+         "Id": "2394809124"
+        },
+        {
+         "Id": "3043085106"
+        }
+       ]
+      }
+     }
+    ],
+    "SwitchGroups": [
+     {
+      "Id": "2692279159",
+      "Name": "Portal_Warping_Switch",
+      "ObjectPath": "\\Switches\\Default Work Unit\\Portal_Warping_Switch",
+      "GUID": "{C5BEA75E-3997-49DF-A7CA-27CE55CE442A}",
+      "Switches": [
+       {
+        "Id": "803786605",
+        "Name": "Within_Portal",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Portal_Warping_Switch\\Within_Portal",
+        "GUID": "{AF0B81BD-8A11-4264-BD1C-848A6FD9869C}"
+       },
+       {
+        "Id": "2684921726",
+        "Name": "Out_Of_Portal",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Portal_Warping_Switch\\Out_Of_Portal",
+        "GUID": "{F19AB48A-8242-487E-8122-58B123641441}"
+       }
+      ]
+     }
     ]
    }
   ],
-  "FileHash": "{8FE2967B-48D5-F140-92E9-2536C05DC3F8}"
+  "FileHash": "{1D26C21B-4A28-A4EB-9097-606CAFB775EF}"
  }
 }

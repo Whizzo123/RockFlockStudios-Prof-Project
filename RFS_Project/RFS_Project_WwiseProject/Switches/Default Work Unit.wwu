@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{345C89EA-1DAF-416D-B27D-C8FC0E16A901}" SchemaVersion="110">
 	<Switches>
-		<WorkUnit Name="Default Work Unit" ID="{345C89EA-1DAF-416D-B27D-C8FC0E16A901}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{345C89EA-1DAF-416D-B27D-C8FC0E16A901}" PersistMode="Standalone">
+			<ChildrenList>
+				<SwitchGroup Name="Portal_Warping_Switch" ID="{C5BEA75E-3997-49DF-A7CA-27CE55CE442A}">
+					<ChildrenList>
+						<Switch Name="Out_Of_Portal" ID="{F19AB48A-8242-487E-8122-58B123641441}"/>
+						<Switch Name="Within_Portal" ID="{AF0B81BD-8A11-4264-BD1C-848A6FD9869C}"/>
+					</ChildrenList>
+				</SwitchGroup>
+			</ChildrenList>
+		</WorkUnit>
 	</Switches>
 </WwiseDocument>
