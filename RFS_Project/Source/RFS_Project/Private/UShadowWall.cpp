@@ -62,6 +62,7 @@ void AUShadowWall::ResetWall()
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Plane Visibility On and Hitpoints reset"));
 		HitPoints = MaxHitPoints;
+		//OnDeath();
 		alive = false;
 	}
 	else {
