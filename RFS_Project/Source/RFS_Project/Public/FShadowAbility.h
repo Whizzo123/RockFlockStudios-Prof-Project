@@ -39,7 +39,7 @@ private:
 	bool EnterPortal();
 
 	bool ExitWall();
-
+	void DestroyOrHideActor(AActor* actor);
 	void EndAbility();
 	void TogglePortalUseable() { bPortalUseable = !bPortalUseable; };
 
