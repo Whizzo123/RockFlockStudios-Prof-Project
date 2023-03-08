@@ -306,7 +306,7 @@ void UFShadowAbility::EndAbility()
 	}
 	for (auto& Elem : AliveWalls)
 	{
-		Elem->ResetWall();
+		Elem->OnDeath();
 	}
 	bActivated = false;
 	bExitedPortal = false;
