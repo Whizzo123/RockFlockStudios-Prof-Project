@@ -39,7 +39,7 @@ void AShadowPortal::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AAc
 	if (ShadowComponent)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("ShadowEntrence is overlapped with valid pawn"));
-		*bPlayerInside = !*bPlayerInside;
+		*bPlayerInside = true;
 	}
 	else {
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("ShadowEntrence is overlapped with an INVALID pawn"));
@@ -53,7 +53,7 @@ void AShadowPortal::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* Ot
 	if (ShadowComponent)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("ShadowEntrence is no longer overlapped with valid pawn"));
-		*bPlayerInside = !*bPlayerInside;
+		*bPlayerInside = false;
 	}
 	else {
 
