@@ -16,6 +16,7 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	MaxHitPoints = HitPoints = characterHealth;
+	respawnPoint = GetActorLocation();
 }
 
 // Called every frame
@@ -48,7 +49,8 @@ void APlayerCharacter::OnDamage(float damage)
 
 void APlayerCharacter::OnDeath()
 {
-	Destroy();
+	SetActorLocation(respawnPoint);
+	HitPoints = MaxHitPoints;
 }
 
 void APlayerCharacter::OnHitByBullet(float bulletDamage)
