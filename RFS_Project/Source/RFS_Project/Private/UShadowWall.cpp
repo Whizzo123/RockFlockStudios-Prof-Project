@@ -33,6 +33,7 @@ void AUShadowWall::BeginPlay()
 
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Plane is more than 0"));
 	}*/
+	WallPlane->SetVisibility(false);
 	ResetWall();
 }
 
