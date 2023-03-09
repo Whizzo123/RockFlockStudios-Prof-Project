@@ -32,8 +32,8 @@ public:
 		if (HitPoints > MaxHitPoints)
 			HitPoints = MaxHitPoints;
 	};
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
-		void OnDeath() override { ResetWall(); };//TODO health ovveride;
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Combat")
+		void OnDeath() override;//TODO health ovveride;
 
 protected:
 	// Called when the game starts or when spawned
