@@ -202,6 +202,8 @@ bool UFShadowAbility::PlacePortal(FVector position, FVector fwdVector)
 		//if (!wallFound)
 		//	return false;
 
+		
+
 
 		//Reposition portal with correct vertical offset
 		FVector savedLineLocation = hit.Location;
@@ -233,6 +235,27 @@ TSet<AUShadowWall*> UFShadowAbility::SphereCastWalls(FVector origin)
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility::SphereCastWalls: Walls found %i"), shadowWalls.Num()));
 	return shadowWalls;
+
+	//My problem with this function is that it could be a lot less performant than a sphere cast, however it would restrict it to our level
+	/*TArray<FHitResult> hits;
+	int radialAccuracy = 10;
+	for (int i = 1; i < radialAccuracy; i++)
+	{
+		float yawAmount = ((360 / radialAccuracy) * i);
+		FVector endVector(1, 0, 0);
+		endVector.RotateAngleAxis(yawAmount, FVector3d(0, 0, 1));
+		endVector *= SphereRange;
+		GetWorld()->LineTraceMultiByChannel(hits, origin, origin + endVector, ECC_Visibility);
+
+		for (int actors = 0; actors < hits.Num(); actors++)
+		{
+			AUShadowWall* wall = Cast<AUShadowWall>(hits[actors].GetActor());
+			if (wall) {
+				shadowWalls.Add(wall);
+			}
+		}
+	}
+	return shadowWalls;*/
 
 }
 
