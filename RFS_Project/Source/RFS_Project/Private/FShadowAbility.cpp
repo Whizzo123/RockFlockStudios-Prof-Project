@@ -347,7 +347,7 @@ bool UFShadowAbility::ExitWall()
 	con->Possess(OriginalActor);
 	OriginalActor->SetActorLocationAndRotation(RestrictedActor->GetActorLocation(), RestrictedActor->GetActorRotation());
 	OriginalActor->AddActorWorldOffset(OriginalActor->GetActorForwardVector() * 300);//shoudl play animation for exiting
-	OriginalActor->AddActorWorldOffset(FVector(0, 0, 200));
+	OriginalActor->AddActorWorldOffset(FVector(0, 0, 20));
 	IShadowPawn::Execute_ToggleCollisionPhysics(OriginalActor);
 	DestroyOrHideActor(RestrictedActor);
 	return true;
