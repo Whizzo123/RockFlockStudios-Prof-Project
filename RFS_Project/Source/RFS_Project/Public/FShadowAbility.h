@@ -45,13 +45,13 @@ private:
 
 public:
 	//////////////////////BASE ABILITY FUNCTIONALITY
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
 		int UseAmount;//Current amount of ability usages that can be used.
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
 		int UseCapacity;//How many ability usages can be stored.
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
 		int ChargeAmount;//The ultimate charge counter
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
 		int ChargeCapacity;//Ultimate charge capacity, once full, ability can be used.
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 		/// <summary>
@@ -81,34 +81,39 @@ public:
 		void DepleteUse() { UseAmount= 0; }
 
 	///////////////////////////ShadowAbility Parameters
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
 		int WallAmount = 4;//The amount of walls to enable, including our target
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
 		float Range = 2000.0f;//The range of our casting
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
 		float SphereRange = 2000.0f;//The range to grab walls
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
 		float Duration = 20.0f;//The initial duration of the ability
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
 		float DurationMultiplier = 1.5f;//How much time should be multiplied on from the current duration when entering the portal
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
 		float DurationEndStart = 3.0f;//When the player exits the portal, how much longer should walls stay
 	UPROPERTY(BlueprintReadOnly, Category = "Ability Parameters")
 		float DurationTimer;//The current time of the ability in use
 
 	/*Blueprint Reference of UsefulActor class*/
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ActorSpawning")
+	UPROPERTY(EditDefaultsOnly, Category = "ActorSpawning")
 		TSubclassOf<AShadowPortal> PortalBP;	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ActorSpawning")
+	UPROPERTY(EditDefaultsOnly, Category = "ActorSpawning")
 		TSubclassOf<AARestrictedCamera> RestrictedActorBP;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Ability States")
+		bool bActivated = false;
+	UPROPERTY(BlueprintReadOnly, Category = "Ability States")
+		bool bEnteredPortal = false;
+	UPROPERTY(BlueprintReadOnly, Category = "Ability States")
+		bool bExitedPortal = false;
+	UPROPERTY(BlueprintReadOnly, Category = "Ability States")
+		bool bPortalUseable = false;
 private:
 	APawn* OriginalActor;
 	AARestrictedCamera* RestrictedActor;
-	bool bActivated = false;
-	bool bEnteredPortal = false;
-	bool bExitedPortal = false;
-	bool bPortalUseable = false;
+
 
 	TSet<AUShadowWall*> AliveWalls;
 	AShadowPortal* Portal;

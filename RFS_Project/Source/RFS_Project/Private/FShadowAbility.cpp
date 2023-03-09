@@ -133,6 +133,8 @@ bool UFShadowAbility::InitAbility(FVector position, FVector fwdVector)
 		var->StartWall(i);
 		i++;
 	}
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility:: Walls activated %i"), i));
+
 	return true;
 }
 
@@ -233,7 +235,7 @@ TSet<AUShadowWall*> UFShadowAbility::SphereCastWalls(FVector origin)
 			shadowWalls.Add(wall);
 		}
 	}
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility::SphereCastWalls: Walls found %i"), shadowWalls.Num()));
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility::SphereCastWalls: Walls found %i"), shadowWalls.Num()));
 	return shadowWalls;
 
 	//My problem with this function is that it could be a lot less performant than a sphere cast, however it would restrict it to our level
