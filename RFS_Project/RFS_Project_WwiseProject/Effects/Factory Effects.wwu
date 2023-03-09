@@ -44,10 +44,11 @@
 						</Effect>
 						<Effect Name="High_Impact" ID="{2AFD6FB0-C906-4683-A377-FEEEF72967B0}" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
 							<PropertyList>
-								<Property Name="AttackTime" Type="Real32" Value="0.04"/>
+								<Property Name="AttackTime" Type="Real32" Value="0.74"/>
+								<Property Name="OutputGain" Type="Real32" Value="1.9"/>
 								<Property Name="Ratio" Type="Real32" Value="12"/>
-								<Property Name="ReleaseTime" Type="Real32" Value="0.5"/>
-								<Property Name="Threshold" Type="Real32" Value="-6"/>
+								<Property Name="ReleaseTime" Type="Real32" Value="0.27"/>
+								<Property Name="Threshold" Type="Real32" Value="-3.5"/>
 							</PropertyList>
 						</Effect>
 						<Effect Name="Attack_Remover" ID="{174E7B9A-A16F-4CA7-86D0-530212B5A6AA}" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
@@ -1110,7 +1111,7 @@
 								</Effect>
 								<Effect Name="Inside_My_Head" ID="{94B53301-9AA1-468F-8419-92AEDAAE39DF}" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
 									<PropertyList>
-										<Property Name="DecayTime" Type="Real32" Value="0.8"/>
+										<Property Name="DecayTime" Type="Real32" Value="2.6"/>
 										<Property Name="Density" Type="Real32" Value="82"/>
 										<Property Name="Diffusion" Type="Real32" Value="0"/>
 										<Property Name="DryLevel" Type="Real32" Value="-96"/>
@@ -1122,7 +1123,7 @@
 										<Property Name="Filter2Gain" Type="Real32" Value="9"/>
 										<Property Name="Filter3Freq" Type="Real32" Value="6930"/>
 										<Property Name="HFDamping" Type="Real32" Value="0.5"/>
-										<Property Name="PreDelay" Type="Real32" Value="144"/>
+										<Property Name="PreDelay" Type="Real32" Value="0"/>
 										<Property Name="Quality" Type="int32" Value="4"/>
 										<Property Name="ReverbLevel" Type="Real32" Value="-16"/>
 										<Property Name="RoomSize" Type="Real32" Value="100"/>
@@ -1955,8 +1956,11 @@
 								</Effect>
 								<Effect Name="Octave_Down" ID="{062EC4B1-5372-4D1E-917B-C757293F2B42}" PluginName="Wwise Pitch Shifter" CompanyID="0" PluginID="136" PluginType="3">
 									<PropertyList>
+										<Property Name="DelayTime" Type="Real32" Value="10"/>
 										<Property Name="DryLevel" Type="Real32" Value="0"/>
-										<Property Name="Pitch" Type="Real32" Value="-1200"/>
+										<Property Name="FilterGain" Type="Real32" Value="1"/>
+										<Property Name="FilterType" Type="int32" Value="2"/>
+										<Property Name="Pitch" Type="Real32" Value="-2400"/>
 									</PropertyList>
 								</Effect>
 							</ChildrenList>

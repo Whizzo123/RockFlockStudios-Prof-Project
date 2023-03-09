@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="145">
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" GUID="{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}" Language="SFX" Hash="{28B6D9CB-F099-EB0B-40D1-F1F4140549D3}">
+		<SoundBank Id="1355168291" Type="User" GUID="{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}" Language="SFX" Hash="{33F22740-439A-14F9-FFDC-1B8095225AE2}">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
+				<Custom>
+					<Plugin Id="797738716" Name="Pitch Shifter (Custom)" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice\Pitch Shifter (Custom)" GUID="{F2407F0C-050C-4F1E-BD96-A80ECE8321C4}" LibName="Wwise Pitch Shifter" LibId="8912899"/>
+				</Custom>
+				<ShareSets>
+					<Plugin Id="701863527" Name="Inside_My_Head" ObjectPath="\Effects\Factory Effects\RoomVerb\Claustrophobia\Inside_My_Head" GUID="{94B53301-9AA1-468F-8419-92AEDAAE39DF}" LibName="Wwise RoomVerb" LibId="7733251"/>
+					<Plugin Id="2394809124" Name="Very_Slow_Modulation" ObjectPath="\Effects\Factory Effects\Tremolo\Very_Slow_Modulation" GUID="{6082F901-3CE1-4D78-8F2D-B2B72CF28085}" LibName="Wwise Tremolo" LibId="8585219"/>
+					<Plugin Id="3043085106" Name="High_Impact" ObjectPath="\Effects\Factory Effects\Compressor\High_Impact" GUID="{2AFD6FB0-C906-4683-A377-FEEEF72967B0}" LibName="Wwise Compressor" LibId="7077891"/>
+				</ShareSets>
 				<AudioDevices>
 					<Plugin Id="2317455096" Name="No_Output" ObjectPath="\Audio Devices\Default Work Unit\No_Output" GUID="{F202EE06-E34B-499D-A65C-FE2A2BF1E68B}" LibName="No Output" LibId="11862023"/>
 					<Plugin Id="3859886410" Name="System" ObjectPath="\Audio Devices\Default Work Unit\System" GUID="{0AC2B3C4-4BCD-4B86-99BA-7A07C56970A7}" LibName="System" LibId="11403271"/>
@@ -14,7 +22,29 @@
 			<Busses>
 				<Bus Id="3803692087" Name="Master Audio Bus" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus" GUID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"/>
 			</Busses>
+			<AuxBusses>
+				<AuxBus Id="1872339956" Name="Omen_Shadow_Voice" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice" GUID="{D42160DA-9E1A-495E-A599-539C3A4815E3}">
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="797738716"/>
+						</Custom>
+						<ShareSets>
+							<PluginRef Id="701863527"/>
+							<PluginRef Id="2394809124"/>
+							<PluginRef Id="3043085106"/>
+						</ShareSets>
+					</PluginRefs>
+				</AuxBus>
+			</AuxBusses>
+			<SwitchGroups>
+				<SwitchGroup Id="2692279159" Name="Portal_Warping_Switch" ObjectPath="\Switches\Default Work Unit\Portal_Warping_Switch" GUID="{C5BEA75E-3997-49DF-A7CA-27CE55CE442A}">
+					<Switches>
+						<Switch Id="803786605" Name="Within_Portal" ObjectPath="\Switches\Default Work Unit\Portal_Warping_Switch\Within_Portal" GUID="{AF0B81BD-8A11-4264-BD1C-848A6FD9869C}"/>
+						<Switch Id="2684921726" Name="Out_Of_Portal" ObjectPath="\Switches\Default Work Unit\Portal_Warping_Switch\Out_Of_Portal" GUID="{F19AB48A-8242-487E-8122-58B123641441}"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{21B4C638-51BE-88AD-B626-91B8B8256044}</FileHash>
+	<FileHash>{75CB3C54-5E90-9A62-BF21-18A4F995E94C}</FileHash>
 </SoundBanksInfo>

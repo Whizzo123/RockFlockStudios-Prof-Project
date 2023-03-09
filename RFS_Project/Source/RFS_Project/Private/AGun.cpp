@@ -36,7 +36,7 @@ void AAGun::Fire()
 		FTransform transform = FTransform(finalRot, spawnLoc, FVector(1.0f, 1.0f, 1.0f));
 		//AAGunProjectile* spawned = GetWorld()->SpawnActor<AAGunProjectile>(projectileToFire->GetDefaultObject()->GetClass(), transform);
 		//use line cast instead now
-		FHitResult hit;
+		TArray<FHitResult> hit;
 		//FVector endPoint = FVector(1000.0f, 1000.0f, 1000.0f);finalRot.RotateVector(endPoint)
 		FVector temp;
 		if (playerGun)
@@ -44,20 +44,24 @@ void AAGun::Fire()
 		else
 			temp = GetActorRightVector() * 2000.0f;
 		// was spawnLoc + temp
-		GetWorld()->LineTraceSingleByChannel(hit, spawnLoc, (spawnLoc + temp) + (accOffset * 100), ECollisionChannel::ECC_Pawn);
+		GetWorld()->LineTraceMultiByChannel(hit, spawnLoc, (spawnLoc + temp) + (accOffset * 100), ECollisionChannel::ECC_Pawn);
 		DrawDebugLine(GetWorld(), spawnLoc, (spawnLoc + temp) + (accOffset * 100), FColor::Red, false, 10.0f);
-		AActor* hitActor = hit.GetActor();
-		if (hitActor)
+		for (int i = 0; i < hit.Num(); i++)
 		{
-			//Check that the thing is hittable
-			IHealth* healthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(hit.GetActor()));
-			GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, hitActor->GetFName().ToString());
-			if (healthObj && hitActor != pawnEquippedTo)
+			AActor* hitActor = hit[i].GetActor();
+			if (hitActor)
 			{
-				healthObj->OnDamage(1.0f);
-				GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, "HITTING");
+				//Check that the thing is hittable
+				IHealth* healthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(hit[i].GetActor()));
+				GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, hitActor->GetFName().ToString());
+				if (healthObj && hitActor != pawnEquippedTo)
+				{
+					healthObj->OnDamage(1.0f);
+					GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, "HITTING");
+				}
 			}
 		}
+		
 		//--------------------------
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), fireSoundFX, spawnLoc);
 	}

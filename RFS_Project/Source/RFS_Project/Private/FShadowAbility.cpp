@@ -9,10 +9,6 @@ UFShadowAbility::UFShadowAbility()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-	UseAmount = 1;
-	UseCapacity = 1;
-	ChargeAmount = 7;
-	ChargeCapacity = 7;
 
 	bActivated = false;
 	bExitedPortal = false;
@@ -32,7 +28,7 @@ void UFShadowAbility::BeginPlay()
 
 }
 
-void UFShadowAbility::Use()
+void UFShadowAbility::UseAbility()
 {
 
 	if (bExitedPortal)
@@ -145,7 +141,6 @@ bool UFShadowAbility::PlacePortal(FVector position, FVector fwdVector)
 
 		FVector endPosition = position + (fwdVector * Range);
 		FCollisionQueryParams traceParams;
-		traceParams.bDebugQuery = true;
 		FHitResult hit;
 		FVector portalTranslation = FVector(0, 0, 15);
 
@@ -163,6 +158,7 @@ bool UFShadowAbility::PlacePortal(FVector position, FVector fwdVector)
 				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::PlacePortal : ShadowPortalBP has not been assigned"));
 				return false;
 			}
+			//Pass in boolean to allow portal to let player inside and translate it so it is infront of the wall
 			portal->AddActorLocalOffset(portalTranslation);
 			portal->Init(&bPortalUseable);
 			PortalWall = wall;
@@ -194,6 +190,7 @@ TSet<AUShadowWall*> UFShadowAbility::SphereCastWalls(FVector origin)
 	TArray<FHitResult> hits;
 	GetWorld()->SweepMultiByChannel(hits, origin, origin, FQuat(), ECC_Visibility, FCollisionShape::MakeSphere(SphereRange), traceParams);
 
+	//Goes through all objects hit adn grabs the walls and adds them to TSet
 	for (int i = 0; i < hits.Num(); i++)
 	{
 		AUShadowWall* wall = Cast<AUShadowWall>(hits[i].GetActor());
@@ -210,7 +207,7 @@ TSet<AUShadowWall*> UFShadowAbility::ChooseWalls(TSet<AUShadowWall*> walls)
 {
 	TArray<AUShadowWall*> aWalls = walls.Array();
 	TSet<AUShadowWall*> newWalls = TSet<AUShadowWall*>();
-	int wallCount = 1;
+	int wallCount = 1;//Starting at 1 to account for the initial wall hit
 	if (walls.Num() == 0)
 		return newWalls;
 
@@ -260,16 +257,17 @@ bool UFShadowAbility::EnterPortal()
 		return false;
 	}
 	restrictedCharacter->AddActorLocalRotation(FRotator(90,-90,0));
-	restrictedCharacter->AddActorLocalOffset(FVector( - 100, 10, 0));
+	FVector cameraDeepness = FVector(5, 10, 0);
+	restrictedCharacter->AddActorLocalOffset(cameraDeepness);
 	RestrictedActor = restrictedCharacter;
 
+	//Repossess original actor
 	//TODO: Animation should play to make the original character go into the wall
 	IShadowPawn::Execute_ToggleCollisionPhysics(OriginalActor);
 	OriginalActor->SetActorLocationAndRotation(restrictedCharacter->GetActorLocation(), restrictedCharacter->GetActorRotation());
+	OriginalActor->AddActorWorldOffset(FVector(0, 0, 500));
 	con->Possess(RestrictedActor);
-	bool destroyed = Portal->Destroy();
-	if (!destroyed)
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::EnterPortal : Couldn't destroy portal"));
+	DestroyOrHideActor(Portal);
 
 	return true;
 }
@@ -289,13 +287,11 @@ bool UFShadowAbility::ExitWall()
 		return false;
 	}
 	con->Possess(OriginalActor);
-	bool destroyed = RestrictedActor->Destroy();
-	if (!destroyed)
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::ExitWall : Couldn't destroy actor"));
-
-	OriginalActor->AddActorWorldOffset(OriginalActor->GetActorForwardVector() * 300);
-	OriginalActor->AddActorWorldOffset(FVector(0, 0, 50));
+	OriginalActor->SetActorLocationAndRotation(RestrictedActor->GetActorLocation(), RestrictedActor->GetActorRotation());
+	OriginalActor->AddActorWorldOffset(OriginalActor->GetActorForwardVector() * 300);//shoudl play animation for exiting
+	OriginalActor->AddActorWorldOffset(FVector(0, 0, 200));
 	IShadowPawn::Execute_ToggleCollisionPhysics(OriginalActor);
+	DestroyOrHideActor(RestrictedActor);
 	return true;
 }
 void UFShadowAbility::EndAbility()
@@ -306,17 +302,35 @@ void UFShadowAbility::EndAbility()
 			ExitWall();
 	}
 	else {
-		Portal->Destroy();
+		DestroyOrHideActor(Portal);
 	}
 	for (auto& Elem : AliveWalls)
 	{
-		Elem->ResetWall();
+		//Elem->ResetWall();
+		Elem->OnDeath();
 	}
 	bActivated = false;
 	bExitedPortal = false;
 	bEnteredPortal = false;
 	bPortalUseable = false;
 	DurationTimer = Duration;
+}
+void UFShadowAbility::DestroyOrHideActor(AActor* actor)
+{
+	if (actor)
+	{
+		bool destroyed = actor->Destroy();
+		if (!destroyed)
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::DestroyOrHideActor : Couldn't destroy actor, attempting to hide"));
+		else {
+			actor->AddActorWorldOffset(FVector(0, 500, 0));
+			actor->SetActorHiddenInGame(true);
+		}
+	}
+	else {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::DestroyOrHideActor : Actor does not exist?"));
+
+	}
 }
 
 // Called every frame
