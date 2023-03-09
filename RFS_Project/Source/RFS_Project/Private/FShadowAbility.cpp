@@ -141,10 +141,10 @@ bool UFShadowAbility::PlacePortal(FVector position, FVector fwdVector)
 
 		FVector endPosition = position + (fwdVector * Range);
 		FCollisionQueryParams traceParams;
-		FHitResult hit;
 		FVector portalTranslation = FVector(0, 0, 15);
 
 		//Spawn Portal
+		FHitResult hit;
 		GetWorld()->LineTraceSingleByChannel(hit,position, endPosition, ECC_Visibility, traceParams);
 		AUShadowWall* wall = Cast<AUShadowWall>(hit.GetActor());
 		if (wall)
@@ -169,6 +169,39 @@ bool UFShadowAbility::PlacePortal(FVector position, FVector fwdVector)
 			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("I have NOT hit a SolidWall"));
 			return false;
 		}
+		//My problem with this implementation is that, if we trace through walls and hit a shadow wall through layers of visible walls, we won't know where our shadow wall has ended up in.
+		//TArray<FHitResult> hits;
+		//FHitResult hit;
+		//AUShadowWall* wall;
+		//bool wallFound = false;
+		//GetWorld()->LineTraceMultiByChannel(hits, position, endPosition, ECC_Visibility, traceParams);
+		//for (int i = 0; i < hits.Num(); i++)
+		//{
+		//	wall = Cast<AUShadowWall>(hits[i].GetActor());
+		//	if (wall)
+		//	{
+		//		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("I have hit a SolidWall"));
+		//		FActorSpawnParameters SpawnParams;
+		//		AShadowPortal* portal;
+		//		if (PortalBP)
+		//			portal = GetWorld()->SpawnActor<AShadowPortal>(PortalBP, hits[i].Location, hits[i].GetActor()->GetActorRotation());
+		//		else {
+		//			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::PlacePortal : ShadowPortalBP has not been assigned"));
+		//			return false;
+		//		}
+		//		//Pass in boolean to allow portal to let player inside and translate it so it is infront of the wall
+		//		portal->AddActorLocalOffset(portalTranslation);
+		//		portal->Init(&bPortalUseable);
+		//		PortalWall = wall;
+		//		Portal = portal;
+		//		wallFound = true;
+		//		hit = hits[i];
+		//		break;
+		//	}
+		//}
+		//if (!wallFound)
+		//	return false;
+
 
 		//Reposition portal with correct vertical offset
 		FVector savedLineLocation = hit.Location;

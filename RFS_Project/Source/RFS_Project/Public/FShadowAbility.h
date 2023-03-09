@@ -14,7 +14,7 @@
 //class AUShadowWall;
 //class AUShadowEntrence;
 
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent), Blueprintable)
 class RFS_PROJECT_API UFShadowAbility : public UActorComponent
 {
 	GENERATED_BODY()
@@ -58,7 +58,8 @@ public:
 		/// Adds a charge, if you reach the max charge, deplete all charges and add a use.
 		/// </summary>
 		void AddCharge() { 
-		ChargeAmount++; 
+		if (ChargeAmount < ChargeCapacity)
+			ChargeAmount++;
 		if (ChargeAmount >= ChargeCapacity && UseAmount < UseCapacity) {
 			AddUse();
 			DepleteCharge();
