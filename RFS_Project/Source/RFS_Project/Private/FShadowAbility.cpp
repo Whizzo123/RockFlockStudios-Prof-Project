@@ -56,6 +56,7 @@ void UFShadowAbility::UseAbility()
 			DurationTimer = Duration;
 			bActivated = true;
 			UseAmount--;
+			DepleteCharge();
 			return;
 		}
 	}

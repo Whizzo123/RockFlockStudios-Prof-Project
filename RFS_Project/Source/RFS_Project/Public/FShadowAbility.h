@@ -62,7 +62,7 @@ public:
 			ChargeAmount++;
 		if (ChargeAmount >= ChargeCapacity && UseAmount < UseCapacity) {
 			AddUse();
-			DepleteCharge();
+			//DepleteCharge();
 		}
 
 	}		
