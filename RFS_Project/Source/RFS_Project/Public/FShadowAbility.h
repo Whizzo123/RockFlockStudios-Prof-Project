@@ -30,13 +30,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 		void Init(APawn* SelfActor);
 
+	UFUNCTION(BlueprintCallable, Category = "Ability Callable")
+		bool InitAbility(FVector position, FVector fwdVector);
+	UFUNCTION(BlueprintCallable, Category = "Ability Callable")
+		bool EnterPortal();
+
 private:
-	bool InitAbility(FVector position, FVector fwdVector);
 	bool PlacePortal(FVector position, FVector fwdVector);
+	void UpdateFakeWall(FVector position, FVector fwdVector);
+	FVector GetOriginalActorForwardVector();
 	TSet<AUShadowWall*> SphereCastWalls(FVector origin);
 	TSet<AUShadowWall*> ChooseWalls(TSet<AUShadowWall*> walls);
 	
-	bool EnterPortal();
 
 	bool ExitWall();
 	void DestroyOrHideActor(AActor* actor);
@@ -101,7 +106,14 @@ public:
 		TSubclassOf<AShadowPortal> PortalBP;	
 	UPROPERTY(EditDefaultsOnly, Category = "ActorSpawning")
 		TSubclassOf<AARestrictedCamera> RestrictedActorBP;
+	UPROPERTY(EditAnywhere, Category = "Fake Portal Material")
+		UMaterialInterface* RedMaterial;
+	UPROPERTY(EditAnywhere, Category = "Fake Portal Material")
+		UMaterialInterface* GreenMaterial;
 
+
+	UPROPERTY(BlueprintReadOnly, Category = "Ability States")
+		bool bInitiated = false;
 	UPROPERTY(BlueprintReadOnly, Category = "Ability States")
 		bool bActivated = false;
 	UPROPERTY(BlueprintReadOnly, Category = "Ability States")
@@ -110,6 +122,8 @@ public:
 		bool bExitedPortal = false;
 	UPROPERTY(BlueprintReadWrite, Category = "Ability States")
 		bool bPortalUseable = false;
+	bool bGreenMaterial = false;
+
 private:
 	APawn* OriginalActor;
 	AARestrictedCamera* RestrictedActor;
@@ -118,4 +132,5 @@ private:
 	TSet<AUShadowWall*> AliveWalls;
 	AShadowPortal* Portal;
 	AUShadowWall* PortalWall;
+
 };
