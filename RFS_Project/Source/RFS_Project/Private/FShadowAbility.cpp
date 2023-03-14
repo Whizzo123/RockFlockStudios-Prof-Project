@@ -31,7 +31,7 @@ void UFShadowAbility::BeginPlay()
 void UFShadowAbility::UseAbility()
 {
 
-	if (bExitedPortal)
+	if (bExitedPortal || !OriginalActor)
 		return;
 	
 
@@ -44,7 +44,16 @@ void UFShadowAbility::UseAbility()
 		}
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("Using Ability"));
 		FVector location = OriginalActor->GetActorLocation();
-		FVector fwdVec = OriginalActor->GetActorForwardVector();
+		FVector fwdVec;
+		UCameraComponent* CameraComps = Cast<UCameraComponent>(OriginalActor->GetComponentByClass(UCameraComponent::StaticClass()));
+		if (CameraComps)
+		{
+			fwdVec = CameraComps->GetForwardVector();
+		}
+		else {
+
+			fwdVec = OriginalActor->GetActorForwardVector();
+		}
 		bool success = InitAbility(location, fwdVec);
 		if (!success)
 		{
