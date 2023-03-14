@@ -39,7 +39,7 @@ void AShadowPortal::Tick(float DeltaTime)
 void AShadowPortal::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	IShadowPawn* ShadowComponent = Cast<IShadowPawn>(OtherActor);
-	if (ShadowComponent)
+	if (ShadowComponent && bPlayerInside != nullptr)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("UShadowPortal is overlapped with valid pawn"));
 		*bPlayerInside = true;
@@ -53,7 +53,7 @@ void AShadowPortal::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AAc
 void AShadowPortal::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	IShadowPawn* ShadowComponent = Cast<IShadowPawn>(OtherActor);
-	if (ShadowComponent)
+	if (ShadowComponent && bPlayerInside != nullptr)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("UShadowPortal is no longer overlapped with valid pawn"));
 		*bPlayerInside = false;
