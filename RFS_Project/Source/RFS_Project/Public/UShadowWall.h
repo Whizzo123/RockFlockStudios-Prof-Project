@@ -25,7 +25,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 		float MaxHitPoints;
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
-		void OnDamage(float damage) override { HitPoints -= damage; };
+		void OnDamage(float damage) override { 
+		HitPoints -= damage;
+		if (HitPoints < 0)
+		{
+			OnDeath();
+			alive = false;
+		}
+	};
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
 		void OnHeal(float heal) override {
 		HitPoints += heal; 
@@ -57,6 +64,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* WallPlane;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	bool alive = false;
 };
 
