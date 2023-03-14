@@ -121,18 +121,18 @@ bool UFShadowAbility::InitAbility(FVector position, FVector fwdVector)
 	//Place a portal and grab the portal wall
 	AliveWalls.Empty();
 	bool success = PlacePortal(position, fwdVector);
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Place Portal Complete"));
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Place Portal Complete"));
 	if (!success)
 		return false;
 
 	//Grab all walls in a radius
 	TSet<AUShadowWall*> walls = SphereCastWalls(position);
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Sphere Cast Walls Complete"));
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Sphere Cast Walls Complete"));
 	walls.Remove(PortalWall);
 
 	//Add all chosen walls to AliveWalls
 	AliveWalls = ChooseWalls(walls);
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Enable Walls Complete"));
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Enable Walls Complete"));
 	AliveWalls.Add(PortalWall);
 
 	//Turn on every wall chosen
@@ -189,9 +189,10 @@ bool UFShadowAbility::PlacePortal(FVector position, FVector fwdVector)
 		AUShadowWall* wall= nullptr;
 		bool wallFound = false;
 		GetWorld()->LineTraceMultiByChannel(hits, position, endPosition, ECC_Visibility, traceParams);
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, FString::Printf(TEXT("hits amount: %i"), hits.Num()));
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, FString::Printf(TEXT("hits amount: %i"), hits.Num()));
 		for (int i = 0; i < hits.Num(); i++)
 		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, hits[i].GetActor()->GetName());
 			wall = Cast<AUShadowWall>(hits[i].GetActor());
 			if (i >= 2)
 				return false;//We will return false to prevent our trace going through physical walls, If we have hit two walls, assume we have went through too many
