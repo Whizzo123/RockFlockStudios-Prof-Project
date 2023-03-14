@@ -108,7 +108,7 @@ public:
 		bool bEnteredPortal = false;
 	UPROPERTY(BlueprintReadOnly, Category = "Ability States")
 		bool bExitedPortal = false;
-	UPROPERTY(BlueprintReadOnly, Category = "Ability States")
+	UPROPERTY(BlueprintReadWrite, Category = "Ability States")
 		bool bPortalUseable = false;
 private:
 	APawn* OriginalActor;

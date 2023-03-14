@@ -34,10 +34,7 @@ void AAGun::Fire()
 		FVector spawnLoc = offset + skeletalSocketLoc;
 		FRotator finalRot = rotation.Add(0.0f, accOffset.Y, 0.0f);
 		FTransform transform = FTransform(finalRot, spawnLoc, FVector(1.0f, 1.0f, 1.0f));
-		//AAGunProjectile* spawned = GetWorld()->SpawnActor<AAGunProjectile>(projectileToFire->GetDefaultObject()->GetClass(), transform);
-		//use line cast instead now
 		TArray<FHitResult> hit;
-		//FVector endPoint = FVector(1000.0f, 1000.0f, 1000.0f);finalRot.RotateVector(endPoint)
 		FVector temp;
 		if (playerGun)
 			temp = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetActorForwardVector() * 2000.0f;
