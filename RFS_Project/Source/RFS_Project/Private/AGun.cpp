@@ -14,54 +14,36 @@ AAGun::AAGun()
 void AAGun::BeginPlay()
 {
 	Super::BeginPlay();
-	_skeletalMesh = Cast<USkeletalMeshComponent>(GetComponentByClass(USkeletalMeshComponent::StaticClass()));
 }
 
 FVector AAGun::Fire(FVector startHitScanLoc)
 {
-	if (_skeletalMesh)
-	{
-		FVector accOffset = CalculateAccuracy();
-		
-		FRotator rotation;
-		if (playerGun)
-			rotation = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetCameraRotation();
-		else
-			rotation = GetActorRightVector().Rotation();
-
-		FVector lineVector;
-		if (playerGun)
-			lineVector = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetActorForwardVector() * 2000.0f;
-		else
-			lineVector = GetActorRightVector() * 2000.0f;
-		AActor* hitActor = Trace<IHealth>(startHitScanLoc, (startHitScanLoc + lineVector) + (accOffset) * 100);
-		if (hitActor)
-		{
-			IHealth* healthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(hitActor));
-			healthObj->OnDamage(1.0f);
-			UGameplayStatics::PlaySoundAtLocation(GetWorld(), fireSoundFX, startHitScanLoc);
-			return hitActor->GetActorLocation();
-		}
-	}
+	FVector accOffset = CalculateAccuracy();
+	FRotator rotation;
+	if (playerGun)
+		rotation = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetCameraRotation();
 	else
-		GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, "YOUVE FORGOTTEN A SKELETAL MESH ON THE GUN OBJECT");
+		rotation = GetActorRightVector().Rotation();
+	FVector lineVector;
+	if (playerGun)
+		lineVector = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetActorForwardVector() * 2000.0f;
+	else
+		lineVector = GetActorRightVector() * 2000.0f;
+	AActor* hitActor = Trace<IHealth>(startHitScanLoc, (startHitScanLoc + lineVector) + (accOffset) * 100);
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), fireSoundFX, startHitScanLoc);
+	if (hitActor)
+	{
+		IHealth* healthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(hitActor));
+		healthObj->OnDamage(1.0f);
+		return hitActor->GetActorLocation();
+	}
 	return FVector();
 }
 
 void AAGun::ApplyRecoil(ACharacter* playerCharacter, float recoilAngleYaw, float recoilAnglePitch)
 {
-	//playerCamera->AddWorldRotation(FQuat(FVector(1, 0, 0), recoilAngle));
-	//playerCharacter->AddControllerYawInput(recoilAngleYaw);
-	//playerCharacter->AddControllerPitchInput(recoilAnglePitch);
-	appliedYawRecoil += recoilAngleYaw;
-	appliedPitchRecoil += recoilAnglePitch;
-	GetWorld()->GetTimerManager().SetTimer(waitRecoilTimer, this, &AAGun::ResetCameraAfterRecoil, waitRecoilTime, false);
-}
-
-void AAGun::ResetCameraAfterRecoil()
-{
-	appliedYawRecoil = 0;
-	appliedPitchRecoil = 0;
+	playerCharacter->AddControllerYawInput(recoilAngleYaw);
+	playerCharacter->AddControllerPitchInput(recoilAnglePitch);
 }
 
 template<typename T>

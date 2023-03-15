@@ -46,19 +46,18 @@ public:
 		APawn* pawnEquippedTo;
 	UPROPERTY(BlueprintReadWrite)
 		FVector muzzlePoint;
-	UPROPERTY(BlueprintReadOnly)
+	/*UPROPERTY(BlueprintReadOnly)
 		float appliedYawRecoil;
 	UPROPERTY(BlueprintReadOnly)
 		float appliedPitchRecoil;
 	UPROPERTY(BlueprintReadWrite)
-		float waitRecoilTime;
+		float waitRecoilTime;*/
 protected:
-	USkeletalMeshComponent* _skeletalMesh;
 	FVector trajectoryOffset = FVector(1.0f, 0.0f, 0.0f);
 	FVector CalculateAccuracy();
 	template<typename T>
 	AActor* Trace(FVector startTrace, FVector endTrace);
-	FTimerHandle waitRecoilTimer;
+	/*FTimerHandle waitRecoilTimer;*/
 	
 	
 	
@@ -67,6 +66,6 @@ public:
 		FVector Fire(FVector startHitScanLoc);
 	UFUNCTION(BlueprintCallable)
 		void ApplyRecoil(ACharacter* playerCharacter, float recoilAngleYaw, float recoilAnglePitch);
-	UFUNCTION()
-		void ResetCameraAfterRecoil();
+	/*UFUNCTION()
+		void ResetCameraAfterRecoil();*/
 };
