@@ -47,6 +47,23 @@ FVector AAGun::Fire(FVector startHitScanLoc)
 		GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, "YOUVE FORGOTTEN A SKELETAL MESH ON THE GUN OBJECT");
 	return FVector();
 }
+
+void AAGun::ApplyRecoil(ACharacter* playerCharacter, float recoilAngleYaw, float recoilAnglePitch)
+{
+	//playerCamera->AddWorldRotation(FQuat(FVector(1, 0, 0), recoilAngle));
+	//playerCharacter->AddControllerYawInput(recoilAngleYaw);
+	//playerCharacter->AddControllerPitchInput(recoilAnglePitch);
+	appliedYawRecoil += recoilAngleYaw;
+	appliedPitchRecoil += recoilAnglePitch;
+	GetWorld()->GetTimerManager().SetTimer(waitRecoilTimer, this, &AAGun::ResetCameraAfterRecoil, waitRecoilTime, false);
+}
+
+void AAGun::ResetCameraAfterRecoil()
+{
+	appliedYawRecoil = 0;
+	appliedPitchRecoil = 0;
+}
+
 template<typename T>
 AActor* AAGun::Trace(FVector startTrace, FVector endTrace)
 {

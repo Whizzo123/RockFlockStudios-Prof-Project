@@ -10,6 +10,8 @@
 #include "../Combat.h"
 #include "DrawDebugHelpers.h"
 #include "PlayableCharacter.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/Character.h"
 #include "AGun.generated.h"
 
 UCLASS()
@@ -21,6 +23,7 @@ public:
 	// Sets default values for this actor's properties
 	AAGun();
 	void BeginPlay() override;
+	
 	// EDITOR VARIABLES
 	UPROPERTY(EditAnywhere)
 		float gunAccuracy;
@@ -43,16 +46,27 @@ public:
 		APawn* pawnEquippedTo;
 	UPROPERTY(BlueprintReadWrite)
 		FVector muzzlePoint;
+	UPROPERTY(BlueprintReadOnly)
+		float appliedYawRecoil;
+	UPROPERTY(BlueprintReadOnly)
+		float appliedPitchRecoil;
+	UPROPERTY(BlueprintReadWrite)
+		float waitRecoilTime;
 protected:
 	USkeletalMeshComponent* _skeletalMesh;
 	FVector trajectoryOffset = FVector(1.0f, 0.0f, 0.0f);
 	FVector CalculateAccuracy();
 	template<typename T>
 	AActor* Trace(FVector startTrace, FVector endTrace);
-
+	FTimerHandle waitRecoilTimer;
+	
 	
 	
 public:	
 	UFUNCTION(BlueprintCallable)
 		FVector Fire(FVector startHitScanLoc);
+	UFUNCTION(BlueprintCallable)
+		void ApplyRecoil(ACharacter* playerCharacter, float recoilAngleYaw, float recoilAnglePitch);
+	UFUNCTION()
+		void ResetCameraAfterRecoil();
 };
