@@ -27,7 +27,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void OnHitByBullet(float bulletDamage);
 	UFUNCTION(BlueprintCallable)
-		void ShootGun();
+		void ShootGun(FVector startHitScanLoc);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

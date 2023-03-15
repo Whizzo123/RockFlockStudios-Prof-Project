@@ -70,8 +70,8 @@ void AAEnemyCharacter::OnHitByBullet(float bulletDamage)
 	OnDamage(bulletDamage);
 }
 
-void AAEnemyCharacter::ShootGun()
+void AAEnemyCharacter::ShootGun(FVector startHitScanLoc)
 {
-	equippedGun->Fire();
+	equippedGun->Fire(startHitScanLoc);
 
 }
