@@ -45,8 +45,12 @@ public:
 		FVector muzzlePoint;
 protected:
 	USkeletalMeshComponent* _skeletalMesh;
-	FVector CalculateAccuracy();
 	FVector trajectoryOffset = FVector(1.0f, 0.0f, 0.0f);
+	FVector CalculateAccuracy();
+	template<typename T>
+	AActor* Trace(FVector startTrace, FVector endTrace);
+
+	
 	
 public:	
 	UFUNCTION(BlueprintCallable)

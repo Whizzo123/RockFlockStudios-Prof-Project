@@ -21,47 +21,55 @@ FVector AAGun::Fire(FVector startHitScanLoc)
 {
 	if (_skeletalMesh)
 	{
-		FVector skeletalSocketLoc = _skeletalMesh->GetSocketLocation(fireSocket);
 		FVector accOffset = CalculateAccuracy();
+		
 		FRotator rotation;
-
 		if (playerGun)
 			rotation = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetCameraRotation();
 		else
 			rotation = GetActorRightVector().Rotation();
 
-		FVector offset = rotation.RotateVector(projectileOffset);
-		FVector spawnLoc = offset + startHitScanLoc;
-		FRotator finalRot = rotation.Add(0.0f, accOffset.Y, 0.0f);
-		FTransform transform = FTransform(finalRot, spawnLoc, FVector(1.0f, 1.0f, 1.0f));
-		TArray<FHitResult> hit;
-		FVector temp;
+		FVector lineVector;
 		if (playerGun)
-			temp = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetActorForwardVector() * 2000.0f;
+			lineVector = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetActorForwardVector() * 2000.0f;
 		else
-			temp = GetActorRightVector() * 2000.0f;
-		GetWorld()->LineTraceMultiByChannel(hit, spawnLoc, (spawnLoc + temp) + (accOffset * 100), ECollisionChannel::ECC_Pawn);
-		DrawDebugLine(GetWorld(), spawnLoc, (spawnLoc + temp) + (accOffset * 100), FColor::Red, false, 10.0f);
-		for (int i = 0; i < hit.Num(); i++)
+			lineVector = GetActorRightVector() * 2000.0f;
+		AActor* hitActor = Trace<IHealth>(startHitScanLoc, (startHitScanLoc + lineVector) + (accOffset) * 100);
+		if (hitActor)
 		{
-			AActor* hitActor = hit[i].GetActor();
-			if (hitActor)
-			{
-				//Check that the thing is hittable
-				IHealth* healthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(hit[i].GetActor()));
-				GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, hitActor->GetFName().ToString());
-				if (healthObj && hitActor != pawnEquippedTo)
-				{
-					healthObj->OnDamage(1.0f);
-					return hitActor->GetActorLocation();
-				}
-			}
+			IHealth* healthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(hitActor));
+			healthObj->OnDamage(1.0f);
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), fireSoundFX, startHitScanLoc);
+			return hitActor->GetActorLocation();
 		}
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), fireSoundFX, spawnLoc);
 	}
 	else
 		GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, "YOUVE FORGOTTEN A SKELETAL MESH ON THE GUN OBJECT");
 	return FVector();
+}
+template<typename T>
+AActor* AAGun::Trace(FVector startTrace, FVector endTrace)
+{
+	TArray<FHitResult> hit;
+	GetWorld()->LineTraceMultiByChannel(hit, startTrace, endTrace, ECollisionChannel::ECC_Pawn);
+	DrawDebugLine(GetWorld(), startTrace, endTrace, FColor::Red, false, 2.5f);
+	for (int i = 0; i < hit.Num(); i++)
+	{
+		AActor* hitActor = hit[i].GetActor();
+		if (hitActor)
+		{
+			//Check that the thing is hittable
+			T* healthObj = dynamic_cast<T*>(Cast<APlayableCharacter>(hit[i].GetActor()));
+			
+			if (healthObj && hitActor != pawnEquippedTo)
+			{
+				GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, hitActor->GetFName().ToString());
+				healthObj->OnDamage(1.0f);
+				return hitActor;
+			}
+		}
+	}
+	return nullptr;
 }
 
 FVector AAGun::CalculateAccuracy()
