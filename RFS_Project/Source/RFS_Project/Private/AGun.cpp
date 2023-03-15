@@ -17,7 +17,7 @@ void AAGun::BeginPlay()
 	_skeletalMesh = Cast<USkeletalMeshComponent>(GetComponentByClass(USkeletalMeshComponent::StaticClass()));
 }
 
-void AAGun::Fire()
+FVector AAGun::Fire(FVector startHitScanLoc)
 {
 	if (_skeletalMesh)
 	{
@@ -25,13 +25,13 @@ void AAGun::Fire()
 		FVector accOffset = CalculateAccuracy();
 		FRotator rotation;
 
-		//Issues being caused
 		if (playerGun)
 			rotation = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetCameraRotation();
 		else
 			rotation = GetActorRightVector().Rotation();
+
 		FVector offset = rotation.RotateVector(projectileOffset);
-		FVector spawnLoc = offset + skeletalSocketLoc;
+		FVector spawnLoc = offset + startHitScanLoc;
 		FRotator finalRot = rotation.Add(0.0f, accOffset.Y, 0.0f);
 		FTransform transform = FTransform(finalRot, spawnLoc, FVector(1.0f, 1.0f, 1.0f));
 		TArray<FHitResult> hit;
@@ -40,7 +40,6 @@ void AAGun::Fire()
 			temp = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetActorForwardVector() * 2000.0f;
 		else
 			temp = GetActorRightVector() * 2000.0f;
-		// was spawnLoc + temp
 		GetWorld()->LineTraceMultiByChannel(hit, spawnLoc, (spawnLoc + temp) + (accOffset * 100), ECollisionChannel::ECC_Pawn);
 		DrawDebugLine(GetWorld(), spawnLoc, (spawnLoc + temp) + (accOffset * 100), FColor::Red, false, 10.0f);
 		for (int i = 0; i < hit.Num(); i++)
@@ -54,16 +53,15 @@ void AAGun::Fire()
 				if (healthObj && hitActor != pawnEquippedTo)
 				{
 					healthObj->OnDamage(1.0f);
-					GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, "HITTING");
+					return hitActor->GetActorLocation();
 				}
 			}
 		}
-		
-		//--------------------------
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), fireSoundFX, spawnLoc);
 	}
 	else
 		GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, "YOUVE FORGOTTEN A SKELETAL MESH ON THE GUN OBJECT");
+	return FVector();
 }
 
 FVector AAGun::CalculateAccuracy()
@@ -82,7 +80,6 @@ FVector AAGun::CalculateAccuracy()
 	else
 		movingOffset = 2 - (2 / velocityPercentage) / 10;
 	int calculatedOffset = rand() % (offsetScale - (int)((gunAccuracy - movingOffset) * offsetScale));
-	GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Yellow, FString::Printf(TEXT("%lld"), calculatedOffset));
 	if (random < 2)
 	{
 		return trajectoryOffset * -calculatedOffset;

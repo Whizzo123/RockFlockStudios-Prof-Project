@@ -21,6 +21,7 @@ public:
 	// Sets default values for this actor's properties
 	AAGun();
 	void BeginPlay() override;
+	// EDITOR VARIABLES
 	UPROPERTY(EditAnywhere)
 		float gunAccuracy;
 	UPROPERTY(EditAnywhere)
@@ -37,8 +38,11 @@ public:
 		USoundBase* fireSoundFX;
 	UPROPERTY(EditAnywhere)
 		bool playerGun;
+	// BLUEPRINT PROPERTIES
 	UPROPERTY(BlueprintReadWrite)
 		APawn* pawnEquippedTo;
+	UPROPERTY(BlueprintReadWrite)
+		FVector muzzlePoint;
 protected:
 	USkeletalMeshComponent* _skeletalMesh;
 	FVector CalculateAccuracy();
@@ -46,5 +50,5 @@ protected:
 	
 public:	
 	UFUNCTION(BlueprintCallable)
-		void Fire();
+		FVector Fire(FVector startHitScanLoc);
 };
