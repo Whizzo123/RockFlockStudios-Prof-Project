@@ -36,6 +36,8 @@ protected:
 	void OnDamage(float damage) override;
 	void OnDeath() override;
 
+	FVector respawnPoint;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
