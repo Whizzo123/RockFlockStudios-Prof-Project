@@ -15,6 +15,7 @@ void AAEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	MaxHitPoints = HitPoints = characterHealth;
+	respawnPoint = GetActorLocation();
 	TArray<AActor*> children;
 	GetAllChildActors(children);
 	for(int i = 0; i < children.Num(); i++)
@@ -62,7 +63,8 @@ void AAEnemyCharacter::OnDamage(float damage)
 
 void AAEnemyCharacter::OnDeath()
 {
-	Destroy();
+	SetActorLocation(respawnPoint);
+	HitPoints = MaxHitPoints;
 }
 
 void AAEnemyCharacter::OnHitByBullet(float bulletDamage)
