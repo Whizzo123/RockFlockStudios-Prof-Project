@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "UObject/Class.h"
 #include "UShadowWall.h"
 #include "ShadowPortal.h"
 #include "Math/UnrealMathUtility.h"
@@ -13,6 +14,14 @@
 
 //class AUShadowWall;
 //class AUShadowEntrence;
+UENUM(BlueprintType)
+enum AbilityState
+{
+	Inactive UMETA(DisplayName = "Inactive"),
+	Cue UMETA(DisplayName="Cue"),
+	Active UMETA(DisplayName="Active"),
+	Entered UMETA(DisplayName="Entered"),
+};
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent), Blueprintable)
 class RFS_PROJECT_API UFShadowAbility : public UActorComponent
@@ -26,20 +35,68 @@ public:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	UFUNCTION(BlueprintCallable, Category = "Ability")
+		/// <summary>
+		/// Base function to call, same button press will advance the state machine of the ability
+		/// </summary>
 		void UseAbility();
 	UFUNCTION(BlueprintCallable, Category = "Ability")
+		/// <summary>
+		/// Function needed to call before using the ability. sets data
+		/// </summary>
 		void Init(APawn* SelfActor);
 
+	UFUNCTION(BlueprintCallable, Category = "Ability Callable")
+		/// <summary>
+		/// Places portal, grabs and activates x walls.
+		/// </summary>
+		bool InitAbility(FVector position, FVector fwdVector);
+	UFUNCTION(BlueprintCallable, Category = "Ability Callable")
+		/// <summary>
+		/// If bPortalUsable is true we can enter the portal. Possess new actor and hides OriginalActor
+		/// </summary>
+		bool EnterPortal();
+
 private:
-	bool InitAbility(FVector position, FVector fwdVector);
+	bool InactiveState();
+	bool CueState();
+	bool ActiveState();
+	bool EnteredState();
+	/// <summary>
+	/// Places portal
+	/// </summary>
 	bool PlacePortal(FVector position, FVector fwdVector);
+	/// <summary>
+	/// Updates the fake portal that we can see before we confirm ability usage
+	/// </summary>
+	void UpdateFakeWall(FVector position, FVector fwdVector);
+	/// <summary>
+	/// Gets OriginalActor forward vector
+	/// </summary>
+	FVector GetOriginalActorForwardVector();
+	/// <summary>
+	/// Grabs walls in a sphere around portal point
+	/// </summary>
 	TSet<AUShadowWall*> SphereCastWalls(FVector origin);
+	/// <summary>
+	/// Grabs walls in a horizontal disc around portal point
+	/// </summary>
+	TSet<AUShadowWall*> DiscCastWalls(FVector origin);
+	/// <summary>
+	/// Grabs random walls to use
+	/// </summary>
 	TSet<AUShadowWall*> ChooseWalls(TSet<AUShadowWall*> walls);
 	
-	bool EnterPortal();
-
+	/// <summary>
+	/// Repossess the OriginalActor and destroys old actor
+	/// </summary>
 	bool ExitWall();
+	/// <summary>
+	/// Attempts to Destroy actor, otherwise hides it
+	/// </summary>
 	void DestroyOrHideActor(AActor* actor);
+	/// <summary>
+	/// Ends the ability, keeping in mind the current state
+	/// </summary>
 	void EndAbility();
 	void TogglePortalUseable() { bPortalUseable = !bPortalUseable; };
 
@@ -86,7 +143,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
 		float Range = 2000.0f;//The range of our casting
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
-		float SphereRange = 2000.0f;//The range to grab walls
+		float WallDetectionRange = 2000.0f;//The range to grab walls	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
+		int DiscAccuracy = 360;//The range to grab walls
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
 		float Duration = 20.0f;//The initial duration of the ability
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
@@ -98,18 +157,21 @@ public:
 
 	/*Blueprint Reference of UsefulActor class*/
 	UPROPERTY(EditDefaultsOnly, Category = "ActorSpawning")
-		TSubclassOf<AShadowPortal> PortalBP;	
+		TSubclassOf<AShadowPortal> PortalBP;//The Portal in BP's	
 	UPROPERTY(EditDefaultsOnly, Category = "ActorSpawning")
-		TSubclassOf<AARestrictedCamera> RestrictedActorBP;
+		TSubclassOf<AARestrictedCamera> RestrictedActorBP;// The actor to be inside the wall BP's
+	UPROPERTY(EditAnywhere, Category = "Fake Portal Material")
+		UMaterialInterface* RedMaterial;//Red Material for the portal
+	UPROPERTY(EditAnywhere, Category = "Fake Portal Material")
+		UMaterialInterface* GreenMaterial;//Green material for the portal
 
-	UPROPERTY(BlueprintReadOnly, Category = "Ability States")
-		bool bActivated = false;
-	UPROPERTY(BlueprintReadOnly, Category = "Ability States")
-		bool bEnteredPortal = false;
-	UPROPERTY(BlueprintReadOnly, Category = "Ability States")
-		bool bExitedPortal = false;
-	UPROPERTY(BlueprintReadOnly, Category = "Ability States")
+
+	UPROPERTY(BlueprintReadWrite, Category = "Ability States")
 		bool bPortalUseable = false;
+	bool bPortalPlaceable = false;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Ability State")
+		TEnumAsByte<AbilityState> State;//The current state of the ability
 private:
 	APawn* OriginalActor;
 	AARestrictedCamera* RestrictedActor;
@@ -118,4 +180,5 @@ private:
 	TSet<AUShadowWall*> AliveWalls;
 	AShadowPortal* Portal;
 	AUShadowWall* PortalWall;
+
 };
