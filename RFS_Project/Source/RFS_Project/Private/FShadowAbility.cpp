@@ -156,6 +156,8 @@ void UFShadowAbility::UseAbility()
 	case Cue:
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Current State when called: Cue"));
 		success = CueState();
+		if (!success)
+			State = Inactive;
 		break;
 	case Active:
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Current State when called: Active"));
@@ -166,6 +168,8 @@ void UFShadowAbility::UseAbility()
 		success = EnteredState();
 		if (success)
 			State = Inactive;
+		EndAbility();
+
 		return;
 	default:
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility: Current State when called: Invalid State"));
@@ -417,9 +421,10 @@ bool UFShadowAbility::ExitWall()
 
 void UFShadowAbility::EndAbility()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::End Ability called"));
 	if (State == AbilityState::Entered)
 			ExitWall();
-	if (State == AbilityState::Cue){
+	if (State == AbilityState::Active){
 		DestroyOrHideActor(Portal);
 		Portal = nullptr;
 	}
