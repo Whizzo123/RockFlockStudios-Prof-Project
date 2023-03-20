@@ -29,7 +29,7 @@ FVector AAGun::Fire(FVector startHitScanLoc)
 		lineVector = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetActorForwardVector() * 2000.0f;
 	else
 		lineVector = GetActorRightVector() * 2000.0f;
-	AActor* hitActor = Trace<IHealth>(startHitScanLoc, (startHitScanLoc + lineVector) + (accOffset) * 100);
+	AActor* hitActor = Trace<IHealth>(startHitScanLoc, (startHitScanLoc + lineVector) + (accOffset) * 20);
 	UGameplayStatics::PlaySoundAtLocation(GetWorld(), fireSoundFX, startHitScanLoc);
 	if (hitActor)
 	{
@@ -50,10 +50,11 @@ template<typename T>
 AActor* AAGun::Trace(FVector startTrace, FVector endTrace)
 {
 	TArray<FHitResult> hit;
-	GetWorld()->LineTraceMultiByChannel(hit, startTrace, endTrace, ECollisionChannel::ECC_Pawn);
+	GetWorld()->LineTraceMultiByChannel(hit, startTrace, endTrace, ECollisionChannel::ECC_Visibility);
 	DrawDebugLine(GetWorld(), startTrace, endTrace, FColor::Red, false, 2.5f);
 	for (int i = 0; i < hit.Num(); i++)
 	{
+
 		AActor* hitActor = hit[i].GetActor();
 		if (hitActor)
 		{
@@ -62,7 +63,8 @@ AActor* AAGun::Trace(FVector startTrace, FVector endTrace)
 			
 			if (healthObj && hitActor != pawnEquippedTo)
 			{
-				GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, hitActor->GetFName().ToString());
+				if(playerGun)
+					GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, hitActor->GetFName().ToString());
 				healthObj->OnDamage(1.0f);
 				return hitActor;
 			}
