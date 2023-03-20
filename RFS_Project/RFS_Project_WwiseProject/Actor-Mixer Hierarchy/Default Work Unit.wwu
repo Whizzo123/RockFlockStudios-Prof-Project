@@ -2342,6 +2342,327 @@
 						</Sound>
 					</ChildrenList>
 				</RandomSequenceContainer>
+				<RandomSequenceContainer Name="Omen_Firing_Container" ID="{4261F99A-6EC5-405D-8C8E-221637C3F73E}" ShortID="756937719">
+					<PropertyList>
+						<Property Name="PlayMechanismSpecialTransitions" Type="bool" Value="True"/>
+						<Property Name="PlayMechanismSpecialTransitionsType" Type="int16" Value="3"/>
+						<Property Name="PlayMechanismSpecialTransitionsValue" Type="Real64" Value="0.2"/>
+						<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+						<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F45E14D5-BA07-492D-9E19-515DC4C07F9C}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<RandomSequenceContainer Name="Casing_Falling" ID="{1AB54946-64EF-4761-958E-132FE0D6037C}" ShortID="743448262">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F45E14D5-BA07-492D-9E19-515DC4C07F9C}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="SFX_Rifle_Casing_Falling_01" ID="{A24AA8DC-05BD-4539-83CF-698E94620085}" ShortID="151317731">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F45E14D5-BA07-492D-9E19-515DC4C07F9C}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SFX_Rifle_Casing_Falling_01" ID="{E172FB6A-DA1B-44B7-90BE-2430D7A300EF}">
+											<Language>SFX</Language>
+											<AudioFile>SFX_Rifle_Casing_Falling_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="938389697"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="SFX_Rifle_Casing_Falling_01" ID="{E172FB6A-DA1B-44B7-90BE-2430D7A300EF}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="SFX_Rifle_Casing_Falling_02" ID="{38C0A249-A823-4E78-9684-7117E6E63673}" ShortID="686574912">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F45E14D5-BA07-492D-9E19-515DC4C07F9C}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SFX_Rifle_Casing_Falling_02" ID="{B55EEAF8-DD9D-4421-9A63-1EB3A1631F7A}">
+											<Language>SFX</Language>
+											<AudioFile>SFX_Rifle_Casing_Falling_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1069080295"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="SFX_Rifle_Casing_Falling_02" ID="{B55EEAF8-DD9D-4421-9A63-1EB3A1631F7A}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="SFX_Rifle_Casing_Falling_03" ID="{42D07A42-D18D-454D-B8C9-AEF389F79C36}" ShortID="264501489">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F45E14D5-BA07-492D-9E19-515DC4C07F9C}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SFX_Rifle_Casing_Falling_03" ID="{334F244E-1DA6-455D-AA82-563C504E6DDE}">
+											<Language>SFX</Language>
+											<AudioFile>SFX_Rifle_Casing_Falling_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="431698141"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="SFX_Rifle_Casing_Falling_03" ID="{334F244E-1DA6-455D-AA82-563C504E6DDE}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="SFX_Rifle_Casing_Falling_04" ID="{40136A24-6C99-4964-9262-93065FB323FB}" ShortID="864373138">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F45E14D5-BA07-492D-9E19-515DC4C07F9C}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SFX_Rifle_Casing_Falling_04" ID="{7F17AAEA-6146-40F2-91C3-6AA0DB7E34F3}">
+											<Language>SFX</Language>
+											<AudioFile>SFX_Rifle_Casing_Falling_04.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="369771119"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="SFX_Rifle_Casing_Falling_04" ID="{7F17AAEA-6146-40F2-91C3-6AA0DB7E34F3}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="Bullet" ID="{8411584D-6A46-4496-A56E-AEC2D06E11EF}" ShortID="149382955">
+							<PropertyList>
+								<Property Name="OverrideEffect" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F45E14D5-BA07-492D-9E19-515DC4C07F9C}"/>
+								</Reference>
+								<Reference Name="Effect0" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
+									<ObjectRef Name="High_Impact" ID="{2AFD6FB0-C906-4683-A377-FEEEF72967B0}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+								</Reference>
+								<Reference Name="Effect1" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+									<ObjectRef Name="Not_A_Yellow_Submarine" ID="{B5719071-C58D-49FA-8766-B1D986D017EC}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+								</Reference>
+								<Reference Name="Effect2" PluginName="Wwise Pitch Shifter" CompanyID="0" PluginID="136" PluginType="3">
+									<ObjectRef Name="Octave_Down" ID="{062EC4B1-5372-4D1E-917B-C757293F2B42}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="SFX_Rifle_Firing_01" ID="{A26DE2C0-019D-470C-878D-949EB90BA889}" ShortID="848609051">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F45E14D5-BA07-492D-9E19-515DC4C07F9C}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SFX_Rifle_Firing_01" ID="{47F08CFA-760E-4BB8-AB4E-A74FB9C3F021}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0463380281690141"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.132441314553991"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>SFX_Rifle_Firing_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="939983895"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="SFX_Rifle_Firing_01" ID="{47F08CFA-760E-4BB8-AB4E-A74FB9C3F021}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="SFX_Rifle_Firing_02" ID="{F671CC88-BCD2-4CE3-8B92-7F7BD64B972C}" ShortID="54602060">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F45E14D5-BA07-492D-9E19-515DC4C07F9C}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SFX_Rifle_Firing_02" ID="{0312E62A-A637-4E26-A8DE-06D324982D93}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0463380281690141"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.120610328638498"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>SFX_Rifle_Firing_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="513120555"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="SFX_Rifle_Firing_02" ID="{0312E62A-A637-4E26-A8DE-06D324982D93}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="SFX_Rifle_Firing_03" ID="{32E19617-3FE5-4C81-A69D-C93204FCDF39}" ShortID="121310754">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F45E14D5-BA07-492D-9E19-515DC4C07F9C}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SFX_Rifle_Firing_03" ID="{BAD9FBEE-DF36-4104-8CCD-1BB23AC29AD9}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0420657276995305"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.118967136150235"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>SFX_Rifle_Firing_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="36596333"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="SFX_Rifle_Firing_03" ID="{BAD9FBEE-DF36-4104-8CCD-1BB23AC29AD9}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="SFX_Rifle_Firing_04" ID="{CDA180D1-02EF-425F-B9C8-8574E29D332E}" ShortID="898067646">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F45E14D5-BA07-492D-9E19-515DC4C07F9C}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SFX_Rifle_Firing_04" ID="{E221F230-FE43-4F2A-A697-26D238C8B8AF}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0453521126760563"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.114366197183099"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>SFX_Rifle_Firing_04.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="418753284"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="SFX_Rifle_Firing_04" ID="{E221F230-FE43-4F2A-A697-26D238C8B8AF}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+					</ChildrenList>
+					<Playlist>
+						<ItemRef Name="Bullet" ID="{8411584D-6A46-4496-A56E-AEC2D06E11EF}"/>
+						<ItemRef Name="Casing_Falling" ID="{1AB54946-64EF-4761-958E-132FE0D6037C}"/>
+					</Playlist>
+				</RandomSequenceContainer>
+				<Sound Name="SFX_Portal_Open" ID="{8C5C71AD-AA5B-4A9F-B285-CF4904839F9C}" ShortID="1012341701">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F45E14D5-BA07-492D-9E19-515DC4C07F9C}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="SFX_Portal_Open" ID="{506252C1-6DD4-4074-970D-556CAD3F3A30}">
+							<PropertyList>
+								<Property Name="FadeOutDuration" Type="Real64" Value="0.735211267605634"/>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+								<Property Name="TrimEnd" Type="Real64" Value="2.60492957746479"/>
+							</PropertyList>
+							<Language>SFX</Language>
+							<AudioFile>SFX_Portal_Open.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="365483152"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="SFX_Portal_Open" ID="{506252C1-6DD4-4074-970D-556CAD3F3A30}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="SFX_Gateway_Enter" ID="{F1D5D7F4-61AA-4BDE-B5BB-C07BEE0B0F82}" ShortID="328071708">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F45E14D5-BA07-492D-9E19-515DC4C07F9C}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="SFX_Gateway_Enter" ID="{2125E4CE-F487-4852-8DCA-0A64DD61D320}">
+							<PropertyList>
+								<Property Name="FadeOutDuration" Type="Real64" Value="0.661032863849765"/>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+								<Property Name="TrimEnd" Type="Real64" Value="1.77136150234742"/>
+							</PropertyList>
+							<Language>SFX</Language>
+							<AudioFile>SFX_Gateway_Enter.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="847678844"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="SFX_Gateway_Enter" ID="{2125E4CE-F487-4852-8DCA-0A64DD61D320}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>
