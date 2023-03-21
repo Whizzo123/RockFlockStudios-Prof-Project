@@ -200,12 +200,14 @@ bool UFShadowAbility::InitAbility(FVector position, FVector fwdVector)
 	AliveWalls = ChooseWalls(walls);
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Enable Walls Complete"));
 	AliveWalls.Add(PortalWall);
+	
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("NUM OF ALIVE: %i"), AliveWalls.Num()));
 
 	//Turn on every wall chosen
 	int i = 0;
 	for (auto& var : AliveWalls)
 	{
-
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("CODE ID: %i"), i));
 		var->StartWall(i);
 		i++;
 	}
@@ -315,8 +317,10 @@ TSet<AUShadowWall*> UFShadowAbility::DiscCastWalls(FVector origin) {
 			AUShadowWall* wall = Cast<AUShadowWall>(hits[actors].GetActor());
 			if (wall) 
 				shadowWalls.Add(wall);
+				
 		}
 	}
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("WALLS FOUND %i"), shadowWalls.Num()));
 	return shadowWalls;
 }
 TSet<AUShadowWall*> UFShadowAbility::ChooseWalls(TSet<AUShadowWall*> walls)
@@ -326,6 +330,7 @@ TSet<AUShadowWall*> UFShadowAbility::ChooseWalls(TSet<AUShadowWall*> walls)
 	int wallCount = 1;//Starting at 1 to account for the initial wall hit
 	if (walls.Num() == 0)
 		return newWalls;
+
 
 	//We start at 1 to account for the original portal wall
 	for (int i = 1; i < WallAmount; i++)
@@ -338,6 +343,7 @@ TSet<AUShadowWall*> UFShadowAbility::ChooseWalls(TSet<AUShadowWall*> walls)
 		{
 			newWalls.Add(aWalls[index]);
 			aWalls.RemoveAt(index, 1, true);
+		/*	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("FOUND WALLS ALIVE ID: %i"), wallCount));*/
 			wallCount++;
 		}
 		else {
