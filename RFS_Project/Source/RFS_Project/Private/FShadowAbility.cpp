@@ -308,7 +308,7 @@ TSet<AUShadowWall*> UFShadowAbility::DiscCastWalls(FVector origin) {
 	{
 		float yawAmount = ((360 / DiscAccuracy) * i);
 		FVector endVector(1, 0, 0);
-		endVector.RotateAngleAxis(yawAmount, FVector3d(0, 0, 1));
+		endVector = endVector.RotateAngleAxis(yawAmount, FVector3d(0, 0, 1));
 		endVector *= WallDetectionRange;
 		GetWorld()->LineTraceMultiByChannel(hits, origin, origin + endVector, ECC_Visibility);
 
@@ -320,7 +320,7 @@ TSet<AUShadowWall*> UFShadowAbility::DiscCastWalls(FVector origin) {
 				
 		}
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("WALLS FOUND %i"), shadowWalls.Num()));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("WALLS FOUND %i"), shadowWalls.Num()));
 	return shadowWalls;
 }
 TSet<AUShadowWall*> UFShadowAbility::ChooseWalls(TSet<AUShadowWall*> walls)
