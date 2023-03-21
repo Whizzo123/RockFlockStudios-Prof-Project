@@ -27,18 +27,18 @@ public:
 		AAGun* equippedGun;
 	//UFUNCTIONS
 	UFUNCTION(BlueprintCallable)
-		void OnHitByBullet(float bulletDamage);
-	UFUNCTION(BlueprintCallable)
 		void ShootGun(FVector startHitScanLoc);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	void OnHeal(float health) override;
-	void OnDamage(float damage) override;
+	void OnDamage(float damage, AActor* actorDamagedBy) override;
 	void OnDeath() override;
+	void OnKill() override {};
 
 	FVector respawnPoint;
+	AActor* savedActorDamageBy;
 
 public:	
 	// Called every frame

@@ -54,8 +54,9 @@ void AAEnemyCharacter::OnHeal(float health)
 		HitPoints = MaxHitPoints;
 }
 
-void AAEnemyCharacter::OnDamage(float damage)
+void AAEnemyCharacter::OnDamage(float damage, AActor* actorDamagedBy)
 {
+	savedActorDamageBy = actorDamagedBy;
 	HitPoints -= damage;
 	if (HitPoints <= 0)
 		OnDeath();
@@ -63,14 +64,15 @@ void AAEnemyCharacter::OnDamage(float damage)
 
 void AAEnemyCharacter::OnDeath()
 {
+	if (savedActorDamageBy)
+	{
+		IHealth* HealthComponent = Cast<IHealth>(savedActorDamageBy);
+		if (HealthComponent)
+			HealthComponent->OnKill();
+	}
 	SetActorLocation(respawnPoint);
 	OnRespawn.Execute();
 	HitPoints = MaxHitPoints;
-}
-
-void AAEnemyCharacter::OnHitByBullet(float bulletDamage)
-{
-	OnDamage(bulletDamage);
 }
 
 void AAEnemyCharacter::ShootGun(FVector startHitScanLoc)
