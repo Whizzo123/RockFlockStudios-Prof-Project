@@ -34,7 +34,7 @@ FVector AAGun::Fire(FVector startHitScanLoc)
 	if (hitActor)
 	{
 		IHealth* healthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(hitActor));
-		healthObj->OnDamage(1.0f);
+		healthObj->OnDamage(1.0f, pawnEquippedTo);
 		return hitActor->GetActorLocation();
 	}
 	return FVector();
@@ -66,7 +66,6 @@ AActor* AAGun::Trace(FVector startTrace, FVector endTrace)
 			{
 				if(playerGun)
 					GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, hitActor->GetFName().ToString());
-				healthObj->OnDamage(1.0f);
 				return hitActor;
 			}
 		}
