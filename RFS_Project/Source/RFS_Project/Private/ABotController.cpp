@@ -4,6 +4,7 @@
 #include "ABotController.h"
 
 
+
 ABotController::ABotController()
 {
 	
@@ -18,7 +19,8 @@ ABotController::ABotController()
 void ABotController::OnPossess(APawn* pawn)
 {
 	Super::OnPossess(pawn);
-	
+	AAEnemyCharacter* my_Pawn = Cast<AAEnemyCharacter>(pawn);
+	my_Pawn->OnRespawn.BindDynamic(this, &ABotController::ResetForRespawn);
 	RunBehaviorTree(tree);
 }
 
@@ -51,6 +53,12 @@ void ABotController::SendHint(AActor* Actor, float hintTime)
 		GetWorld()->GetTimerManager().SetTimer(hintDurationTimer, this, &ABotController::HintTimerUp, hintTime, false);
 		GEngine->AddOnScreenDebugMessage(0, 5.0f, FColor::Red, "Sending Hint");
 	}
+}
+
+void ABotController::ResetForRespawn()
+{
+	UBlackboardComponent* board = Blackboard.Get();
+	board->SetValueAsObject(enemyActorBBKey, nullptr);
 }
 
 void ABotController::EventTimerUp()

@@ -64,6 +64,7 @@ void AAEnemyCharacter::OnDamage(float damage)
 void AAEnemyCharacter::OnDeath()
 {
 	SetActorLocation(respawnPoint);
+	OnRespawn.Execute();
 	HitPoints = MaxHitPoints;
 }
 
