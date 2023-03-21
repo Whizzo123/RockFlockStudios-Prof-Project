@@ -51,7 +51,8 @@ AActor* AAGun::Trace(FVector startTrace, FVector endTrace)
 {
 	TArray<FHitResult> hit;
 	GetWorld()->LineTraceMultiByChannel(hit, startTrace, endTrace, ECollisionChannel::ECC_Visibility);
-	//DrawDebugLine(GetWorld(), startTrace, endTrace, FColor::Red, false, 2.5f);
+	if(!playerGun)
+		DrawDebugLine(GetWorld(), startTrace, endTrace, FColor::Red, false, 1.0f);
 	for (int i = 0; i < hit.Num(); i++)
 	{
 
