@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{10BF1388-6F34-4C42-9D58-68F44A9E794E}",
     "Language": "SFX",
-    "Hash": "{3D504E49-6993-8979-33A7-8921A04A6592}",
+    "Hash": "{113FE5FB-F7EF-EB09-7933-F10708985CEB}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\TestSoundBank",
     "ShortName": "TestSoundBank",
     "Path": "TestSoundBank.bnk",
@@ -37,7 +37,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "SFX_Rifle_Firing_03.wav",
-      "CachePath": "SFX/SFX_Rifle_Firing_03_521F4BCD.wem"
+      "CachePath": "SFX/SFX_Rifle_Firing_03_E848DD00.wem"
      },
      {
       "Id": "40606387",
@@ -157,7 +157,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "SFX_Portal_Open.wav",
-      "CachePath": "SFX/SFX_Portal_Open_779B8C24.wem"
+      "CachePath": "SFX/SFX_Portal_Open_4805374F.wem"
      },
      {
       "Id": "369771119",
@@ -189,7 +189,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Dialouge_Omen_Gateway_Opening_Self_01.wav",
-      "CachePath": "SFX/Dialouge_Omen_Gateway_Opening_Self_01_10C4C929.wem"
+      "CachePath": "SFX/Dialouge_Omen_Gateway_Opening_Self_01_CADC3072.wem"
      },
      {
       "Id": "418753284",
@@ -197,7 +197,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "SFX_Rifle_Firing_04.wav",
-      "CachePath": "SFX/SFX_Rifle_Firing_04_85901416.wem"
+      "CachePath": "SFX/SFX_Rifle_Firing_04_024ECF4D.wem"
      },
      {
       "Id": "431698141",
@@ -237,15 +237,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "SFX_Rifle_Firing_02.wav",
-      "CachePath": "SFX/SFX_Rifle_Firing_02_989A4218.wem"
-     },
-     {
-      "Id": "522473424",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "SFX_Footsteps_Omen_Heel_04.wav",
-      "CachePath": "SFX/SFX_Footsteps_Omen_Heel_04_10C4C929.wem"
+      "CachePath": "SFX/SFX_Rifle_Firing_02_BCE57377.wem"
      },
      {
       "Id": "523882964",
@@ -392,14 +384,6 @@
       "CachePath": "SFX/SFX_Footsteps_Enemy_Toe_03_10C4C929.wem"
      },
      {
-      "Id": "821577734",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "SFX_Footsteps_Omen_Toe_04.wav",
-      "CachePath": "SFX/SFX_Footsteps_Omen_Toe_04_10C4C929.wem"
-     },
-     {
       "Id": "834580720",
       "Language": "SFX",
       "Streaming": "false",
@@ -413,7 +397,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "SFX_Gateway_Enter.wav",
-      "CachePath": "SFX/SFX_Gateway_Enter_8F6AC3B6.wem"
+      "CachePath": "SFX/SFX_Gateway_Enter_A2C19A70.wem"
      },
      {
       "Id": "899106449",
@@ -445,7 +429,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "SFX_Rifle_Firing_01.wav",
-      "CachePath": "SFX/SFX_Rifle_Firing_01_441D1212.wem"
+      "CachePath": "SFX/SFX_Rifle_Firing_01_73661DFE.wem"
      },
      {
       "Id": "940117165",
@@ -555,6 +539,14 @@
        "LibId": "8519683"
       },
       {
+       "Id": "797738716",
+       "Name": "Pitch Shifter (Custom)",
+       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Omen_Shadow_Voice\\Pitch Shifter (Custom)",
+       "GUID": "{F2407F0C-050C-4F1E-BD96-A80ECE8321C4}",
+       "LibName": "Wwise Pitch Shifter",
+       "LibId": "8912899"
+      },
+      {
        "Id": "865001706",
        "Name": "Pitch Shifter (Custom)",
        "ObjectPath": "\\Actor-Mixer Hierarchy\\Default Work Unit\\Omen_Death_Sounds\\Pitch Shifter (Custom)",
@@ -565,6 +557,22 @@
      ],
      "ShareSets": [
       {
+       "Id": "86245554",
+       "Name": "Attack_Remover",
+       "ObjectPath": "\\Effects\\Factory Effects\\Compressor\\Attack_Remover",
+       "GUID": "{174E7B9A-A16F-4CA7-86D0-530212B5A6AA}",
+       "LibName": "Wwise Compressor",
+       "LibId": "7077891"
+      },
+      {
+       "Id": "701863527",
+       "Name": "Inside_My_Head",
+       "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Claustrophobia\\Inside_My_Head",
+       "GUID": "{94B53301-9AA1-468F-8419-92AEDAAE39DF}",
+       "LibName": "Wwise RoomVerb",
+       "LibId": "7733251"
+      },
+      {
        "Id": "2265839006",
        "Name": "Not_A_Yellow_Submarine",
        "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Claustrophobia\\Not_A_Yellow_Submarine",
@@ -573,10 +581,26 @@
        "LibId": "7733251"
       },
       {
+       "Id": "2394809124",
+       "Name": "Very_Slow_Modulation",
+       "ObjectPath": "\\Effects\\Factory Effects\\Tremolo\\Very_Slow_Modulation",
+       "GUID": "{6082F901-3CE1-4D78-8F2D-B2B72CF28085}",
+       "LibName": "Wwise Tremolo",
+       "LibId": "8585219"
+      },
+      {
        "Id": "2849147824",
        "Name": "Medium",
        "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Cathedrals\\Medium",
        "GUID": "{AEB3F175-958B-45F2-A4C2-3FBD4F456568}",
+       "LibName": "Wwise RoomVerb",
+       "LibId": "7733251"
+      },
+      {
+       "Id": "2945072214",
+       "Name": "My_Closet",
+       "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Claustrophobia\\My_Closet",
+       "GUID": "{384A82A1-3C92-4AC5-AFC2-474F2080642C}",
        "LibName": "Wwise RoomVerb",
        "LibId": "7733251"
       },
@@ -839,8 +863,8 @@
       "ObjectPath": "\\Events\\Default Work Unit\\Omen_Footsteps",
       "GUID": "{3D158CFE-84E0-4C56-8FE7-746CB20E3BCE}",
       "DurationType": "OneShot",
-      "DurationMin": "0.30002266",
-      "DurationMax": "0.46999997",
+      "DurationMin": "0.13501135",
+      "DurationMax": "0.24",
       "MediaRefs": [
        {
         "Id": "67109582"
@@ -849,13 +873,7 @@
         "Id": "376823568"
        },
        {
-        "Id": "522473424"
-       },
-       {
         "Id": "616455790"
-       },
-       {
-        "Id": "821577734"
        },
        {
         "Id": "938036642"
@@ -865,6 +883,14 @@
        },
        {
         "Id": "1065559535"
+       }
+      ],
+      "AuxBusRefs": [
+       {
+        "Id": "56139379",
+        "Name": "Footstep_Audio_Bus",
+        "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Footstep_Audio_Bus",
+        "GUID": "{5C486ADB-3C80-4372-A982-8E6B1DF7F879}"
        }
       ]
      },
@@ -929,6 +955,13 @@
         "Id": "385858231"
        }
       ],
+      "PluginRefs": {
+       "ShareSets": [
+        {
+         "Id": "2945072214"
+        }
+       ]
+      },
       "AuxBusRefs": [
        {
         "Id": "1872339956",
@@ -1041,9 +1074,59 @@
        ]
       }
      }
+    ],
+    "Busses": [
+     {
+      "Id": "3803692087",
+      "Name": "Master Audio Bus",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus",
+      "GUID": "{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"
+     }
+    ],
+    "AuxBusses": [
+     {
+      "Id": "56139379",
+      "Name": "Footstep_Audio_Bus",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Footstep_Audio_Bus",
+      "GUID": "{5C486ADB-3C80-4372-A982-8E6B1DF7F879}",
+      "PluginRefs": {
+       "ShareSets": [
+        {
+         "Id": "86245554"
+        },
+        {
+         "Id": "2945072214"
+        }
+       ]
+      }
+     },
+     {
+      "Id": "1872339956",
+      "Name": "Omen_Shadow_Voice",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Omen_Shadow_Voice",
+      "GUID": "{D42160DA-9E1A-495E-A599-539C3A4815E3}",
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "797738716"
+        }
+       ],
+       "ShareSets": [
+        {
+         "Id": "701863527"
+        },
+        {
+         "Id": "2394809124"
+        },
+        {
+         "Id": "3043085106"
+        }
+       ]
+      }
+     }
     ]
    }
   ],
-  "FileHash": "{EA6208DB-2C90-888A-259C-83D646B4BD00}"
+  "FileHash": "{8C313716-486C-8C80-028E-14CA62E8C3DE}"
  }
 }
