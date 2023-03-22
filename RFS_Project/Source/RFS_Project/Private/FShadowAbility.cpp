@@ -70,8 +70,8 @@ bool UFShadowAbility::InactiveState() {
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Out of Ability Uses"));
 		return false;
 	}
-	FVector location = OriginalActor->GetActorLocation();
 	FVector fwdVec = GetOriginalActorForwardVector();
+	FVector location = OriginalActor->GetActorLocation() + (fwdVec * 100);
 
 	//Spawn a portal but do not call Init
 	FVector portalTranslation = FVector(0, 0, 15);
@@ -94,8 +94,8 @@ bool UFShadowAbility::CueState() {
 	Portal = nullptr;
 
 	//Place the portal and activate the walls
-	FVector location = OriginalActor->GetActorLocation();
 	FVector fwdVec = GetOriginalActorForwardVector();
+	FVector location = OriginalActor->GetActorLocation() + (fwdVec * 100);
 	bool success = InitAbility(location, fwdVec);
 	if (!success)
 	{
@@ -237,7 +237,7 @@ bool UFShadowAbility::PlacePortal(FVector position, FVector fwdVector)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, hits[i].GetActor()->GetName());
 			wall = Cast<AUShadowWall>(hits[i].GetActor());
-			if (i >= 2)
+			if (i >= 4)
 				return false;//We will return false to prevent our trace going through physical walls, If we have hit two walls, assume we have went through too many
 			if (wall)
 			{
@@ -479,7 +479,7 @@ void UFShadowAbility::UpdateFakeWall(FVector position, FVector fwdVector) {
 	{
 
 		AUShadowWall* wall = Cast<AUShadowWall>(hits[i].GetActor());
-		if (i >= 4)
+		if (i >= 6)
 			break;//We will break out with a false wallFound
 		if (wall)
 		{
