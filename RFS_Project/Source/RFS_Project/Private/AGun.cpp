@@ -33,7 +33,10 @@ FVector AAGun::Fire(FVector startHitScanLoc)
 	if (hitActor)
 	{
 		IHealth* healthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(hitActor));
-		healthObj->OnDamage(1.0f, pawnEquippedTo);
+		if(playerGun)
+			healthObj->OnDamage(1.0f, pawnEquippedTo);
+		else
+			healthObj->OnDamage(10.0f, pawnEquippedTo);
 		return hitActor->GetActorLocation();
 	}
 	return FVector();
@@ -58,13 +61,14 @@ AActor* AAGun::Trace(FVector startTrace, FVector endTrace)
 		AActor* hitActor = hit[i].GetActor();
 		if (hitActor)
 		{
+			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, hitActor->GetFName().ToString());
 			//Check that the thing is hittable
 			T* healthObj = dynamic_cast<T*>(Cast<APlayableCharacter>(hit[i].GetActor()));
 			
 			if (healthObj && hitActor != pawnEquippedTo)
 			{
-				if(playerGun)
-					GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, hitActor->GetFName().ToString());
+				//if(playerGun)
+					//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, hitActor->GetFName().ToString());
 				return hitActor;
 			}
 		}
