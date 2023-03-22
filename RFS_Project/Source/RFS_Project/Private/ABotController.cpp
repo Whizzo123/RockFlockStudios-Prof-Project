@@ -36,6 +36,7 @@ void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus St
 		board->SetValueAsObject(enemyActorBBKey, Actor);
 		//Set distance to player
 		SetDistanceToPlayer(board);
+		BPI_LineOfSight();
 	}
 	else
 	{
