@@ -30,7 +30,6 @@ FVector AAGun::Fire(FVector startHitScanLoc)
 	else
 		lineVector = GetActorRightVector() * 2000.0f;
 	AActor* hitActor = Trace<IHealth>(startHitScanLoc, (startHitScanLoc + lineVector) + (accOffset) * 20);
-	UGameplayStatics::PlaySoundAtLocation(GetWorld(), fireSoundFX, startHitScanLoc);
 	if (hitActor)
 	{
 		IHealth* healthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(hitActor));
