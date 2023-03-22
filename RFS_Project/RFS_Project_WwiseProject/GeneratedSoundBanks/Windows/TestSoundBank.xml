@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="145">
 	<SoundBanks>
-		<SoundBank Id="1831431028" Type="User" GUID="{10BF1388-6F34-4C42-9D58-68F44A9E794E}" Language="SFX" Hash="{3D504E49-6993-8979-33A7-8921A04A6592}">
+		<SoundBank Id="1831431028" Type="User" GUID="{10BF1388-6F34-4C42-9D58-68F44A9E794E}" Language="SFX" Hash="{113FE5FB-F7EF-EB09-7933-F10708985CEB}">
 			<ObjectPath>\SoundBanks\Default Work Unit\TestSoundBank</ObjectPath>
 			<ShortName>TestSoundBank</ShortName>
 			<Path>TestSoundBank.bnk</Path>
@@ -16,7 +16,7 @@
 				</File>
 				<File Id="36596333" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SFX_Rifle_Firing_03.wav</ShortName>
-					<CachePath>SFX/SFX_Rifle_Firing_03_521F4BCD.wem</CachePath>
+					<CachePath>SFX/SFX_Rifle_Firing_03_E848DD00.wem</CachePath>
 				</File>
 				<File Id="40606387" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SFX_Omen_Weapon_Reload_02.wav</ShortName>
@@ -76,7 +76,7 @@
 				</File>
 				<File Id="365483152" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SFX_Portal_Open.wav</ShortName>
-					<CachePath>SFX/SFX_Portal_Open_779B8C24.wem</CachePath>
+					<CachePath>SFX/SFX_Portal_Open_4805374F.wem</CachePath>
 				</File>
 				<File Id="369771119" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SFX_Rifle_Casing_Falling_04.wav</ShortName>
@@ -92,11 +92,11 @@
 				</File>
 				<File Id="385858231" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Dialouge_Omen_Gateway_Opening_Self_01.wav</ShortName>
-					<CachePath>SFX/Dialouge_Omen_Gateway_Opening_Self_01_10C4C929.wem</CachePath>
+					<CachePath>SFX/Dialouge_Omen_Gateway_Opening_Self_01_CADC3072.wem</CachePath>
 				</File>
 				<File Id="418753284" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SFX_Rifle_Firing_04.wav</ShortName>
-					<CachePath>SFX/SFX_Rifle_Firing_04_85901416.wem</CachePath>
+					<CachePath>SFX/SFX_Rifle_Firing_04_024ECF4D.wem</CachePath>
 				</File>
 				<File Id="431698141" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SFX_Rifle_Casing_Falling_03.wav</ShortName>
@@ -116,11 +116,7 @@
 				</File>
 				<File Id="513120555" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SFX_Rifle_Firing_02.wav</ShortName>
-					<CachePath>SFX/SFX_Rifle_Firing_02_989A4218.wem</CachePath>
-				</File>
-				<File Id="522473424" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>SFX_Footsteps_Omen_Heel_04.wav</ShortName>
-					<CachePath>SFX/SFX_Footsteps_Omen_Heel_04_10C4C929.wem</CachePath>
+					<CachePath>SFX/SFX_Rifle_Firing_02_BCE57377.wem</CachePath>
 				</File>
 				<File Id="523882964" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SFX_Footsteps_Enemy_Toe_04.wav</ShortName>
@@ -194,17 +190,13 @@
 					<ShortName>SFX_Footsteps_Enemy_Toe_03.wav</ShortName>
 					<CachePath>SFX/SFX_Footsteps_Enemy_Toe_03_10C4C929.wem</CachePath>
 				</File>
-				<File Id="821577734" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>SFX_Footsteps_Omen_Toe_04.wav</ShortName>
-					<CachePath>SFX/SFX_Footsteps_Omen_Toe_04_10C4C929.wem</CachePath>
-				</File>
 				<File Id="834580720" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Dialouge_Enemy_SpottedWall_04.wav</ShortName>
 					<CachePath>SFX/Dialouge_Enemy_SpottedWall_04_10C4C929.wem</CachePath>
 				</File>
 				<File Id="847678844" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SFX_Gateway_Enter.wav</ShortName>
-					<CachePath>SFX/SFX_Gateway_Enter_8F6AC3B6.wem</CachePath>
+					<CachePath>SFX/SFX_Gateway_Enter_A2C19A70.wem</CachePath>
 				</File>
 				<File Id="899106449" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Dialouge_Enemy_SpottedWall_07.wav</ShortName>
@@ -220,7 +212,7 @@
 				</File>
 				<File Id="939983895" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SFX_Rifle_Firing_01.wav</ShortName>
-					<CachePath>SFX/SFX_Rifle_Firing_01_441D1212.wem</CachePath>
+					<CachePath>SFX/SFX_Rifle_Firing_01_73661DFE.wem</CachePath>
 				</File>
 				<File Id="940117165" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Dialouge_Omen_Gateway_Enemy_Killed_Self_Joke.wav</ShortName>
@@ -274,11 +266,16 @@
 			<Plugins>
 				<Custom>
 					<Plugin Id="755841164" Name="Time Stretch (Custom)" ObjectPath="\Actor-Mixer Hierarchy\Default Work Unit\Enemy_Killed_Self\Time Stretch (Custom)" GUID="{97C6F446-16E3-4F0F-BDC9-E4BA86D0A2B4}" LibName="Wwise Time Stretch" LibId="8519683"/>
+					<Plugin Id="797738716" Name="Pitch Shifter (Custom)" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice\Pitch Shifter (Custom)" GUID="{F2407F0C-050C-4F1E-BD96-A80ECE8321C4}" LibName="Wwise Pitch Shifter" LibId="8912899"/>
 					<Plugin Id="865001706" Name="Pitch Shifter (Custom)" ObjectPath="\Actor-Mixer Hierarchy\Default Work Unit\Omen_Death_Sounds\Pitch Shifter (Custom)" GUID="{32CE18FA-0C88-4C1F-AD08-7322CBE4E45C}" LibName="Wwise Pitch Shifter" LibId="8912899"/>
 				</Custom>
 				<ShareSets>
+					<Plugin Id="86245554" Name="Attack_Remover" ObjectPath="\Effects\Factory Effects\Compressor\Attack_Remover" GUID="{174E7B9A-A16F-4CA7-86D0-530212B5A6AA}" LibName="Wwise Compressor" LibId="7077891"/>
+					<Plugin Id="701863527" Name="Inside_My_Head" ObjectPath="\Effects\Factory Effects\RoomVerb\Claustrophobia\Inside_My_Head" GUID="{94B53301-9AA1-468F-8419-92AEDAAE39DF}" LibName="Wwise RoomVerb" LibId="7733251"/>
 					<Plugin Id="2265839006" Name="Not_A_Yellow_Submarine" ObjectPath="\Effects\Factory Effects\RoomVerb\Claustrophobia\Not_A_Yellow_Submarine" GUID="{B5719071-C58D-49FA-8766-B1D986D017EC}" LibName="Wwise RoomVerb" LibId="7733251"/>
+					<Plugin Id="2394809124" Name="Very_Slow_Modulation" ObjectPath="\Effects\Factory Effects\Tremolo\Very_Slow_Modulation" GUID="{6082F901-3CE1-4D78-8F2D-B2B72CF28085}" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="2849147824" Name="Medium" ObjectPath="\Effects\Factory Effects\RoomVerb\Cathedrals\Medium" GUID="{AEB3F175-958B-45F2-A4C2-3FBD4F456568}" LibName="Wwise RoomVerb" LibId="7733251"/>
+					<Plugin Id="2945072214" Name="My_Closet" ObjectPath="\Effects\Factory Effects\RoomVerb\Claustrophobia\My_Closet" GUID="{384A82A1-3C92-4AC5-AFC2-474F2080642C}" LibName="Wwise RoomVerb" LibId="7733251"/>
 					<Plugin Id="3043085106" Name="High_Impact" ObjectPath="\Effects\Factory Effects\Compressor\High_Impact" GUID="{2AFD6FB0-C906-4683-A377-FEEEF72967B0}" LibName="Wwise Compressor" LibId="7077891"/>
 					<Plugin Id="3948262040" Name="Octave_Down" ObjectPath="\Effects\Factory Effects\Pitch Shifter\Harmonize\Octave_Down" GUID="{062EC4B1-5372-4D1E-917B-C757293F2B42}" LibName="Wwise Pitch Shifter" LibId="8912899"/>
 				</ShareSets>
@@ -370,17 +367,18 @@
 						<AuxBusRef Id="1872339956" Name="Omen_Shadow_Voice" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice" GUID="{D42160DA-9E1A-495E-A599-539C3A4815E3}"/>
 					</AuxBusRefs>
 				</Event>
-				<Event Id="2064032848" Name="Omen_Footsteps" ObjectPath="\Events\Default Work Unit\Omen_Footsteps" GUID="{3D158CFE-84E0-4C56-8FE7-746CB20E3BCE}" DurationType="OneShot" DurationMin="0.30002266" DurationMax="0.46999997">
+				<Event Id="2064032848" Name="Omen_Footsteps" ObjectPath="\Events\Default Work Unit\Omen_Footsteps" GUID="{3D158CFE-84E0-4C56-8FE7-746CB20E3BCE}" DurationType="OneShot" DurationMin="0.13501135" DurationMax="0.24">
 					<MediaRefs>
 						<MediaRef Id="67109582"/>
 						<MediaRef Id="376823568"/>
-						<MediaRef Id="522473424"/>
 						<MediaRef Id="616455790"/>
-						<MediaRef Id="821577734"/>
 						<MediaRef Id="938036642"/>
 						<MediaRef Id="1033798891"/>
 						<MediaRef Id="1065559535"/>
 					</MediaRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="56139379" Name="Footstep_Audio_Bus" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Footstep_Audio_Bus" GUID="{5C486ADB-3C80-4372-A982-8E6B1DF7F879}"/>
+					</AuxBusRefs>
 				</Event>
 				<Event Id="2087064880" Name="Omen_Gun_Firng" ObjectPath="\Events\Default Work Unit\Omen_Gun_Firng" GUID="{B90B79D9-3AF7-4474-B571-E3C46FAADC8E}" DurationType="OneShot" DurationMin="0.71" DurationMax="1">
 					<MediaRefs>
@@ -405,6 +403,11 @@
 					<MediaRefs>
 						<MediaRef Id="385858231"/>
 					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2945072214"/>
+						</ShareSets>
+					</PluginRefs>
 					<AuxBusRefs>
 						<AuxBusRef Id="1872339956" Name="Omen_Shadow_Voice" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice" GUID="{D42160DA-9E1A-495E-A599-539C3A4815E3}"/>
 					</AuxBusRefs>
@@ -450,7 +453,32 @@
 					</PluginRefs>
 				</Event>
 			</Events>
+			<Busses>
+				<Bus Id="3803692087" Name="Master Audio Bus" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus" GUID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"/>
+			</Busses>
+			<AuxBusses>
+				<AuxBus Id="56139379" Name="Footstep_Audio_Bus" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Footstep_Audio_Bus" GUID="{5C486ADB-3C80-4372-A982-8E6B1DF7F879}">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="86245554"/>
+							<PluginRef Id="2945072214"/>
+						</ShareSets>
+					</PluginRefs>
+				</AuxBus>
+				<AuxBus Id="1872339956" Name="Omen_Shadow_Voice" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice" GUID="{D42160DA-9E1A-495E-A599-539C3A4815E3}">
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="797738716"/>
+						</Custom>
+						<ShareSets>
+							<PluginRef Id="701863527"/>
+							<PluginRef Id="2394809124"/>
+							<PluginRef Id="3043085106"/>
+						</ShareSets>
+					</PluginRefs>
+				</AuxBus>
+			</AuxBusses>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{CB5C6713-C49B-2C9A-D92A-45C41F0FC4E8}</FileHash>
+	<FileHash>{08107AEB-E1D8-7177-1FF3-02BFF437267F}</FileHash>
 </SoundBanksInfo>
