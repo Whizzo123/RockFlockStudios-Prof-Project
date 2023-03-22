@@ -70,6 +70,7 @@ void AAEnemyCharacter::OnDeath()
 		if (HealthComponent)
 			HealthComponent->OnKill();
 	}
+	BPI_OnDeath();
 	SetActorLocation(respawnPoint);
 	OnRespawn.Execute();
 	HitPoints = MaxHitPoints;

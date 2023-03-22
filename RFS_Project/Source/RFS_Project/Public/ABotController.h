@@ -57,4 +57,8 @@ public:
 	FTimerHandle sightLossTimer;
 	FTimerHandle hintDurationTimer;
 	APlayerCharacter* local_player;
+
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void BPI_LineOfSight();
 };

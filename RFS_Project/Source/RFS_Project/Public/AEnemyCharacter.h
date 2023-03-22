@@ -40,6 +40,11 @@ protected:
 	FVector respawnPoint;
 	AActor* savedActorDamageBy;
 
+
+	UFUNCTION(BlueprintNativeEvent)
+	void BPI_OnDeath();
+
+	void BPI_OnDeath_Implementation() {};
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

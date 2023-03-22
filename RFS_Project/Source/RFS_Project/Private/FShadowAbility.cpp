@@ -85,6 +85,7 @@ bool UFShadowAbility::InactiveState() {
 	//Pass in boolean to allow portal to let player inside and translate it so it is infront of the wall
 	portal->AddActorLocalOffset(portalTranslation);
 	Portal = portal;
+	BPI_AbilityCue();
 	return true;
 }
 bool UFShadowAbility::CueState() {
@@ -102,6 +103,7 @@ bool UFShadowAbility::CueState() {
 		return false;
 	}
 	else {
+		BPI_AbilityStart();
 		DurationTimer = Duration;
 		UseAmount--;
 		DepleteCharge();
@@ -121,6 +123,7 @@ bool UFShadowAbility::ActiveState() {
 		return false;
 	}
 	else {
+		BPI_AbilityEnter();
 		DurationTimer = DurationTimer * DurationMultiplier;
 		return true;
 	}
@@ -133,6 +136,7 @@ bool UFShadowAbility::EnteredState() {
 		return false;
 	}
 	else {
+		BPI_AbilityExit();
 		DurationTimer = DurationEndStart;
 		return true;
 	}
@@ -439,6 +443,7 @@ void UFShadowAbility::EndAbility()
 	{
 		Elem->OnDeath();
 	}
+	BPI_AbilityEnd();
 	State = Inactive;
 	bPortalUseable = false;
 	bPortalPlaceable = false;
