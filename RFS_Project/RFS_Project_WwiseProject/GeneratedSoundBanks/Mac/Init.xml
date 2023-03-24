@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Mac" BasePlatform="Mac" SchemaVersion="16" SoundBankVersion="145">
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" GUID="{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}" Language="SFX" Hash="{488E5D1B-1504-5089-58D2-F16DF130EBC6}">
+		<SoundBank Id="1355168291" Type="User" GUID="{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}" Language="SFX" Hash="{A191ECD9-AAD5-80AC-6E8F-DC302682561E}">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
@@ -10,8 +10,10 @@
 					<Plugin Id="797738716" Name="Pitch Shifter (Custom)" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice\Pitch Shifter (Custom)" GUID="{F2407F0C-050C-4F1E-BD96-A80ECE8321C4}" LibName="Wwise Pitch Shifter" LibId="8912899"/>
 				</Custom>
 				<ShareSets>
+					<Plugin Id="86245554" Name="Attack_Remover" ObjectPath="\Effects\Factory Effects\Compressor\Attack_Remover" GUID="{174E7B9A-A16F-4CA7-86D0-530212B5A6AA}" LibName="Wwise Compressor" LibId="7077891"/>
 					<Plugin Id="701863527" Name="Inside_My_Head" ObjectPath="\Effects\Factory Effects\RoomVerb\Claustrophobia\Inside_My_Head" GUID="{94B53301-9AA1-468F-8419-92AEDAAE39DF}" LibName="Wwise RoomVerb" LibId="7733251"/>
 					<Plugin Id="2394809124" Name="Very_Slow_Modulation" ObjectPath="\Effects\Factory Effects\Tremolo\Very_Slow_Modulation" GUID="{6082F901-3CE1-4D78-8F2D-B2B72CF28085}" LibName="Wwise Tremolo" LibId="8585219"/>
+					<Plugin Id="2945072214" Name="My_Closet" ObjectPath="\Effects\Factory Effects\RoomVerb\Claustrophobia\My_Closet" GUID="{384A82A1-3C92-4AC5-AFC2-474F2080642C}" LibName="Wwise RoomVerb" LibId="7733251"/>
 					<Plugin Id="3043085106" Name="High_Impact" ObjectPath="\Effects\Factory Effects\Compressor\High_Impact" GUID="{2AFD6FB0-C906-4683-A377-FEEEF72967B0}" LibName="Wwise Compressor" LibId="7077891"/>
 				</ShareSets>
 				<AudioDevices>
@@ -23,6 +25,14 @@
 				<Bus Id="3803692087" Name="Master Audio Bus" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus" GUID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"/>
 			</Busses>
 			<AuxBusses>
+				<AuxBus Id="56139379" Name="Footstep_Audio_Bus" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Footstep_Audio_Bus" GUID="{5C486ADB-3C80-4372-A982-8E6B1DF7F879}">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="86245554"/>
+							<PluginRef Id="2945072214"/>
+						</ShareSets>
+					</PluginRefs>
+				</AuxBus>
 				<AuxBus Id="1872339956" Name="Omen_Shadow_Voice" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice" GUID="{D42160DA-9E1A-495E-A599-539C3A4815E3}">
 					<PluginRefs>
 						<Custom>
@@ -46,5 +56,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{806E730F-D61C-1402-CD9B-852BF89C9240}</FileHash>
+	<FileHash>{DE60DFB0-6E02-C48D-76F4-9BDDC50A8796}</FileHash>
 </SoundBanksInfo>

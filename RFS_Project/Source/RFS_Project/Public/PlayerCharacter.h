@@ -22,10 +22,10 @@ public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
 	//UPROPERTIES
-	UPROPERTY(EditAnywhere)
-		float characterHealth;
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAIHint, AActor*, Player, float, hintTime);
 	FAIHint OnAIHint;
+	UPROPERTY(EditAnywhere)
+		float characterHealth;
 	//UFUNCTIONS
 	UFUNCTION(BlueprintCallable)
 		void OnHitByBullet(float bulletDamage);
@@ -36,8 +36,10 @@ protected:
 	virtual void BeginPlay() override;
 
 	void OnHeal(float health) override;
-	void OnDamage(float damage) override;
+	void OnDamage(float damage, AActor* actorDamagedBy) override;
 	void OnDeath() override;
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void OnKill() override;
 	FVector respawnPoint;
 
 public:	

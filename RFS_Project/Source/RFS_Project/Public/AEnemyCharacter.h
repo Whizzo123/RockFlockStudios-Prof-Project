@@ -18,6 +18,8 @@ class RFS_PROJECT_API AAEnemyCharacter : public APlayableCharacter
 public:
 	// Sets default values for this character's properties
 	AAEnemyCharacter();
+	DECLARE_DYNAMIC_DELEGATE(FRespawned);
+	FRespawned OnRespawn;
 	//UPROPERTIES
 	UPROPERTY(EditAnywhere)
 		float characterHealth;
@@ -25,19 +27,24 @@ public:
 		AAGun* equippedGun;
 	//UFUNCTIONS
 	UFUNCTION(BlueprintCallable)
-		void OnHitByBullet(float bulletDamage);
-	UFUNCTION(BlueprintCallable)
 		void ShootGun(FVector startHitScanLoc);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	void OnHeal(float health) override;
-	void OnDamage(float damage) override;
+	void OnDamage(float damage, AActor* actorDamagedBy) override;
 	void OnDeath() override;
+	void OnKill() override {};
 
 	FVector respawnPoint;
+	AActor* savedActorDamageBy;
 
+
+	UFUNCTION(BlueprintNativeEvent)
+	void BPI_OnDeath();
+
+	void BPI_OnDeath_Implementation() {};
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

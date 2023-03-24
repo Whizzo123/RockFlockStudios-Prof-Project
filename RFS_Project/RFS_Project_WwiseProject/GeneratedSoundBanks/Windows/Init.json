@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{33F22740-439A-14F9-FFDC-1B8095225AE2}",
+    "Hash": "{0DF5335C-AB39-49CC-BB20-CE0FB643F58D}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
@@ -27,6 +27,14 @@
      ],
      "ShareSets": [
       {
+       "Id": "86245554",
+       "Name": "Attack_Remover",
+       "ObjectPath": "\\Effects\\Factory Effects\\Compressor\\Attack_Remover",
+       "GUID": "{174E7B9A-A16F-4CA7-86D0-530212B5A6AA}",
+       "LibName": "Wwise Compressor",
+       "LibId": "7077891"
+      },
+      {
        "Id": "701863527",
        "Name": "Inside_My_Head",
        "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Claustrophobia\\Inside_My_Head",
@@ -41,6 +49,14 @@
        "GUID": "{6082F901-3CE1-4D78-8F2D-B2B72CF28085}",
        "LibName": "Wwise Tremolo",
        "LibId": "8585219"
+      },
+      {
+       "Id": "2945072214",
+       "Name": "My_Closet",
+       "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Claustrophobia\\My_Closet",
+       "GUID": "{384A82A1-3C92-4AC5-AFC2-474F2080642C}",
+       "LibName": "Wwise RoomVerb",
+       "LibId": "7733251"
       },
       {
        "Id": "3043085106",
@@ -79,6 +95,22 @@
      }
     ],
     "AuxBusses": [
+     {
+      "Id": "56139379",
+      "Name": "Footstep_Audio_Bus",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Footstep_Audio_Bus",
+      "GUID": "{5C486ADB-3C80-4372-A982-8E6B1DF7F879}",
+      "PluginRefs": {
+       "ShareSets": [
+        {
+         "Id": "86245554"
+        },
+        {
+         "Id": "2945072214"
+        }
+       ]
+      }
+     },
      {
       "Id": "1872339956",
       "Name": "Omen_Shadow_Voice",
@@ -128,6 +160,6 @@
     ]
    }
   ],
-  "FileHash": "{B33025DB-376C-DD95-A640-72F19FE3DC9D}"
+  "FileHash": "{D2152AE2-414E-E778-4099-583AA15687D3}"
  }
 }

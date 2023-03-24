@@ -40,7 +40,7 @@ void APlayerCharacter::OnHeal(float health)
 		HitPoints = MaxHitPoints;
 }
 
-void APlayerCharacter::OnDamage(float damage)
+void APlayerCharacter::OnDamage(float damage, AActor* actorDamagedBy)
 {
 	HitPoints -= damage;
 	if (HitPoints <= 0)
@@ -55,7 +55,7 @@ void APlayerCharacter::OnDeath()
 
 void APlayerCharacter::OnHitByBullet(float bulletDamage)
 {
-	OnDamage(bulletDamage);
+	OnDamage(bulletDamage, nullptr);
 }
 
 void APlayerCharacter::CreateHint()

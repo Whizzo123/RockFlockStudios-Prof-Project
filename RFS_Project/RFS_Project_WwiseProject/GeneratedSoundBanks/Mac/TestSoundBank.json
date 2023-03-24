@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{10BF1388-6F34-4C42-9D58-68F44A9E794E}",
     "Language": "SFX",
-    "Hash": "{F7B493E6-CD55-C323-41F1-864B027ED416}",
+    "Hash": "{113FE5FB-F7EF-EB09-7933-F10708985CEB}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\TestSoundBank",
     "ShortName": "TestSoundBank",
     "Path": "TestSoundBank.bnk",
@@ -24,20 +24,20 @@
       "CachePath": "SFX/SFX_Footsteps_Enemy_Toe_01 _10C4C929.wem"
      },
      {
-      "Id": "14382088",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "Dialouge_Omen_Gateway_Real_Destroyed_Self_01.wav",
-      "CachePath": "SFX/Dialouge_Omen_Gateway_Real_Destroyed_Self_01_10C4C929.wem"
-     },
-     {
       "Id": "25708226",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "SFX_Omen_Weapon_Reload_04.wav",
       "CachePath": "SFX/SFX_Omen_Weapon_Reload_04_10C4C929.wem"
+     },
+     {
+      "Id": "36596333",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "SFX_Rifle_Firing_03.wav",
+      "CachePath": "SFX/SFX_Rifle_Firing_03_E848DD00.wem"
      },
      {
       "Id": "40606387",
@@ -88,14 +88,6 @@
       "CachePath": "SFX/Dialouge_Omen_Gateway_Enemy_Killed_Self_02_10C4C929.wem"
      },
      {
-      "Id": "176015280",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "Dialouge_Omen_Gateway_Real_Destroyed_Self_03.wav",
-      "CachePath": "SFX/Dialouge_Omen_Gateway_Real_Destroyed_Self_03_10C4C929.wem"
-     },
-     {
       "Id": "225152870",
       "Language": "SFX",
       "Streaming": "false",
@@ -112,14 +104,6 @@
       "CachePath": "SFX/SFX_Footsteps_Enemy_Toe_02 _10C4C929.wem"
      },
      {
-      "Id": "245372264",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "Dialouge_Omen_Gateway_Fake_Destroyed_Self_04.wav",
-      "CachePath": "SFX/Dialouge_Omen_Gateway_Fake_Destroyed_Self_04_10C4C929.wem"
-     },
-     {
       "Id": "248832913",
       "Language": "SFX",
       "Streaming": "false",
@@ -134,14 +118,6 @@
       "Location": "Memory",
       "ShortName": "Dialouge_Enemy_Death_04.wav",
       "CachePath": "SFX/Dialouge_Enemy_Death_04_10C4C929.wem"
-     },
-     {
-      "Id": "268176058",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "Dialouge_Omen_Gateway_Fake_Destroyed_Self_03.wav",
-      "CachePath": "SFX/Dialouge_Omen_Gateway_Fake_Destroyed_Self_03_10C4C929.wem"
      },
      {
       "Id": "277910939",
@@ -176,6 +152,22 @@
       "CachePath": "SFX/Dialouge_Enemy_Death_03_10C4C929.wem"
      },
      {
+      "Id": "365483152",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "SFX_Portal_Open.wav",
+      "CachePath": "SFX/SFX_Portal_Open_4805374F.wem"
+     },
+     {
+      "Id": "369771119",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "SFX_Rifle_Casing_Falling_04.wav",
+      "CachePath": "SFX/SFX_Rifle_Casing_Falling_04_10C4C929.wem"
+     },
+     {
       "Id": "370436563",
       "Language": "SFX",
       "Streaming": "false",
@@ -197,7 +189,23 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Dialouge_Omen_Gateway_Opening_Self_01.wav",
-      "CachePath": "SFX/Dialouge_Omen_Gateway_Opening_Self_01_A6769772.wem"
+      "CachePath": "SFX/Dialouge_Omen_Gateway_Opening_Self_01_CADC3072.wem"
+     },
+     {
+      "Id": "418753284",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "SFX_Rifle_Firing_04.wav",
+      "CachePath": "SFX/SFX_Rifle_Firing_04_024ECF4D.wem"
+     },
+     {
+      "Id": "431698141",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "SFX_Rifle_Casing_Falling_03.wav",
+      "CachePath": "SFX/SFX_Rifle_Casing_Falling_03_10C4C929.wem"
      },
      {
       "Id": "480184511",
@@ -224,12 +232,12 @@
       "CachePath": "SFX/Dialouge_Enemy_Death_05_10C4C929.wem"
      },
      {
-      "Id": "522473424",
+      "Id": "513120555",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
-      "ShortName": "SFX_Footsteps_Omen_Heel_04.wav",
-      "CachePath": "SFX/SFX_Footsteps_Omen_Heel_04_10C4C929.wem"
+      "ShortName": "SFX_Rifle_Firing_02.wav",
+      "CachePath": "SFX/SFX_Rifle_Firing_02_BCE57377.wem"
      },
      {
       "Id": "523882964",
@@ -286,22 +294,6 @@
       "Location": "Memory",
       "ShortName": "SFX_Footsteps_Enemy_Heel_04.wav",
       "CachePath": "SFX/SFX_Footsteps_Enemy_Heel_04_10C4C929.wem"
-     },
-     {
-      "Id": "607855514",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "Dialouge_Omen_Gateway_Fake_Destroyed_Self_02.wav",
-      "CachePath": "SFX/Dialouge_Omen_Gateway_Fake_Destroyed_Self_02_10C4C929.wem"
-     },
-     {
-      "Id": "611215325",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "Dialouge_Omen_Gateway_Fake_Destroyed_Self_01.wav",
-      "CachePath": "SFX/Dialouge_Omen_Gateway_Fake_Destroyed_Self_01_10C4C929.wem"
      },
      {
       "Id": "616455790",
@@ -392,20 +384,20 @@
       "CachePath": "SFX/SFX_Footsteps_Enemy_Toe_03_10C4C929.wem"
      },
      {
-      "Id": "821577734",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "SFX_Footsteps_Omen_Toe_04.wav",
-      "CachePath": "SFX/SFX_Footsteps_Omen_Toe_04_10C4C929.wem"
-     },
-     {
       "Id": "834580720",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Dialouge_Enemy_SpottedWall_04.wav",
       "CachePath": "SFX/Dialouge_Enemy_SpottedWall_04_10C4C929.wem"
+     },
+     {
+      "Id": "847678844",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "SFX_Gateway_Enter.wav",
+      "CachePath": "SFX/SFX_Gateway_Enter_A2C19A70.wem"
      },
      {
       "Id": "899106449",
@@ -422,6 +414,22 @@
       "Location": "Memory",
       "ShortName": "SFX_Footsteps_Omen_Toe_03.wav",
       "CachePath": "SFX/SFX_Footsteps_Omen_Toe_03_10C4C929.wem"
+     },
+     {
+      "Id": "938389697",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "SFX_Rifle_Casing_Falling_01.wav",
+      "CachePath": "SFX/SFX_Rifle_Casing_Falling_01_10C4C929.wem"
+     },
+     {
+      "Id": "939983895",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "SFX_Rifle_Firing_01.wav",
+      "CachePath": "SFX/SFX_Rifle_Firing_01_73661DFE.wem"
      },
      {
       "Id": "940117165",
@@ -462,14 +470,6 @@
       "Location": "Memory",
       "ShortName": "Dialouge_Enemy_SpottingOmen_06.wav",
       "CachePath": "SFX/Dialouge_Enemy_SpottingOmen_06_10C4C929.wem"
-     },
-     {
-      "Id": "984870725",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "Dialouge_Omen_Gateway_Real_Destroyed_Self_02.wav",
-      "CachePath": "SFX/Dialouge_Omen_Gateway_Real_Destroyed_Self_02_10C4C929.wem"
      },
      {
       "Id": "991694463",
@@ -518,6 +518,14 @@
       "Location": "Memory",
       "ShortName": "SFX_Footsteps_Omen_Toe_01 .wav",
       "CachePath": "SFX/SFX_Footsteps_Omen_Toe_01 _10C4C929.wem"
+     },
+     {
+      "Id": "1069080295",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "SFX_Rifle_Casing_Falling_02.wav",
+      "CachePath": "SFX/SFX_Rifle_Casing_Falling_02_10C4C929.wem"
      }
     ],
     "Plugins": {
@@ -531,6 +539,14 @@
        "LibId": "8519683"
       },
       {
+       "Id": "797738716",
+       "Name": "Pitch Shifter (Custom)",
+       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Omen_Shadow_Voice\\Pitch Shifter (Custom)",
+       "GUID": "{F2407F0C-050C-4F1E-BD96-A80ECE8321C4}",
+       "LibName": "Wwise Pitch Shifter",
+       "LibId": "8912899"
+      },
+      {
        "Id": "865001706",
        "Name": "Pitch Shifter (Custom)",
        "ObjectPath": "\\Actor-Mixer Hierarchy\\Default Work Unit\\Omen_Death_Sounds\\Pitch Shifter (Custom)",
@@ -541,12 +557,36 @@
      ],
      "ShareSets": [
       {
-       "Id": "892273243",
-       "Name": "Omen_TimeStretch",
-       "ObjectPath": "\\Effects\\Default Work Unit\\Omen_TimeStretch",
-       "GUID": "{4FC115B1-CC81-47BB-B7D4-E225AC59B0A1}",
-       "LibName": "Wwise Time Stretch",
-       "LibId": "8519683"
+       "Id": "86245554",
+       "Name": "Attack_Remover",
+       "ObjectPath": "\\Effects\\Factory Effects\\Compressor\\Attack_Remover",
+       "GUID": "{174E7B9A-A16F-4CA7-86D0-530212B5A6AA}",
+       "LibName": "Wwise Compressor",
+       "LibId": "7077891"
+      },
+      {
+       "Id": "701863527",
+       "Name": "Inside_My_Head",
+       "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Claustrophobia\\Inside_My_Head",
+       "GUID": "{94B53301-9AA1-468F-8419-92AEDAAE39DF}",
+       "LibName": "Wwise RoomVerb",
+       "LibId": "7733251"
+      },
+      {
+       "Id": "2265839006",
+       "Name": "Not_A_Yellow_Submarine",
+       "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Claustrophobia\\Not_A_Yellow_Submarine",
+       "GUID": "{B5719071-C58D-49FA-8766-B1D986D017EC}",
+       "LibName": "Wwise RoomVerb",
+       "LibId": "7733251"
+      },
+      {
+       "Id": "2394809124",
+       "Name": "Very_Slow_Modulation",
+       "ObjectPath": "\\Effects\\Factory Effects\\Tremolo\\Very_Slow_Modulation",
+       "GUID": "{6082F901-3CE1-4D78-8F2D-B2B72CF28085}",
+       "LibName": "Wwise Tremolo",
+       "LibId": "8585219"
       },
       {
        "Id": "2849147824",
@@ -555,71 +595,34 @@
        "GUID": "{AEB3F175-958B-45F2-A4C2-3FBD4F456568}",
        "LibName": "Wwise RoomVerb",
        "LibId": "7733251"
+      },
+      {
+       "Id": "2945072214",
+       "Name": "My_Closet",
+       "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Claustrophobia\\My_Closet",
+       "GUID": "{384A82A1-3C92-4AC5-AFC2-474F2080642C}",
+       "LibName": "Wwise RoomVerb",
+       "LibId": "7733251"
+      },
+      {
+       "Id": "3043085106",
+       "Name": "High_Impact",
+       "ObjectPath": "\\Effects\\Factory Effects\\Compressor\\High_Impact",
+       "GUID": "{2AFD6FB0-C906-4683-A377-FEEEF72967B0}",
+       "LibName": "Wwise Compressor",
+       "LibId": "7077891"
+      },
+      {
+       "Id": "3948262040",
+       "Name": "Octave_Down",
+       "ObjectPath": "\\Effects\\Factory Effects\\Pitch Shifter\\Harmonize\\Octave_Down",
+       "GUID": "{062EC4B1-5372-4D1E-917B-C757293F2B42}",
+       "LibName": "Wwise Pitch Shifter",
+       "LibId": "8912899"
       }
      ]
     },
     "Events": [
-     {
-      "Id": "1336969754",
-      "Name": "Ability_Ends",
-      "ObjectPath": "\\Events\\Default Work Unit\\Ability_Ends",
-      "GUID": "{6EABC3BF-8F7B-46A4-8879-ECD455EB07DC}",
-      "DurationType": "OneShot",
-      "DurationMin": "2.5",
-      "DurationMax": "2.5",
-      "MediaRefs": [
-       {
-        "Id": "134492556"
-       },
-       {
-        "Id": "633299744"
-       }
-      ],
-      "PluginRefs": {
-       "ShareSets": [
-        {
-         "Id": "892273243"
-        }
-       ]
-      },
-      "AuxBusRefs": [
-       {
-        "Id": "1872339956",
-        "Name": "Omen_Shadow_Voice",
-        "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Omen_Shadow_Voice",
-        "GUID": "{D42160DA-9E1A-495E-A599-539C3A4815E3}"
-       }
-      ]
-     },
-     {
-      "Id": "46790723",
-      "Name": "Ability_Triggered",
-      "ObjectPath": "\\Events\\Default Work Unit\\Ability_Triggered",
-      "GUID": "{8BDFCB89-AF78-4D60-A4A8-F1C34DE793F7}",
-      "DurationType": "OneShot",
-      "DurationMin": "1.9302325",
-      "DurationMax": "1.9302325",
-      "MediaRefs": [
-       {
-        "Id": "385858231"
-       }
-      ],
-      "PluginRefs": {
-       "ShareSets": [
-        {
-         "Id": "892273243"
-        }
-       ]
-      },
-      "AuxBusRefs": [
-       {
-        "Id": "1872339956",
-        "Name": "Omen_Shadow_Voice",
-        "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Omen_Shadow_Voice",
-        "GUID": "{D42160DA-9E1A-495E-A599-539C3A4815E3}"
-       }
-      ]
-     },
      {
       "Id": "2305581711",
       "Name": "Enemy_Death_Noise",
@@ -770,44 +773,6 @@
       ]
      },
      {
-      "Id": "3678874461",
-      "Name": "Fake_Gateway_Destroyed",
-      "ObjectPath": "\\Events\\Default Work Unit\\Fake_Gateway_Destroyed",
-      "GUID": "{B248354E-0855-4A10-B1B6-75CABEC79695}",
-      "DurationType": "OneShot",
-      "DurationMin": "2.6",
-      "DurationMax": "2.9",
-      "MediaRefs": [
-       {
-        "Id": "245372264"
-       },
-       {
-        "Id": "268176058"
-       },
-       {
-        "Id": "607855514"
-       },
-       {
-        "Id": "611215325"
-       }
-      ],
-      "PluginRefs": {
-       "ShareSets": [
-        {
-         "Id": "892273243"
-        }
-       ]
-      },
-      "AuxBusRefs": [
-       {
-        "Id": "1872339956",
-        "Name": "Omen_Shadow_Voice",
-        "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Omen_Shadow_Voice",
-        "GUID": "{D42160DA-9E1A-495E-A599-539C3A4815E3}"
-       }
-      ]
-     },
-     {
       "Id": "1618987994",
       "Name": "Killing_Enemy",
       "ObjectPath": "\\Events\\Default Work Unit\\Killing_Enemy",
@@ -849,10 +814,10 @@
       ]
      },
      {
-      "Id": "1761880464",
-      "Name": "Omen_Death_Noise",
-      "ObjectPath": "\\Events\\Default Work Unit\\Omen_Death_Noise",
-      "GUID": "{2A7E042C-49CE-4B85-8810-3E2C4B40452A}",
+      "Id": "1125142655",
+      "Name": "Omen_Death",
+      "ObjectPath": "\\Events\\Default Work Unit\\Omen_Death",
+      "GUID": "{4F4E1B74-E2FD-4E47-AD28-9A5EE9E45A3C}",
       "DurationType": "OneShot",
       "DurationMin": "1",
       "DurationMax": "1",
@@ -881,11 +846,6 @@
         {
          "Id": "865001706"
         }
-       ],
-       "ShareSets": [
-        {
-         "Id": "892273243"
-        }
        ]
       },
       "AuxBusRefs": [
@@ -901,10 +861,10 @@
       "Id": "2064032848",
       "Name": "Omen_Footsteps",
       "ObjectPath": "\\Events\\Default Work Unit\\Omen_Footsteps",
-      "GUID": "{54E4C304-2465-4543-BFEB-6879F3BAB080}",
+      "GUID": "{3D158CFE-84E0-4C56-8FE7-746CB20E3BCE}",
       "DurationType": "OneShot",
-      "DurationMin": "0.30002266",
-      "DurationMax": "0.46999997",
+      "DurationMin": "0.13501135",
+      "DurationMax": "0.24",
       "MediaRefs": [
        {
         "Id": "67109582"
@@ -913,13 +873,7 @@
         "Id": "376823568"
        },
        {
-        "Id": "522473424"
-       },
-       {
         "Id": "616455790"
-       },
-       {
-        "Id": "821577734"
        },
        {
         "Id": "938036642"
@@ -930,31 +884,81 @@
        {
         "Id": "1065559535"
        }
+      ],
+      "AuxBusRefs": [
+       {
+        "Id": "56139379",
+        "Name": "Footstep_Audio_Bus",
+        "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Footstep_Audio_Bus",
+        "GUID": "{5C486ADB-3C80-4372-A982-8E6B1DF7F879}"
+       }
       ]
      },
      {
-      "Id": "4082138212",
-      "Name": "Real_Wall_Destroyed",
-      "ObjectPath": "\\Events\\Default Work Unit\\Real_Wall_Destroyed",
-      "GUID": "{BF25BA92-B9C6-4B54-9B79-EB9D9E0C12FE}",
+      "Id": "2087064880",
+      "Name": "Omen_Gun_Firng",
+      "ObjectPath": "\\Events\\Default Work Unit\\Omen_Gun_Firng",
+      "GUID": "{B90B79D9-3AF7-4474-B571-E3C46FAADC8E}",
       "DurationType": "OneShot",
-      "DurationMin": "1.32",
-      "DurationMax": "1.82",
+      "DurationMin": "0.71",
+      "DurationMax": "1",
       "MediaRefs": [
        {
-        "Id": "14382088"
+        "Id": "36596333"
        },
        {
-        "Id": "176015280"
+        "Id": "369771119"
        },
        {
-        "Id": "984870725"
+        "Id": "418753284"
+       },
+       {
+        "Id": "431698141"
+       },
+       {
+        "Id": "513120555"
+       },
+       {
+        "Id": "938389697"
+       },
+       {
+        "Id": "939983895"
+       },
+       {
+        "Id": "1069080295"
        }
       ],
       "PluginRefs": {
        "ShareSets": [
         {
-         "Id": "892273243"
+         "Id": "2265839006"
+        },
+        {
+         "Id": "3043085106"
+        },
+        {
+         "Id": "3948262040"
+        }
+       ]
+      }
+     },
+     {
+      "Id": "2200491532",
+      "Name": "Omen_Portal_Activation",
+      "ObjectPath": "\\Events\\Default Work Unit\\Omen_Portal_Activation",
+      "GUID": "{9450CCFA-A39C-439A-AE42-A6C98FD7D663}",
+      "DurationType": "OneShot",
+      "DurationMin": "2",
+      "DurationMax": "2",
+      "MediaRefs": [
+       {
+        "Id": "385858231"
+       }
+      ],
+      "PluginRefs": {
+       "ShareSets": [
+        {
+         "Id": "2945072214"
         }
        ]
       },
@@ -964,6 +968,59 @@
         "Name": "Omen_Shadow_Voice",
         "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Omen_Shadow_Voice",
         "GUID": "{D42160DA-9E1A-495E-A599-539C3A4815E3}"
+       }
+      ]
+     },
+     {
+      "Id": "2874323458",
+      "Name": "Omen_Portal_Ends",
+      "ObjectPath": "\\Events\\Default Work Unit\\Omen_Portal_Ends",
+      "GUID": "{0A6B3412-F0F3-4E3F-9852-A135D675C0E8}",
+      "DurationType": "OneShot",
+      "DurationMin": "2.5",
+      "DurationMax": "2.5",
+      "MediaRefs": [
+       {
+        "Id": "134492556"
+       },
+       {
+        "Id": "633299744"
+       }
+      ],
+      "AuxBusRefs": [
+       {
+        "Id": "1872339956",
+        "Name": "Omen_Shadow_Voice",
+        "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Omen_Shadow_Voice",
+        "GUID": "{D42160DA-9E1A-495E-A599-539C3A4815E3}"
+       }
+      ]
+     },
+     {
+      "Id": "3059146064",
+      "Name": "Omen_Portal_Entry",
+      "ObjectPath": "\\Events\\Default Work Unit\\Omen_Portal_Entry",
+      "GUID": "{72A7C70A-6628-4664-BC21-8F54D8F996F5}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.7713615",
+      "DurationMax": "1.7713615",
+      "MediaRefs": [
+       {
+        "Id": "847678844"
+       }
+      ]
+     },
+     {
+      "Id": "2973340425",
+      "Name": "Omen_Portal_Rip",
+      "ObjectPath": "\\Events\\Default Work Unit\\Omen_Portal_Rip",
+      "GUID": "{6A00E624-6F4B-422D-98F0-366F297AC3AE}",
+      "DurationType": "OneShot",
+      "DurationMin": "2.6049297",
+      "DurationMax": "2.6049297",
+      "MediaRefs": [
+       {
+        "Id": "365483152"
        }
       ]
      },
@@ -989,13 +1046,6 @@
         "Id": "777070066"
        }
       ],
-      "PluginRefs": {
-       "ShareSets": [
-        {
-         "Id": "892273243"
-        }
-       ]
-      },
       "AuxBusRefs": [
        {
         "Id": "1872339956",
@@ -1024,9 +1074,59 @@
        ]
       }
      }
+    ],
+    "Busses": [
+     {
+      "Id": "3803692087",
+      "Name": "Master Audio Bus",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus",
+      "GUID": "{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"
+     }
+    ],
+    "AuxBusses": [
+     {
+      "Id": "56139379",
+      "Name": "Footstep_Audio_Bus",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Footstep_Audio_Bus",
+      "GUID": "{5C486ADB-3C80-4372-A982-8E6B1DF7F879}",
+      "PluginRefs": {
+       "ShareSets": [
+        {
+         "Id": "86245554"
+        },
+        {
+         "Id": "2945072214"
+        }
+       ]
+      }
+     },
+     {
+      "Id": "1872339956",
+      "Name": "Omen_Shadow_Voice",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Omen_Shadow_Voice",
+      "GUID": "{D42160DA-9E1A-495E-A599-539C3A4815E3}",
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "797738716"
+        }
+       ],
+       "ShareSets": [
+        {
+         "Id": "701863527"
+        },
+        {
+         "Id": "2394809124"
+        },
+        {
+         "Id": "3043085106"
+        }
+       ]
+      }
+     }
     ]
    }
   ],
-  "FileHash": "{66F75E83-29A8-E8AE-ADBE-A6DAA9DEA38A}"
+  "FileHash": "{5E4800E5-DA44-21DB-48BD-3CB13CD86F6E}"
  }
 }

@@ -25,7 +25,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 		float MaxHitPoints;
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
-		void OnDamage(float damage) override { 
+		void OnDamage(float damage, AActor* actorDamagedBy) override { 
 		HitPoints -= damage;
 		if (HitPoints < 0)
 		{
@@ -42,6 +42,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Combat")
 		void OnDeath() override;//TODO health ovveride;
 
+	void OnKill() override {};
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
