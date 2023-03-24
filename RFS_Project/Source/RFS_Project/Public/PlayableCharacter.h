@@ -21,9 +21,10 @@ public:
 		UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
 	void OnHeal(float health) override {};
 		UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
-			void OnDamage(float damage) override {};
+			void OnDamage(float damage, AActor* actorDamagedBy) override {};
 		UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
 			void OnDeath() override {};
+		void OnKill() override {};
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

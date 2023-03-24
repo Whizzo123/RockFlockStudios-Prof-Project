@@ -56,6 +56,18 @@ public:
 		/// </summary>
 		bool EnterPortal();
 
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void BPI_AbilityEnter();		
+	UFUNCTION(BlueprintImplementableEvent)
+		void BPI_AbilityExit();	
+	UFUNCTION(BlueprintImplementableEvent)
+		void BPI_AbilityEnd();	
+	UFUNCTION(BlueprintImplementableEvent)
+		void BPI_AbilityCue();	
+	UFUNCTION(BlueprintImplementableEvent)
+		void BPI_AbilityStart();
+
 private:
 	bool InactiveState();
 	bool CueState();
