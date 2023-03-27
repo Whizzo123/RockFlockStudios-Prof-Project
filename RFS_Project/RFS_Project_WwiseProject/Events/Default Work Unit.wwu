@@ -80,6 +80,83 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Omen_Gun_Firng" ID="{B90B79D9-3AF7-4474-B571-E3C46FAADC8E}">
+					<ChildrenList>
+						<Action Name="" ID="{11D0D7FE-079B-45D4-9195-7055503ED085}" ShortID="1015709142">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Omen_Firing_Container" ID="{4261F99A-6EC5-405D-8C8E-221637C3F73E}" WorkUnitID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Omen_Portal_Rip" ID="{6A00E624-6F4B-422D-98F0-366F297AC3AE}">
+					<ChildrenList>
+						<Action Name="" ID="{25BD0995-D1BF-4E6E-B476-856A1F6C47F0}" ShortID="792283464">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Portal_Open" ID="{8C5C71AD-AA5B-4A9F-B285-CF4904839F9C}" WorkUnitID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Omen_Portal_Entry" ID="{72A7C70A-6628-4664-BC21-8F54D8F996F5}">
+					<ChildrenList>
+						<Action Name="" ID="{844A3811-C640-4128-AC85-047CF2C08D8F}" ShortID="549552736">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Gateway_Enter" ID="{F1D5D7F4-61AA-4BDE-B5BB-C07BEE0B0F82}" WorkUnitID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Omen_Death" ID="{4F4E1B74-E2FD-4E47-AD28-9A5EE9E45A3C}">
+					<ChildrenList>
+						<Action Name="" ID="{40D9F43F-1F5E-40E0-868C-775C91E2CB7A}" ShortID="217991700">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Omen_Death_Sounds" ID="{CB499D1B-FC1F-4909-8AAD-37646E16D14F}" WorkUnitID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Omen_Footsteps" ID="{3D158CFE-84E0-4C56-8FE7-746CB20E3BCE}">
+					<ChildrenList>
+						<Action Name="" ID="{54B73FF4-A1B4-488C-BDB0-F925037D446B}" ShortID="925315222">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Omen_Footstep_Container" ID="{A0686AA0-09BB-471B-8AB6-1ACFEA9A5E3B}" WorkUnitID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Omen_Portal_Ends" ID="{0A6B3412-F0F3-4E3F-9852-A135D675C0E8}">
+					<ChildrenList>
+						<Action Name="" ID="{25B53341-5CBE-4490-B81C-39BAA0C6957F}" ShortID="170707875">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Omen_Gateway_Ends_Self" ID="{53D64089-9BE1-49FA-965F-7B22F888D174}" WorkUnitID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Omen_Portal_Activation" ID="{9450CCFA-A39C-439A-AE42-A6C98FD7D663}">
+					<ChildrenList>
+						<Action Name="" ID="{75DC9CF3-33EB-4BBD-A091-6396F6AE3FA3}" ShortID="618604937">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Omen_Gate_Opening" ID="{D05CAE20-F065-45D2-9449-11BDB80F4822}" WorkUnitID="{E892F8B0-16EE-43F2-8C8D-4058E3966CDA}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

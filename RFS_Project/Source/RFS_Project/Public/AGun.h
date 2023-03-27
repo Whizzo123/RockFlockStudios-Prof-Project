@@ -23,49 +23,70 @@ public:
 	// Sets default values for this actor's properties
 	AAGun();
 	void BeginPlay() override;
-	
+	void Tick(float DeltaSeconds) override;
 	// EDITOR VARIABLES
 	UPROPERTY(EditAnywhere)
-		float gunAccuracy;
+		float GunAccuracy;
 	UPROPERTY(EditAnywhere)
-		float gunFirerate;
+		float GunFirerate;
 	UPROPERTY(EditAnywhere)
-		float projectileSpeed;
+		float ProjectileSpeed;
 	UPROPERTY(EditAnywhere)
-		FName fireSocket;
+		FName FireSocket;
 	UPROPERTY(EditAnywhere)
-		FVector projectileOffset;
+		FVector ProjectileOffset;
 	UPROPERTY(EditAnywhere)
-		TSubclassOf<AAGunProjectile> projectileToFire;
+		TSubclassOf<AAGunProjectile> ProjectileToFire;
 	UPROPERTY(EditAnywhere)
-		USoundBase* fireSoundFX;
+		USoundBase* FireSoundFX;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		bool bPlayerGun;
 	UPROPERTY(EditAnywhere)
-		bool playerGun;
+		float GunRange;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		bool bIsGunAutomatic;
 	// BLUEPRINT PROPERTIES
 	UPROPERTY(BlueprintReadWrite)
-		APawn* pawnEquippedTo;
+		APawn* PawnEquippedTo;
 	UPROPERTY(BlueprintReadWrite)
-		FVector muzzlePoint;
-	/*UPROPERTY(BlueprintReadOnly)
-		float appliedYawRecoil;
-	UPROPERTY(BlueprintReadOnly)
-		float appliedPitchRecoil;
+		FVector MuzzlePoint;
 	UPROPERTY(BlueprintReadWrite)
-		float waitRecoilTime;*/
+		FVector GunStartHitScanLoc;
+
 protected:
-	FVector trajectoryOffset = FVector(1.0f, 0.0f, 0.0f);
+	FVector TrajectoryOffset = FVector(1.0f, 0.0f, 0.0f);
+	bool bIsGunFiring = false;
+	float GunFireRateCounter;
+	/// <summary>
+	/// Calculates the accuracy of the guns shot
+	/// </summary>
+	/// <returns>The offset vector for the shot</returns>
 	FVector CalculateAccuracy();
+	/// <summary>
+	/// Completes a multi raycast for a component of the given type
+	/// </summary>
+	/// <typeparam name="T">Type to raycast for</typeparam>
+	/// <param name="StartTrace">Start point of the trace</param>
+	/// <param name="EndTrace">End point of the trace</param>
+	/// <returns>The first hit object of that type of the trace or if none found returns just the first hit actor</returns>
 	template<typename T>
-	AActor* Trace(FVector startTrace, FVector endTrace);
-	/*FTimerHandle waitRecoilTimer;*/
-	
-	
+	AActor* Trace(FVector StartTrace, FVector EndTrace);
 	
 public:	
+	/// <summary>
+	/// Blueprint-callable function that tells the gun to fire
+	/// </summary>
 	UFUNCTION(BlueprintCallable)
 		FVector Fire(FVector startHitScanLoc);
+	/// <summary>
+	/// Blueprint-callable function that applies recoil to the players camera
+	/// </summary>
 	UFUNCTION(BlueprintCallable)
 		void ApplyRecoil(ACharacter* playerCharacter, float recoilAngleYaw, float recoilAnglePitch);
-	/*UFUNCTION()
-		void ResetCameraAfterRecoil();*/
+	UFUNCTION(BlueprintCallable)
+		void SetIsGunFiring(bool Value);
+	UFUNCTION(BlueprintCallable)
+		bool IsGunFiring();
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnStartHitScanLocUpdate();
 };

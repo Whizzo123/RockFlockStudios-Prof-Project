@@ -8,91 +8,153 @@ AAGun::AAGun()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 void AAGun::BeginPlay()
 {
 	Super::BeginPlay();
+	GunFireRateCounter = GunFirerate;
 }
 
-FVector AAGun::Fire(FVector startHitScanLoc)
+void AAGun::Tick(float DeltaSeconds)
 {
-	FVector accOffset = CalculateAccuracy();
-	FRotator rotation;
-	if (playerGun)
-		rotation = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetCameraRotation();
-	else
-		rotation = GetActorRightVector().Rotation();
-	FVector lineVector;
-	if (playerGun)
-		lineVector = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetActorForwardVector() * 2000.0f;
-	else
-		lineVector = GetActorRightVector() * 2000.0f;
-	AActor* hitActor = Trace<IHealth>(startHitScanLoc, (startHitScanLoc + lineVector) + (accOffset) * 100);
-	UGameplayStatics::PlaySoundAtLocation(GetWorld(), fireSoundFX, startHitScanLoc);
-	if (hitActor)
+	Super::Tick(DeltaSeconds);
+
+	if (bIsGunAutomatic)
 	{
-		IHealth* healthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(hitActor));
-		healthObj->OnDamage(1.0f);
-		return hitActor->GetActorLocation();
+		if (GunFireRateCounter >= GunFirerate && bIsGunFiring == true)
+		{
+			OnStartHitScanLocUpdate();
+			Fire(GunStartHitScanLoc);
+			GunFireRateCounter = 0;
+		}
+		GunFireRateCounter += DeltaSeconds;
+	}
+	
+}
+
+FVector AAGun::Fire(FVector StartHitScanLoc)
+{
+	FVector AccOffset = CalculateAccuracy();
+	FRotator Rotation;
+	if (bPlayerGun)
+	{
+		Rotation = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetCameraRotation();
+	}
+	else
+	{
+		Rotation = GetActorRightVector().Rotation();
+	}
+	FVector LineVector;
+	if (bPlayerGun)
+	{
+		LineVector = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetActorForwardVector() * GunRange;
+	}
+	else
+	{
+		LineVector = GetActorRightVector() * GunRange;
+	}
+	AActor* HitActor = Trace<IHealth>(StartHitScanLoc, (StartHitScanLoc + LineVector) + (AccOffset) * 20);
+	if (HitActor)
+	{
+		IHealth* HealthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(HitActor));
+		if (HealthObj != nullptr)
+		{
+			if (bPlayerGun)
+			{
+				HealthObj->OnDamage(1.0f, PawnEquippedTo);
+			}
+			else
+			{
+				HealthObj->OnDamage(10.0f, PawnEquippedTo);
+			}
+		}
+		else
+		{
+			return HitActor->GetActorLocation();
+		}
 	}
 	return FVector();
+	
 }
 
-void AAGun::ApplyRecoil(ACharacter* playerCharacter, float recoilAngleYaw, float recoilAnglePitch)
+void AAGun::ApplyRecoil(ACharacter* PlayerCharacter, float RecoilAngleYaw, float RecoilAnglePitch)
 {
-	playerCharacter->AddControllerYawInput(recoilAngleYaw);
-	playerCharacter->AddControllerPitchInput(recoilAnglePitch);
+	PlayerCharacter->AddControllerYawInput(RecoilAngleYaw);
+	PlayerCharacter->AddControllerPitchInput(RecoilAnglePitch);
 }
 
 template<typename T>
-AActor* AAGun::Trace(FVector startTrace, FVector endTrace)
+AActor* AAGun::Trace(FVector StartTrace, FVector EndTrace)
 {
-	TArray<FHitResult> hit;
-	GetWorld()->LineTraceMultiByChannel(hit, startTrace, endTrace, ECollisionChannel::ECC_Pawn);
-	DrawDebugLine(GetWorld(), startTrace, endTrace, FColor::Red, false, 2.5f);
-	for (int i = 0; i < hit.Num(); i++)
+	TArray<FHitResult> OutHit;
+	GetWorld()->LineTraceMultiByChannel(OutHit, StartTrace, EndTrace, ECollisionChannel::ECC_Visibility);
+	if (!bPlayerGun)
 	{
-		AActor* hitActor = hit[i].GetActor();
-		if (hitActor)
+		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Red, false, 1.0f);
+	}
+	// Actor pointer for if we don't hit the enemy but instead want to record hitting the enviornment
+	AActor* EnviornmentHit = nullptr;
+	for (int i = 0; i < OutHit.Num(); i++)
+	{
+		AActor* HitActor = OutHit[i].GetActor();
+		if (HitActor)
 		{
-			//Check that the thing is hittable
-			T* healthObj = dynamic_cast<T*>(Cast<APlayableCharacter>(hit[i].GetActor()));
-			
-			if (healthObj && hitActor != pawnEquippedTo)
+			// Cast to determine if the actor hit is of the given type
+			T* HealthObj = dynamic_cast<T*>(Cast<APlayableCharacter>(OutHit[i].GetActor()));
+			// If the object is of the given type and we have not hit ourselves
+			if (HealthObj && HitActor != PawnEquippedTo)
 			{
-				GEngine->AddOnScreenDebugMessage(0, 10.0f, FColor::Red, hitActor->GetFName().ToString());
-				healthObj->OnDamage(1.0f);
-				return hitActor;
+				return HitActor;
+			}
+			else if(HitActor != PawnEquippedTo && EnviornmentHit == nullptr)
+			{
+				EnviornmentHit = OutHit[i].GetActor();
 			}
 		}
 	}
-	return nullptr;
+	return EnviornmentHit;
 }
 
 FVector AAGun::CalculateAccuracy()
 {
-	int random = rand() % 4;
-	int convertedAccuracy = 1 - gunAccuracy;
-	int offsetScale = 10, maximumVelocityOffset = 300;
-	int currentVelocity = pawnEquippedTo->GetVelocity().Length();
+	int Random = rand() % 4;
+	int ConvertedAccuracy = 1 - GunAccuracy;
+	int OffsetScale = 10, MaximumVelocityOffset = 300;
+	int CurrentVelocity = PawnEquippedTo->GetVelocity().Length();
 	
-	int movingOffset;
-	int velocityPercentage = (currentVelocity / maximumVelocityOffset);
-	if (velocityPercentage == 0)
+	int MovingOffset;
+	int VelocityPercentage = (CurrentVelocity / MaximumVelocityOffset);
+	if (VelocityPercentage == 0)
 	{
-		movingOffset = 0;
-	}
-	else
-		movingOffset = 2 - (2 / velocityPercentage) / 10;
-	int calculatedOffset = rand() % (offsetScale - (int)((gunAccuracy - movingOffset) * offsetScale));
-	if (random < 2)
-	{
-		return trajectoryOffset * -calculatedOffset;
+		MovingOffset = 0;
 	}
 	else
 	{
-		return trajectoryOffset * calculatedOffset;
+		MovingOffset = 2 - (2 / VelocityPercentage) / 10;
 	}
+	int CalculatedOffset = rand() % (OffsetScale - (int)((GunAccuracy - MovingOffset) * OffsetScale));
+	if (Random < 2)
+	{
+		return TrajectoryOffset * -CalculatedOffset;
+	}
+	else
+	{
+		return TrajectoryOffset * CalculatedOffset;
+	}
+}
+
+void AAGun::SetIsGunFiring(bool Value)
+{
+	bIsGunFiring = Value;
+	// If we have just stopped firing reset the counter so there isn't a delay when we shoot next
+	if (bIsGunFiring == false)
+	{
+		GunFireRateCounter = GunFirerate;
+	}
+}
+
+bool AAGun::IsGunFiring()
+{
+	return bIsGunFiring;
 }

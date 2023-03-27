@@ -70,8 +70,8 @@ bool UFShadowAbility::InactiveState() {
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Out of Ability Uses"));
 		return false;
 	}
-	FVector location = OriginalActor->GetActorLocation();
 	FVector fwdVec = GetOriginalActorForwardVector();
+	FVector location = OriginalActor->GetActorLocation() + (fwdVec * 100);
 
 	//Spawn a portal but do not call Init
 	FVector portalTranslation = FVector(0, 0, 15);
@@ -85,6 +85,7 @@ bool UFShadowAbility::InactiveState() {
 	//Pass in boolean to allow portal to let player inside and translate it so it is infront of the wall
 	portal->AddActorLocalOffset(portalTranslation);
 	Portal = portal;
+	BPI_AbilityCue();
 	return true;
 }
 bool UFShadowAbility::CueState() {
@@ -93,8 +94,8 @@ bool UFShadowAbility::CueState() {
 	Portal = nullptr;
 
 	//Place the portal and activate the walls
-	FVector location = OriginalActor->GetActorLocation();
 	FVector fwdVec = GetOriginalActorForwardVector();
+	FVector location = OriginalActor->GetActorLocation() + (fwdVec * 100);
 	bool success = InitAbility(location, fwdVec);
 	if (!success)
 	{
@@ -102,6 +103,7 @@ bool UFShadowAbility::CueState() {
 		return false;
 	}
 	else {
+		BPI_AbilityStart();
 		DurationTimer = Duration;
 		UseAmount--;
 		DepleteCharge();
@@ -121,6 +123,7 @@ bool UFShadowAbility::ActiveState() {
 		return false;
 	}
 	else {
+		BPI_AbilityEnter();
 		DurationTimer = DurationTimer * DurationMultiplier;
 		return true;
 	}
@@ -133,6 +136,7 @@ bool UFShadowAbility::EnteredState() {
 		return false;
 	}
 	else {
+		BPI_AbilityExit();
 		DurationTimer = DurationEndStart;
 		return true;
 	}
@@ -156,6 +160,8 @@ void UFShadowAbility::UseAbility()
 	case Cue:
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Current State when called: Cue"));
 		success = CueState();
+		if (!success)
+			State = Inactive;
 		break;
 	case Active:
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Current State when called: Active"));
@@ -166,6 +172,8 @@ void UFShadowAbility::UseAbility()
 		success = EnteredState();
 		if (success)
 			State = Inactive;
+		EndAbility();
+
 		return;
 	default:
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility: Current State when called: Invalid State"));
@@ -196,12 +204,14 @@ bool UFShadowAbility::InitAbility(FVector position, FVector fwdVector)
 	AliveWalls = ChooseWalls(walls);
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Enable Walls Complete"));
 	AliveWalls.Add(PortalWall);
+	
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("NUM OF ALIVE: %i"), AliveWalls.Num()));
 
 	//Turn on every wall chosen
 	int i = 0;
 	for (auto& var : AliveWalls)
 	{
-
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("CODE ID: %i"), i));
 		var->StartWall(i);
 		i++;
 	}
@@ -227,7 +237,7 @@ bool UFShadowAbility::PlacePortal(FVector position, FVector fwdVector)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, hits[i].GetActor()->GetName());
 			wall = Cast<AUShadowWall>(hits[i].GetActor());
-			if (i >= 2)
+			if (i >= 4)
 				return false;//We will return false to prevent our trace going through physical walls, If we have hit two walls, assume we have went through too many
 			if (wall)
 			{
@@ -302,7 +312,7 @@ TSet<AUShadowWall*> UFShadowAbility::DiscCastWalls(FVector origin) {
 	{
 		float yawAmount = ((360 / DiscAccuracy) * i);
 		FVector endVector(1, 0, 0);
-		endVector.RotateAngleAxis(yawAmount, FVector3d(0, 0, 1));
+		endVector = endVector.RotateAngleAxis(yawAmount, FVector3d(0, 0, 1));
 		endVector *= WallDetectionRange;
 		GetWorld()->LineTraceMultiByChannel(hits, origin, origin + endVector, ECC_Visibility);
 
@@ -311,8 +321,10 @@ TSet<AUShadowWall*> UFShadowAbility::DiscCastWalls(FVector origin) {
 			AUShadowWall* wall = Cast<AUShadowWall>(hits[actors].GetActor());
 			if (wall) 
 				shadowWalls.Add(wall);
+				
 		}
 	}
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("WALLS FOUND %i"), shadowWalls.Num()));
 	return shadowWalls;
 }
 TSet<AUShadowWall*> UFShadowAbility::ChooseWalls(TSet<AUShadowWall*> walls)
@@ -322,6 +334,7 @@ TSet<AUShadowWall*> UFShadowAbility::ChooseWalls(TSet<AUShadowWall*> walls)
 	int wallCount = 1;//Starting at 1 to account for the initial wall hit
 	if (walls.Num() == 0)
 		return newWalls;
+
 
 	//We start at 1 to account for the original portal wall
 	for (int i = 1; i < WallAmount; i++)
@@ -334,6 +347,7 @@ TSet<AUShadowWall*> UFShadowAbility::ChooseWalls(TSet<AUShadowWall*> walls)
 		{
 			newWalls.Add(aWalls[index]);
 			aWalls.RemoveAt(index, 1, true);
+		/*	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("FOUND WALLS ALIVE ID: %i"), wallCount));*/
 			wallCount++;
 		}
 		else {
@@ -417,9 +431,10 @@ bool UFShadowAbility::ExitWall()
 
 void UFShadowAbility::EndAbility()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::End Ability called"));
 	if (State == AbilityState::Entered)
 			ExitWall();
-	if (State == AbilityState::Cue){
+	if (State == AbilityState::Active){
 		DestroyOrHideActor(Portal);
 		Portal = nullptr;
 	}
@@ -428,6 +443,7 @@ void UFShadowAbility::EndAbility()
 	{
 		Elem->OnDeath();
 	}
+	BPI_AbilityEnd();
 	State = Inactive;
 	bPortalUseable = false;
 	bPortalPlaceable = false;
@@ -463,7 +479,7 @@ void UFShadowAbility::UpdateFakeWall(FVector position, FVector fwdVector) {
 	{
 
 		AUShadowWall* wall = Cast<AUShadowWall>(hits[i].GetActor());
-		if (i >= 4)
+		if (i >= 6)
 			break;//We will break out with a false wallFound
 		if (wall)
 		{

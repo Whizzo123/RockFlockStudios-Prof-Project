@@ -2,12 +2,15 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 
 Auxiliary Bus	ID	Name			Wwise Object Path	Notes
+	56139379	Footstep_Audio_Bus			\Default Work Unit\Master Audio Bus\Footstep_Audio_Bus	
 	1872339956	Omen_Shadow_Voice			\Default Work Unit\Master Audio Bus\Omen_Shadow_Voice	
 
 Effect plug-ins	ID	Name	Type				Notes
+	86245554	Attack_Remover	Wwise Compressor			
 	701863527	Inside_My_Head	Wwise RoomVerb			
 	797738716	Pitch Shifter (Custom)	Wwise Pitch Shifter			
 	2394809124	Very_Slow_Modulation	Wwise Tremolo			
+	2945072214	My_Closet	Wwise RoomVerb			
 	3043085106	High_Impact	Wwise Compressor			
 
 Audio Devices	ID	Name	Type				Notes

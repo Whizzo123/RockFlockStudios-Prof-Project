@@ -34,6 +34,8 @@ public:
 		void SendHint(AActor* Actor, float hintTime);
 	UFUNCTION()
 		void HintTimerUp();
+	UFUNCTION()
+		void ResetForRespawn();
 	////UProperties
 	UPROPERTY(EditAnywhere)
 		UBehaviorTree* tree;
@@ -55,4 +57,8 @@ public:
 	FTimerHandle sightLossTimer;
 	FTimerHandle hintDurationTimer;
 	APlayerCharacter* local_player;
+
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void BPI_LineOfSight();
 };

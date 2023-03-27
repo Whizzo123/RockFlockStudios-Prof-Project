@@ -5,7 +5,22 @@
 			<ChildrenList>
 				<SoundBank Name="TestSoundBank" ID="{10BF1388-6F34-4C42-9D58-68F44A9E794E}">
 					<ObjectInclusionList>
+						<ObjectRef Name="Killing_Enemy" ID="{5A7D610C-7F9C-412A-AB75-1F7B60FC42F4}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Omen_Portal_Rip" ID="{6A00E624-6F4B-422D-98F0-366F297AC3AE}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Footstep_Audio_Bus" ID="{5C486ADB-3C80-4372-A982-8E6B1DF7F879}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Omen_Portal_Activation" ID="{9450CCFA-A39C-439A-AE42-A6C98FD7D663}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Enemy_Footsteps" ID="{768247ED-5CF4-43CC-AF7D-65E6E0E7E9C3}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Omen_Gun_Firng" ID="{B90B79D9-3AF7-4474-B571-E3C46FAADC8E}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Omen_Portal_Entry" ID="{72A7C70A-6628-4664-BC21-8F54D8F996F5}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Enemy_Spotted_Omen" ID="{43B0DBA5-1D81-482D-81CF-5935BF9D37D8}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Enemy_Death_Noise" ID="{A1B5ED86-86F2-48D5-B137-1003C2842DC2}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Enemy_Spotted_Wall" ID="{12FD9DC8-9DC5-4912-B82C-4AA73BA64605}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Omen_Shadow_Voice" ID="{D42160DA-9E1A-495E-A599-539C3A4815E3}" WorkUnitID="{4D8D9803-7562-4D3A-AA6D-BA6BE99834C4}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Omen_Footsteps" ID="{3D158CFE-84E0-4C56-8FE7-746CB20E3BCE}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="TestEvent1" ID="{40BB72F3-EECF-4D09-B543-36C6C6318FEB}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Omen_Portal_Ends" ID="{0A6B3412-F0F3-4E3F-9852-A135D675C0E8}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Omen_Death" ID="{4F4E1B74-E2FD-4E47-AD28-9A5EE9E45A3C}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Reloading" ID="{BB75417C-9665-4E8C-A76C-8AE90034163C}" WorkUnitID="{846787C2-9B34-4735-8DA5-DD6646E42820}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>
