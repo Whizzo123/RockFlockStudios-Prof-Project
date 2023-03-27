@@ -13,6 +13,24 @@ AAGun::AAGun()
 void AAGun::BeginPlay()
 {
 	Super::BeginPlay();
+	GunFireRateCounter = GunFirerate;
+}
+
+void AAGun::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	if (bIsGunAutomatic)
+	{
+		if (GunFireRateCounter >= GunFirerate && bIsGunFiring == true)
+		{
+			OnStartHitScanLocUpdate();
+			Fire(GunStartHitScanLoc);
+			GunFireRateCounter = 0;
+		}
+		GunFireRateCounter += DeltaSeconds;
+	}
+	
 }
 
 FVector AAGun::Fire(FVector StartHitScanLoc)
@@ -124,4 +142,19 @@ FVector AAGun::CalculateAccuracy()
 	{
 		return TrajectoryOffset * CalculatedOffset;
 	}
+}
+
+void AAGun::SetIsGunFiring(bool Value)
+{
+	bIsGunFiring = Value;
+	// If we have just stopped firing reset the counter so there isn't a delay when we shoot next
+	if (bIsGunFiring == false)
+	{
+		GunFireRateCounter = GunFirerate;
+	}
+}
+
+bool AAGun::IsGunFiring()
+{
+	return bIsGunFiring;
 }

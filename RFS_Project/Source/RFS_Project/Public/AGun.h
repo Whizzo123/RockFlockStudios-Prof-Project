@@ -23,7 +23,7 @@ public:
 	// Sets default values for this actor's properties
 	AAGun();
 	void BeginPlay() override;
-	
+	void Tick(float DeltaSeconds) override;
 	// EDITOR VARIABLES
 	UPROPERTY(EditAnywhere)
 		float GunAccuracy;
@@ -43,14 +43,20 @@ public:
 		bool bPlayerGun;
 	UPROPERTY(EditAnywhere)
 		float GunRange;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		bool bIsGunAutomatic;
 	// BLUEPRINT PROPERTIES
 	UPROPERTY(BlueprintReadWrite)
 		APawn* PawnEquippedTo;
 	UPROPERTY(BlueprintReadWrite)
 		FVector MuzzlePoint;
+	UPROPERTY(BlueprintReadWrite)
+		FVector GunStartHitScanLoc;
 
 protected:
 	FVector TrajectoryOffset = FVector(1.0f, 0.0f, 0.0f);
+	bool bIsGunFiring = false;
+	float GunFireRateCounter;
 	/// <summary>
 	/// Calculates the accuracy of the guns shot
 	/// </summary>
@@ -77,4 +83,10 @@ public:
 	/// </summary>
 	UFUNCTION(BlueprintCallable)
 		void ApplyRecoil(ACharacter* playerCharacter, float recoilAngleYaw, float recoilAnglePitch);
+	UFUNCTION(BlueprintCallable)
+		void SetIsGunFiring(bool Value);
+	UFUNCTION(BlueprintCallable)
+		bool IsGunFiring();
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnStartHitScanLocUpdate();
 };
