@@ -39,7 +39,7 @@ public:
 		TSubclassOf<AAGunProjectile> ProjectileToFire;
 	UPROPERTY(EditAnywhere)
 		USoundBase* FireSoundFX;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		bool bPlayerGun;
 	UPROPERTY(EditAnywhere)
 		float GunRange;
