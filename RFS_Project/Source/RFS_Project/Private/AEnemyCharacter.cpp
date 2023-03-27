@@ -24,7 +24,7 @@ void AAEnemyCharacter::BeginPlay()
 			equippedGun = Cast<AAGun>(children[i]);
 	}
 	if (equippedGun)
-		equippedGun->pawnEquippedTo = this;
+		equippedGun->PawnEquippedTo = this;
 	else
 		GEngine->AddOnScreenDebugMessage(0, 1.0f, FColor::Red, "AAEnemyCharacter::BeginPlay() has no gun equipped");
 }
