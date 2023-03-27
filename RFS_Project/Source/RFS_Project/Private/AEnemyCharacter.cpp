@@ -14,19 +14,25 @@ AAEnemyCharacter::AAEnemyCharacter()
 void AAEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	MaxHitPoints = HitPoints = characterHealth;
-	respawnPoint = GetActorLocation();
-	TArray<AActor*> children;
-	GetAllChildActors(children);
-	for(int i = 0; i < children.Num(); i++)
+	MaxHitPoints = HitPoints = CharacterHealth;
+	RespawnPoint = GetActorLocation();
+	TArray<AActor*> ActorChildren;
+	GetAllChildActors(ActorChildren);
+	for(int i = 0; i < ActorChildren.Num(); i++)
 	{
-		if (Cast<AAGun>(children[i]))
-			equippedGun = Cast<AAGun>(children[i]);
+		if (Cast<AAGun>(ActorChildren[i]))
+		{
+			EquippedGun = Cast<AAGun>(ActorChildren[i]);
+		}
 	}
-	if (equippedGun)
-		equippedGun->PawnEquippedTo = this;
+	if (EquippedGun)
+	{
+		EquippedGun->PawnEquippedTo = this;
+	}
 	else
+	{
 		GEngine->AddOnScreenDebugMessage(0, 1.0f, FColor::Red, "AAEnemyCharacter::BeginPlay() has no gun equipped");
+	}
 }
 
 // Called every frame
@@ -39,45 +45,49 @@ void AAEnemyCharacter::Tick(float DeltaTime)
 void AAEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
-void AAEnemyCharacter::UpdateWalkSpeed(float speed)
+void AAEnemyCharacter::UpdateWalkSpeed(float Speed)
 {
-	GetCharacterMovement()->MaxWalkSpeed = speed;
+	GetCharacterMovement()->MaxWalkSpeed = Speed;
 }
 
-void AAEnemyCharacter::OnHeal(float health)
+void AAEnemyCharacter::OnHeal(float Health)
 {
-	HitPoints += health;
+	HitPoints += Health;
 	if (HitPoints > MaxHitPoints)
+	{
 		HitPoints = MaxHitPoints;
+	}
 }
 
-void AAEnemyCharacter::OnDamage(float damage, AActor* actorDamagedBy)
+void AAEnemyCharacter::OnDamage(float Damage, AActor* ActorDamagedBy)
 {
-	savedActorDamageBy = actorDamagedBy;
-	HitPoints -= damage;
+	SavedActorDamageBy = ActorDamagedBy;
+	HitPoints -= Damage;
 	if (HitPoints <= 0)
+	{
 		OnDeath();
+	}
 }
 
 void AAEnemyCharacter::OnDeath()
 {
-	if (savedActorDamageBy)
+	if (SavedActorDamageBy)
 	{
-		IHealth* HealthComponent = Cast<IHealth>(savedActorDamageBy);
+		IHealth* HealthComponent = Cast<IHealth>(SavedActorDamageBy);
 		if (HealthComponent)
+		{
 			HealthComponent->OnKill();
+		}
 	}
 	BPI_OnDeath();
-	SetActorLocation(respawnPoint);
+	SetActorLocation(RespawnPoint);
 	OnRespawn.Execute();
 	HitPoints = MaxHitPoints;
 }
 
-void AAEnemyCharacter::ShootGun(FVector startHitScanLoc)
+void AAEnemyCharacter::ShootGun(FVector StartHitScanLoc)
 {
-	equippedGun->Fire(startHitScanLoc);
-
+	EquippedGun->Fire(StartHitScanLoc);
 }

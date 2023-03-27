@@ -18,27 +18,28 @@ class RFS_PROJECT_API AAEnemyCharacter : public APlayableCharacter
 public:
 	// Sets default values for this character's properties
 	AAEnemyCharacter();
+	//Delegate called upon AI respawn
 	DECLARE_DYNAMIC_DELEGATE(FRespawned);
 	FRespawned OnRespawn;
 	//UPROPERTIES
 	UPROPERTY(EditAnywhere)
-		float characterHealth;
+		float CharacterHealth;
 	UPROPERTY(EditAnywhere)
-		AAGun* equippedGun;
+		AAGun* EquippedGun;
 	//UFUNCTIONS
 	UFUNCTION(BlueprintCallable)
-		void ShootGun(FVector startHitScanLoc);
+		void ShootGun(FVector StartHitScanLoc);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	void OnHeal(float health) override;
-	void OnDamage(float damage, AActor* actorDamagedBy) override;
+	void OnHeal(float Health) override;
+	void OnDamage(float Damage, AActor* ActorDamagedBy) override;
 	void OnDeath() override;
 	void OnKill() override {};
 
-	FVector respawnPoint;
-	AActor* savedActorDamageBy;
+	FVector RespawnPoint;
+	AActor* SavedActorDamageBy;
 
 
 	UFUNCTION(BlueprintNativeEvent)
@@ -52,5 +53,5 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void UpdateWalkSpeed(float speed);
+	void UpdateWalkSpeed(float Speed);
 };
