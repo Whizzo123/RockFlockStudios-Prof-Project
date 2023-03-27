@@ -8,7 +8,6 @@ AAGun::AAGun()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 void AAGun::BeginPlay()
@@ -16,88 +15,113 @@ void AAGun::BeginPlay()
 	Super::BeginPlay();
 }
 
-FVector AAGun::Fire(FVector startHitScanLoc)
+FVector AAGun::Fire(FVector StartHitScanLoc)
 {
-	FVector accOffset = CalculateAccuracy();
-	FRotator rotation;
-	if (playerGun)
-		rotation = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetCameraRotation();
-	else
-		rotation = GetActorRightVector().Rotation();
-	FVector lineVector;
-	if (playerGun)
-		lineVector = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetActorForwardVector() * 2000.0f;
-	else
-		lineVector = GetActorRightVector() * 2000.0f;
-	AActor* hitActor = Trace<IHealth>(startHitScanLoc, (startHitScanLoc + lineVector) + (accOffset) * 20);
-	if (hitActor)
+	FVector AccOffset = CalculateAccuracy();
+	FRotator Rotation;
+	if (bPlayerGun)
 	{
-		IHealth* healthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(hitActor));
-		if(playerGun)
-			healthObj->OnDamage(1.0f, pawnEquippedTo);
+		Rotation = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetCameraRotation();
+	}
+	else
+	{
+		Rotation = GetActorRightVector().Rotation();
+	}
+	FVector LineVector;
+	if (bPlayerGun)
+	{
+		LineVector = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetActorForwardVector() * GunRange;
+	}
+	else
+	{
+		LineVector = GetActorRightVector() * GunRange;
+	}
+	AActor* HitActor = Trace<IHealth>(StartHitScanLoc, (StartHitScanLoc + LineVector) + (AccOffset) * 20);
+	if (HitActor)
+	{
+		IHealth* HealthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(HitActor));
+		if (HealthObj != nullptr)
+		{
+			if (bPlayerGun)
+			{
+				HealthObj->OnDamage(1.0f, PawnEquippedTo);
+			}
+			else
+			{
+				HealthObj->OnDamage(10.0f, PawnEquippedTo);
+			}
+		}
 		else
-			healthObj->OnDamage(10.0f, pawnEquippedTo);
-		return hitActor->GetActorLocation();
+		{
+			return HitActor->GetActorLocation();
+		}
 	}
 	return FVector();
+	
 }
 
-void AAGun::ApplyRecoil(ACharacter* playerCharacter, float recoilAngleYaw, float recoilAnglePitch)
+void AAGun::ApplyRecoil(ACharacter* PlayerCharacter, float RecoilAngleYaw, float RecoilAnglePitch)
 {
-	playerCharacter->AddControllerYawInput(recoilAngleYaw);
-	playerCharacter->AddControllerPitchInput(recoilAnglePitch);
+	PlayerCharacter->AddControllerYawInput(RecoilAngleYaw);
+	PlayerCharacter->AddControllerPitchInput(RecoilAnglePitch);
 }
 
 template<typename T>
-AActor* AAGun::Trace(FVector startTrace, FVector endTrace)
+AActor* AAGun::Trace(FVector StartTrace, FVector EndTrace)
 {
-	TArray<FHitResult> hit;
-	GetWorld()->LineTraceMultiByChannel(hit, startTrace, endTrace, ECollisionChannel::ECC_Visibility);
-	if(!playerGun)
-		DrawDebugLine(GetWorld(), startTrace, endTrace, FColor::Red, false, 1.0f);
-	for (int i = 0; i < hit.Num(); i++)
+	TArray<FHitResult> OutHit;
+	GetWorld()->LineTraceMultiByChannel(OutHit, StartTrace, EndTrace, ECollisionChannel::ECC_Visibility);
+	if (!bPlayerGun)
 	{
-
-		AActor* hitActor = hit[i].GetActor();
-		if (hitActor)
+		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Red, false, 1.0f);
+	}
+	// Actor pointer for if we don't hit the enemy but instead want to record hitting the enviornment
+	AActor* EnviornmentHit = nullptr;
+	for (int i = 0; i < OutHit.Num(); i++)
+	{
+		AActor* HitActor = OutHit[i].GetActor();
+		if (HitActor)
 		{
-			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, hitActor->GetFName().ToString());
-			//Check that the thing is hittable
-			T* healthObj = dynamic_cast<T*>(Cast<APlayableCharacter>(hit[i].GetActor()));
-			
-			if (healthObj && hitActor != pawnEquippedTo)
+			// Cast to determine if the actor hit is of the given type
+			T* HealthObj = dynamic_cast<T*>(Cast<APlayableCharacter>(OutHit[i].GetActor()));
+			// If the object is of the given type and we have not hit ourselves
+			if (HealthObj && HitActor != PawnEquippedTo)
 			{
-				//if(playerGun)
-					//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, hitActor->GetFName().ToString());
-				return hitActor;
+				return HitActor;
+			}
+			else if(HitActor != PawnEquippedTo && EnviornmentHit == nullptr)
+			{
+				EnviornmentHit = OutHit[i].GetActor();
 			}
 		}
 	}
-	return nullptr;
+	return EnviornmentHit;
 }
 
 FVector AAGun::CalculateAccuracy()
 {
-	int random = rand() % 4;
-	int convertedAccuracy = 1 - gunAccuracy;
-	int offsetScale = 10, maximumVelocityOffset = 300;
-	int currentVelocity = pawnEquippedTo->GetVelocity().Length();
+	int Random = rand() % 4;
+	int ConvertedAccuracy = 1 - GunAccuracy;
+	int OffsetScale = 10, MaximumVelocityOffset = 300;
+	int CurrentVelocity = PawnEquippedTo->GetVelocity().Length();
 	
-	int movingOffset;
-	int velocityPercentage = (currentVelocity / maximumVelocityOffset);
-	if (velocityPercentage == 0)
+	int MovingOffset;
+	int VelocityPercentage = (CurrentVelocity / MaximumVelocityOffset);
+	if (VelocityPercentage == 0)
 	{
-		movingOffset = 0;
-	}
-	else
-		movingOffset = 2 - (2 / velocityPercentage) / 10;
-	int calculatedOffset = rand() % (offsetScale - (int)((gunAccuracy - movingOffset) * offsetScale));
-	if (random < 2)
-	{
-		return trajectoryOffset * -calculatedOffset;
+		MovingOffset = 0;
 	}
 	else
 	{
-		return trajectoryOffset * calculatedOffset;
+		MovingOffset = 2 - (2 / VelocityPercentage) / 10;
+	}
+	int CalculatedOffset = rand() % (OffsetScale - (int)((GunAccuracy - MovingOffset) * OffsetScale));
+	if (Random < 2)
+	{
+		return TrajectoryOffset * -CalculatedOffset;
+	}
+	else
+	{
+		return TrajectoryOffset * CalculatedOffset;
 	}
 }
