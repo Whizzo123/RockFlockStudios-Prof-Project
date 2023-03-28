@@ -14,19 +14,33 @@ void AAGun::BeginPlay()
 {
 	Super::BeginPlay();
 	GunFireRateCounter = GunFirerate;
+	CurrentAmmo = MaxAmmo;
 }
 
 void AAGun::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
+	//TODO try and reduce the if-statements
 	if (bIsGunAutomatic)
 	{
 		if (GunFireRateCounter >= GunFirerate && bIsGunFiring == true)
 		{
-			OnStartHitScanLocUpdate();
-			Fire(GunStartHitScanLoc);
-			GunFireRateCounter = 0;
+			if (CurrentAmmo > 0)
+			{
+				OnStartHitScanLocUpdate();
+				Fire(GunStartHitScanLoc);
+				CurrentAmmo -= 1;
+				GunFireRateCounter = 0;
+			}
+			else
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "Attempting to reload");
+				if (!bReloadingOnHalfMag && !bReloadingOnEmpty)
+				{
+					Reload();
+				}
+			}
 		}
 		GunFireRateCounter += DeltaSeconds;
 	}
@@ -78,12 +92,6 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 	
 }
 
-void AAGun::ApplyRecoil(ACharacter* PlayerCharacter, float RecoilAngleYaw, float RecoilAnglePitch)
-{
-	PlayerCharacter->AddControllerYawInput(RecoilAngleYaw);
-	PlayerCharacter->AddControllerPitchInput(RecoilAnglePitch);
-}
-
 template<typename T>
 AActor* AAGun::Trace(FVector StartTrace, FVector EndTrace)
 {
@@ -114,6 +122,31 @@ AActor* AAGun::Trace(FVector StartTrace, FVector EndTrace)
 		}
 	}
 	return EnviornmentHit;
+}
+
+void AAGun::Reload()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Purple, "Reloading");
+	if (CurrentAmmo > 0)
+		bReloadingOnHalfMag = true;
+	else
+		bReloadingOnEmpty = true;
+	PawnEquippedTo->PlayReloadAnimation();
+	GetWorld()->GetTimerManager().SetTimer(ReloadTimer, this, &AAGun::ResetAmmo, ReloadAnimWaitTime, false);
+}
+
+void AAGun::ResetAmmo()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "Resetting Ammo");
+	CurrentAmmo = MaxAmmo;
+	bReloadingOnEmpty = false;
+	bReloadingOnHalfMag = false;
+}
+
+void AAGun::ApplyRecoil(ACharacter* PlayerCharacter, float RecoilAngleYaw, float RecoilAnglePitch)
+{
+	PlayerCharacter->AddControllerYawInput(RecoilAngleYaw);
+	PlayerCharacter->AddControllerPitchInput(RecoilAnglePitch);
 }
 
 FVector AAGun::CalculateAccuracy()
@@ -157,4 +190,19 @@ void AAGun::SetIsGunFiring(bool Value)
 bool AAGun::IsGunFiring()
 {
 	return bIsGunFiring;
+}
+
+int AAGun::GetCurrentAmmo()
+{
+	return CurrentAmmo;
+}
+
+bool AAGun::IsReloadingOnEmpty()
+{
+	return bReloadingOnEmpty;
+}
+
+bool AAGun::IsReloadingOnHalfMag()
+{
+	return bReloadingOnHalfMag;
 }
