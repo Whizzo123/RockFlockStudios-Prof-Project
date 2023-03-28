@@ -97,10 +97,10 @@ AActor* AAGun::Trace(FVector StartTrace, FVector EndTrace)
 {
 	TArray<FHitResult> OutHit;
 	GetWorld()->LineTraceMultiByChannel(OutHit, StartTrace, EndTrace, ECollisionChannel::ECC_Visibility);
-	if (!bPlayerGun)
-	{
+	//if (!bPlayerGun)
+	//{
 		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Red, false, 1.0f);
-	}
+	//}
 	// Actor pointer for if we don't hit the enemy but instead want to record hitting the enviornment
 	AActor* EnviornmentHit = nullptr;
 	for (int i = 0; i < OutHit.Num(); i++)
