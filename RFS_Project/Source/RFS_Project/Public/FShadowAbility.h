@@ -9,7 +9,6 @@
 #include "ShadowPortal.h"
 #include "Math/UnrealMathUtility.h"
 #include "ARestrictedCamera.h"
-#include "Ability.h"
 #include "FShadowAbility.generated.h"
 
 //class AUShadowWall;
