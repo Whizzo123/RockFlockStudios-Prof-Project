@@ -42,6 +42,7 @@ void APlayerCharacter::OnHeal(float health)
 
 void APlayerCharacter::OnDamage(float damage, AActor* actorDamagedBy)
 {
+	BPI_TakeDamage();
 	HitPoints -= damage;
 	if (HitPoints <= 0)
 		OnDeath();
