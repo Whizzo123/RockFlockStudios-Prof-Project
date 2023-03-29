@@ -53,13 +53,13 @@ struct FAbilityData {
 	GENERATED_BODY()
 public:
 	//////////////////////BASE ABILITY FUNCTIONALITY
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Uses")
 		int Use;//Current amount of ability usages that can be used.
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Uses")
 		int UseCapacity;//How many ability usages can be stored.
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Charge")
 		int Charge;//The ultimate charge counter
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Charge")
 		int ChargeCapacity;//Ultimate charge capacity, once full, ability can be used.
 };
 

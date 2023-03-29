@@ -34,14 +34,20 @@ void UBaseShadowAbility::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 
 FVector UBaseShadowAbility::GetCameraActorForwardVector(AActor* ActorFwd) {
 	if (!ActorFwd)
-		return FVector(0, 0, 1);
+	{
+		return FVector(0, 0, 0);
+	}
 
 	//Use Camera or character
 	UCameraComponent* CameraComps = Cast<UCameraComponent>(ActorFwd->GetComponentByClass(UCameraComponent::StaticClass()));
 	if (CameraComps)
+	{
 		return CameraComps->GetForwardVector();
-	else
+	}
+	else 
+	{
 		return ActorFwd->GetActorForwardVector();
+	}
 
 }
 void UBaseShadowAbility::DestroyOrHideActor(AActor* Actor)
@@ -50,13 +56,17 @@ void UBaseShadowAbility::DestroyOrHideActor(AActor* Actor)
 	{
 		bool bDestroyed = Actor->Destroy();
 		if (!bDestroyed)
+		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::DestroyOrHideActor : Couldn't destroy actor, attempting to hide"));
-		else {
+		}
+		else 
+		{
 			Actor->AddActorWorldOffset(FVector(0, 500, 0));
 			Actor->SetActorHiddenInGame(true);
 		}
 	}
-	else {
+	else 
+	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::DestroyOrHideActor : Actor does not exist"));
 
 	}
@@ -112,23 +122,23 @@ bool UBaseShadowAbility::Use()
 	return false;
 }
 
-TSet<AUShadowWall*> UBaseShadowAbility::SphereCastWalls(FVector origin)
+TSet<AUShadowWall*> UBaseShadowAbility::SphereCastWalls(FVector Origin)
 {
-	TSet<AUShadowWall*> shadowWalls;
-	FCollisionQueryParams traceParams;
-	TArray<FHitResult> hits;
-	GetWorld()->SweepMultiByChannel(hits, origin, origin, FQuat(), ECC_Visibility, FCollisionShape::MakeSphere(WallDetectionRange), traceParams);
+	TSet<AUShadowWall*> ShadowWalls;
+	FCollisionQueryParams TraceParams;
+	TArray<FHitResult> Hits;
+	GetWorld()->SweepMultiByChannel(Hits, Origin, Origin, FQuat(), ECC_Visibility, FCollisionShape::MakeSphere(WallDetectionRange), TraceParams);
 
 	//Goes through all objects hit adn grabs the walls and adds them to TSet
-	for (int i = 0; i < hits.Num(); i++)
+	for (int i = 0; i < Hits.Num(); i++)
 	{
-		AUShadowWall* wall = Cast<AUShadowWall>(hits[i].GetActor());
-		if (wall) {
-			shadowWalls.Add(wall);
+		AUShadowWall* Wall = Cast<AUShadowWall>(Hits[i].GetActor());
+		if (Wall) {
+			ShadowWalls.Add(Wall);
 		}
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility::SphereCastWalls: Walls found %i"), shadowWalls.Num()));
-	return shadowWalls;
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility::SphereCastWalls: Walls found %i"), ShadowWalls.Num()));
+	return ShadowWalls;
 
 }
 TSet<AUShadowWall*> UBaseShadowAbility::DiscCastWalls(FVector origin) {
@@ -160,7 +170,7 @@ TSet<AUShadowWall*> UBaseShadowAbility::ChooseWalls(TSet<AUShadowWall*> ShadowWa
 {
 	TArray<AUShadowWall*> Walls = ShadowWalls.Array();
 	TSet<AUShadowWall*> NewWalls = TSet<AUShadowWall*>();
-	int wallCount = 1;//Starting at 1 to account for the initial wall hit
+	int WallCount = 1;//Starting at 1 to account for the initial wall hit
 	if (Walls.Num() == 0)
 		return NewWalls;
 
@@ -168,19 +178,19 @@ TSet<AUShadowWall*> UBaseShadowAbility::ChooseWalls(TSet<AUShadowWall*> ShadowWa
 	//We start at 1 to account for the original portal wall
 	for (int i = 1; i < WallAmount; i++)
 	{
-		int num = Walls.Num();
-		int index = FMath::RandRange(0, num - 1);
-		bool valid = Walls.IsValidIndex(index);
+		int Num = Walls.Num();
+		int Index = FMath::RandRange(0, Num - 1);
+		bool Valid = Walls.IsValidIndex(Index);
 		//Choose a random wall
-		if (valid)
+		if (Valid)
 		{
-			NewWalls.Add(Walls[index]);
-			Walls.RemoveAt(index, 1, true);
+			NewWalls.Add(Walls[Index]);
+			Walls.RemoveAt(Index, 1, true);
 			/*	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("FOUND WALLS ALIVE ID: %i"), wallCount));*/
-			wallCount++;
+			WallCount++;
 		}
 		else {
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("FShadowAbility::SphereCastWalls: Invalid Wall at : Index %i , Num %i , Valid %i"), index, num, valid));
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("FShadowAbility::SphereCastWalls: Invalid Wall at : Index %i , Num %i , Valid %i"), Index, Num, Valid));
 
 		}
 	}
@@ -227,6 +237,7 @@ bool UBaseShadowAbility::EnterWall(AUShadowWall* WallToEnter)
 
 	Controller->Possess(RestrictedActor);
 
+	BPI_EnterWall();
 	return true;
 }
 

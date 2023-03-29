@@ -49,7 +49,7 @@ public:
 		/**
 		 * Sets our Original Pawn to repossess when exiting Walls. MUST HAVE ISHADOWPAWN INTERFACE
 		 */
-	UFUNCTION(BlueprintCallable, Category = "Ability_Shadow")
+	UFUNCTION(BlueprintCallable, Category = "Ability")
 		void Init(APawn* SelfActor) {
 		OriginalActor = SelfActor;
 	};
@@ -58,7 +58,7 @@ public:
 		/**
 		 * Adds a Use until it reaches capacity
 		 */
-	UFUNCTION(BlueprintCallable, Category = "Ability")
+	UFUNCTION(BlueprintCallable, Category = "Ability Use")
 		virtual void AddUse() override {
 		UseData.Use++;
 		if (UseData.Use > UseData.UseCapacity)
@@ -67,14 +67,14 @@ public:
 		/**
 		 * Reduces Use to 0
 		 */
-	UFUNCTION(BlueprintCallable, Category = "Ability")
+	UFUNCTION(BlueprintCallable, Category = "Ability Use")
 		virtual void DepleteUse() override {
 		UseData.Use = 0;
 	};
 	/**
 	 * Adds a Charge till it reaches Capacity, automatically adds a Use once ChargeCapacity is reached
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Ability")
+	UFUNCTION(BlueprintCallable, Category = "Ability Charge")
 		virtual void AddCharge() override {
 		//Add a charge till full, add a use on full charge
 		if (UseData.Charge < UseData.ChargeCapacity)
@@ -87,7 +87,7 @@ public:
 	/**
 	 * Reduces Charge to 0
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Ability")
+	UFUNCTION(BlueprintCallable, Category = "Ability Charge")
 		virtual void DepleteCharge()override {
 		UseData.Charge = 0;
 	};
@@ -96,21 +96,21 @@ public:
 	/**
 	* Returns Use
 	*/
-	UFUNCTION(BlueprintCallable, Category = "Ability")
+	UFUNCTION(BlueprintCallable, Category = "Ability Use")
 		virtual int GetUseAmount()override {
 		return UseData.Use;
 	};
 	/**
 	* Returns Use Capacity
 	*/
-	UFUNCTION(BlueprintCallable, Category = "Ability")
+	UFUNCTION(BlueprintCallable, Category = "Ability Use")
 		virtual int GetUseCapacity()override {
 		return UseData.UseCapacity;
 	};
 	/**
 	* Returns Charge
 	*/
-	UFUNCTION(BlueprintCallable, Category = "Ability")
+	UFUNCTION(BlueprintCallable, Category = "Ability Charge")
 		virtual int GetChargeAmount() override {
 		return UseData.Charge;
 	};
@@ -118,7 +118,7 @@ public:
 	* Gets the Capacity for Charge
 	* @return Charge Capacity
 	*/
-	UFUNCTION(BlueprintCallable, Category = "Ability")
+	UFUNCTION(BlueprintCallable, Category = "Ability Charge")
 		virtual int GetChargeCapacity() override {
 		return UseData.ChargeCapacity;
 	};
@@ -127,36 +127,43 @@ public:
 	/**
 	* Gets called when we succeed the Inactive State
 	*/
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
 		void BPI_InactiveState();
 	/**
 	* Gets called when we succeed the Cue State
 	*/
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
 		void BPI_CueState();	
 	/**
 	* Gets called when we succeed the Active State
 	*/
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
 		void BPI_ActiveState();	
+	/**
+	* Gets called when we Enter the Wall
+	*/
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
+		void BPI_EnterWall();	
 	/**
 	* Gets called when we Exit the Wall
 	*/
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
 		void BPI_ExitWall();
 	/**
 	* Gets called when we succeed the ability ends and walls come down
 	*/
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
 		void BPI_EndAbility();
 
 	//MEMBER VARIABLES
 		/**
 		* The current state of the ability
 		*/
-	UPROPERTY(BlueprintReadOnly, Category = "Ability State")
+	UPROPERTY(BlueprintReadOnly, Category = "Ability")
 		EAbilityState ShadowState;
-
+	/*Contains Charge and Use with Capacities for ability usage*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
+		FAbilityData UseData;
 		/*Amount of walls to turn on, including the original wall we looked at. Limited by how many VFX walls we can activate(4)*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
 		int WallAmount = 4;
@@ -180,12 +187,11 @@ public:
 		float DurationTimer;
 
 		/*The Actor BP to Spawn and possess when we enter walls*/
-	UPROPERTY(EditDefaultsOnly, Category = "ActorSpawning")
+	UPROPERTY(EditDefaultsOnly, Category = "Ability BP Actors")
 		TSubclassOf<AARestrictedCamera> RestrictedActorBP;
 	/*Wall Actor we possess reference*/
 	AARestrictedCamera* RestrictedActor;
-	/*Whether we are inside the walls or not*/
-	bool bInsideWalls = false;
+
 
 protected:
 	//HELPER FUNCTIONS
@@ -247,9 +253,7 @@ protected:
 	*/
 	virtual void EndAbility();
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
-		/*Contains Charge and Use with Capacities for ability usage*/
-		FAbilityData UseData;
+
 	/*The Actor we want to repossess when exiting walls*/
 	APawn* OriginalActor;
 	/*The walls that activate when we use ability*/

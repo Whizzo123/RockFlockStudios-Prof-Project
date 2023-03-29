@@ -24,7 +24,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
 		float DurationMultiplier = 1.5f;//How much time should be multiplied on from the current duration when entering the portal
-	UPROPERTY(EditDefaultsOnly, Category = "ActorSpawning")
+	UPROPERTY(EditDefaultsOnly, Category = "Ability BP Actors")
 		TSubclassOf<AShadowPortal> PortalBP;//The Portal in BP's	
 	UPROPERTY(EditAnywhere, Category = "Fake Portal Material")
 		UMaterialInterface* RedMaterial;//Red Material for the portal
@@ -32,8 +32,11 @@ public:
 		UMaterialInterface* GreenMaterial;//Green material for the portal
 
 
-	UPROPERTY(BlueprintReadWrite, Category = "Ability States")
-		bool bPortalUseable = false;
+	UPROPERTY(BlueprintReadOnly, Category = "Ability")
+		bool bWithinPortalRange = false;
+	/*Whether we are inside the walls or not*/
+	UPROPERTY(BlueprintReadOnly, Category = "Ability")
+		bool bInsideWalls = false;
 private:
 	bool InactiveState() override;
 	bool CueState() override;
@@ -60,7 +63,7 @@ private:
 	* Ends walls, portals, and resets parameters
 	*/
 	void EndAbility() override;
-	void TogglePortalUseable() { bPortalUseable = !bPortalUseable; };
+	void TogglePortalUseable() { bWithinPortalRange = !bWithinPortalRange; };
 
 
 private:
