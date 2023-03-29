@@ -24,7 +24,7 @@ class RFS_PROJECT_API IAbility
 public:
 	//UFUNCTION(BlueprintCallable, Category = "Ability") //Should have this UFUNCTION Specifier
 
-			virtual void Use() = 0;
+			virtual bool Use() = 0;
 
 		//Setters
 			virtual void AddUse() = 0;
@@ -41,19 +41,25 @@ public:
 };
 
 UENUM(BlueprintType)
-enum EAbilityState
+enum class EAbilityState : uint8
 {
 	Inactive UMETA(DisplayName = "Inactive"),
 	Cue UMETA(DisplayName = "Cue"),
 	Active UMETA(DisplayName = "Active"),
 };
-USTRUCT()
+
+USTRUCT(BlueprintType)
 struct FAbilityData {
 	GENERATED_BODY()
 public:
-	int Charge;
-	int ChargeCapacity;
-	int Use;
-	int UseCapacity;
+	//////////////////////BASE ABILITY FUNCTIONALITY
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
+		int Use;//Current amount of ability usages that can be used.
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
+		int UseCapacity;//How many ability usages can be stored.
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
+		int Charge;//The ultimate charge counter
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
+		int ChargeCapacity;//Ultimate charge capacity, once full, ability can be used.
 };
 
