@@ -28,6 +28,7 @@ void AAGun::Tick(float DeltaSeconds)
 		{
 			if (CurrentAmmo > 0)
 			{
+				PawnEquippedTo->OnGunFire();
 				OnStartHitScanLocUpdate();
 				GunLastHitLoc = Fire(GunStartHitScanLoc);
 				CurrentAmmo -= 1;
@@ -35,11 +36,11 @@ void AAGun::Tick(float DeltaSeconds)
 			}
 			else
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "Attempting to reload");
 				if (!bReloadingOnHalfMag && !bReloadingOnEmpty)
 				{
 					Reload();
 				}
+				PawnEquippedTo->OnGunFire();
 			}
 		}
 		GunFireRateCounter += DeltaSeconds;
@@ -132,7 +133,6 @@ AAGun::TraceReturn AAGun::Trace(FVector StartTrace, FVector EndTrace)
 
 void AAGun::Reload()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Purple, "Reloading");
 	if (CurrentAmmo > 0)
 	{
 		bReloadingOnHalfMag = true;
@@ -147,7 +147,6 @@ void AAGun::Reload()
 
 void AAGun::ResetAmmo()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "Resetting Ammo");
 	CurrentAmmo = MaxAmmo;
 	bReloadingOnEmpty = false;
 	bReloadingOnHalfMag = false;
@@ -194,6 +193,7 @@ void AAGun::SetIsGunFiring(bool Value)
 	if (bIsGunFiring == false)
 	{
 		GunFireRateCounter = GunFirerate;
+		PawnEquippedTo->OnGunFiringStopped();
 	}
 }
 
