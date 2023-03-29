@@ -19,6 +19,12 @@ class RFS_PROJECT_API AAGun : public AActor
 {
 	GENERATED_BODY()
 	
+	struct TraceReturn
+	{
+		AActor* TraceActor;
+		FVector HitLoc;
+	};
+
 public:	
 	// Sets default values for this actor's properties
 	AAGun();
@@ -39,6 +45,8 @@ public:
 		TSubclassOf<AAGunProjectile> ProjectileToFire;
 	UPROPERTY(EditAnywhere)
 		USoundBase* FireSoundFX;
+	UPROPERTY(EditAnywhere)
+		int MaxAmmo;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		bool bPlayerGun;
 	UPROPERTY(EditAnywhere)
@@ -47,21 +55,28 @@ public:
 		bool bIsGunAutomatic;
 	// BLUEPRINT PROPERTIES
 	UPROPERTY(BlueprintReadWrite)
-		APawn* PawnEquippedTo;
+		APlayableCharacter* PawnEquippedTo;
 	UPROPERTY(BlueprintReadWrite)
 		FVector MuzzlePoint;
 	UPROPERTY(BlueprintReadWrite)
 		FVector GunStartHitScanLoc;
-
+	UPROPERTY(BlueprintReadOnly)
+		FVector GunLastHitLoc;
 protected:
 	FVector TrajectoryOffset = FVector(1.0f, 0.0f, 0.0f);
+	FTimerHandle ReloadTimer;
+	float ReloadAnimWaitTime = 2.0f;
 	bool bIsGunFiring = false;
 	float GunFireRateCounter;
+	int CurrentAmmo = 0;
+	bool bReloadingOnEmpty = false;
+	bool bReloadingOnHalfMag = false;
 	/// <summary>
 	/// Calculates the accuracy of the guns shot
 	/// </summary>
 	/// <returns>The offset vector for the shot</returns>
 	FVector CalculateAccuracy();
+
 	/// <summary>
 	/// Completes a multi raycast for a component of the given type
 	/// </summary>
@@ -70,8 +85,11 @@ protected:
 	/// <param name="EndTrace">End point of the trace</param>
 	/// <returns>The first hit object of that type of the trace or if none found returns just the first hit actor</returns>
 	template<typename T>
-	AActor* Trace(FVector StartTrace, FVector EndTrace);
+	TraceReturn Trace(FVector StartTrace, FVector EndTrace);
+
 	
+
+	void ResetAmmo();
 public:	
 	/// <summary>
 	/// Blueprint-callable function that tells the gun to fire
@@ -87,6 +105,17 @@ public:
 		void SetIsGunFiring(bool Value);
 	UFUNCTION(BlueprintCallable)
 		bool IsGunFiring();
+	UFUNCTION(BlueprintCallable)
+		int GetCurrentAmmo();
 	UFUNCTION(BlueprintImplementableEvent)
 		void OnStartHitScanLocUpdate();
+	/// <summary>
+	/// Function called to reload the gun
+	/// </summary>
+	UFUNCTION(BlueprintCallable)
+		void Reload();
+	UFUNCTION(BlueprintCallable)
+		bool IsReloadingOnEmpty();
+	UFUNCTION(BlueprintCallable)
+		bool IsReloadingOnHalfMag();
 };

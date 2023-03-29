@@ -14,19 +14,34 @@ void AAGun::BeginPlay()
 {
 	Super::BeginPlay();
 	GunFireRateCounter = GunFirerate;
+	CurrentAmmo = MaxAmmo;
 }
 
 void AAGun::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
+	//TODO try and reduce the if-statements
 	if (bIsGunAutomatic)
 	{
 		if (GunFireRateCounter >= GunFirerate && bIsGunFiring == true)
 		{
-			OnStartHitScanLocUpdate();
-			Fire(GunStartHitScanLoc);
-			GunFireRateCounter = 0;
+			if (CurrentAmmo > 0)
+			{
+				PawnEquippedTo->OnGunFire();
+				OnStartHitScanLocUpdate();
+				GunLastHitLoc = Fire(GunStartHitScanLoc);
+				CurrentAmmo -= 1;
+				GunFireRateCounter = 0;
+			}
+			else
+			{
+				if (!bReloadingOnHalfMag && !bReloadingOnEmpty)
+				{
+					Reload();
+				}
+				PawnEquippedTo->OnGunFire();
+			}
 		}
 		GunFireRateCounter += DeltaSeconds;
 	}
@@ -54,7 +69,8 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 	{
 		LineVector = GetActorRightVector() * GunRange;
 	}
-	AActor* HitActor = Trace<IHealth>(StartHitScanLoc, (StartHitScanLoc + LineVector) + (AccOffset) * 20);
+	TraceReturn returnedTrace = Trace<IHealth>(StartHitScanLoc, (StartHitScanLoc + LineVector) + (AccOffset) * 20);
+	AActor* HitActor = returnedTrace.TraceActor;
 	if (HitActor)
 	{
 		IHealth* HealthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(HitActor));
@@ -71,23 +87,18 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 		}
 		else
 		{
-			return HitActor->GetActorLocation();
+			return returnedTrace.HitLoc;
 		}
 	}
 	return FVector();
 	
 }
 
-void AAGun::ApplyRecoil(ACharacter* PlayerCharacter, float RecoilAngleYaw, float RecoilAnglePitch)
-{
-	PlayerCharacter->AddControllerYawInput(RecoilAngleYaw);
-	PlayerCharacter->AddControllerPitchInput(RecoilAnglePitch);
-}
-
 template<typename T>
-AActor* AAGun::Trace(FVector StartTrace, FVector EndTrace)
+AAGun::TraceReturn AAGun::Trace(FVector StartTrace, FVector EndTrace)
 {
 	TArray<FHitResult> OutHit;
+	TraceReturn TraceToReturn;
 	GetWorld()->LineTraceMultiByChannel(OutHit, StartTrace, EndTrace, ECollisionChannel::ECC_Visibility);
 	if (!bPlayerGun)
 	{
@@ -105,15 +116,46 @@ AActor* AAGun::Trace(FVector StartTrace, FVector EndTrace)
 			// If the object is of the given type and we have not hit ourselves
 			if (HealthObj && HitActor != PawnEquippedTo)
 			{
-				return HitActor;
+				TraceToReturn.TraceActor = HitActor;
+				TraceToReturn.HitLoc = OutHit[i].ImpactPoint;
+				return TraceToReturn;
 			}
 			else if(HitActor != PawnEquippedTo && EnviornmentHit == nullptr)
 			{
 				EnviornmentHit = OutHit[i].GetActor();
+				TraceToReturn.TraceActor = EnviornmentHit;
+				TraceToReturn.HitLoc = OutHit[i].ImpactPoint;
 			}
 		}
 	}
-	return EnviornmentHit;
+	return TraceToReturn;
+}
+
+void AAGun::Reload()
+{
+	if (CurrentAmmo > 0)
+	{
+		bReloadingOnHalfMag = true;
+	}
+	else
+	{
+		bReloadingOnEmpty = true;
+	}
+	PawnEquippedTo->PlayReloadAnimation();
+	GetWorld()->GetTimerManager().SetTimer(ReloadTimer, this, &AAGun::ResetAmmo, ReloadAnimWaitTime, false);
+}
+
+void AAGun::ResetAmmo()
+{
+	CurrentAmmo = MaxAmmo;
+	bReloadingOnEmpty = false;
+	bReloadingOnHalfMag = false;
+}
+
+void AAGun::ApplyRecoil(ACharacter* PlayerCharacter, float RecoilAngleYaw, float RecoilAnglePitch)
+{
+	PlayerCharacter->AddControllerYawInput(RecoilAngleYaw);
+	PlayerCharacter->AddControllerPitchInput(RecoilAnglePitch);
 }
 
 FVector AAGun::CalculateAccuracy()
@@ -151,10 +193,26 @@ void AAGun::SetIsGunFiring(bool Value)
 	if (bIsGunFiring == false)
 	{
 		GunFireRateCounter = GunFirerate;
+		PawnEquippedTo->OnGunFiringStopped();
 	}
 }
 
 bool AAGun::IsGunFiring()
 {
 	return bIsGunFiring;
+}
+
+int AAGun::GetCurrentAmmo()
+{
+	return CurrentAmmo;
+}
+
+bool AAGun::IsReloadingOnEmpty()
+{
+	return bReloadingOnEmpty;
+}
+
+bool AAGun::IsReloadingOnHalfMag()
+{
+	return bReloadingOnHalfMag;
 }

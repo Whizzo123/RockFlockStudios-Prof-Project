@@ -276,7 +276,6 @@ bool UFShadowAbility::PlacePortal(FVector Position, FVector FwdVector)
 }
 
 
-
 void UFShadowAbility::EndAbility()
 {
 	//Exit's wall if we are in it, destroys portal if it's active

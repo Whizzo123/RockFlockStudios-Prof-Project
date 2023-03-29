@@ -42,6 +42,8 @@ protected:
 	void OnKill() override;
 	FVector respawnPoint;
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		void BPI_TakeDamage();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
