@@ -60,6 +60,8 @@ public:
 		FVector MuzzlePoint;
 	UPROPERTY(BlueprintReadWrite)
 		FVector GunStartHitScanLoc;
+	UPROPERTY(BlueprintReadOnly)
+		FVector GunLastHitLoc;
 protected:
 	FVector TrajectoryOffset = FVector(1.0f, 0.0f, 0.0f);
 	FTimerHandle ReloadTimer;

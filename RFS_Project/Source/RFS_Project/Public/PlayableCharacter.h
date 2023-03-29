@@ -26,6 +26,10 @@ public:
 		void OnDamage(float damage, AActor* actorDamagedBy) override {};
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
 		void OnDeath() override {};
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnGunFire();
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnGunFiringStopped();
 	void OnKill() override {};
 	void PlayReloadAnimation();
 protected:
