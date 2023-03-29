@@ -19,6 +19,12 @@ class RFS_PROJECT_API AAGun : public AActor
 {
 	GENERATED_BODY()
 	
+	struct TraceReturn
+	{
+		AActor* TraceActor;
+		FVector HitLoc;
+	};
+
 public:	
 	// Sets default values for this actor's properties
 	AAGun();
@@ -77,7 +83,7 @@ protected:
 	/// <param name="EndTrace">End point of the trace</param>
 	/// <returns>The first hit object of that type of the trace or if none found returns just the first hit actor</returns>
 	template<typename T>
-	AActor* Trace(FVector StartTrace, FVector EndTrace);
+	TraceReturn Trace(FVector StartTrace, FVector EndTrace);
 
 	
 
