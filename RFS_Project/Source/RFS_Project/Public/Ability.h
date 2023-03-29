@@ -22,28 +22,20 @@ class RFS_PROJECT_API IAbility
 
 		// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+	//UFUNCTION(BlueprintCallable, Category = "Ability") //Should have this UFUNCTION Specifier
 
-		UFUNCTION(BlueprintCallable, Category = "Ability")
 			virtual void Use() = 0;
 
 		//Setters
-		UFUNCTION(BlueprintCallable, Category = "Ability")
 			virtual void AddUse() = 0;
-		UFUNCTION(BlueprintCallable, Category = "Ability")
 			virtual void DepleteUse() = 0;
-		UFUNCTION(BlueprintCallable, Category = "Ability")
 			virtual void AddCharge() = 0;
-		UFUNCTION(BlueprintCallable, Category = "Ability")
 			virtual void DepleteCharge() = 0;
 
 		//Getters
-		UFUNCTION(BlueprintCallable, Category = "Ability")
 			virtual int GetUseAmount() = 0;
-		UFUNCTION(BlueprintCallable, Category = "Ability")
 			virtual int GetUseCapacity() = 0;
-		UFUNCTION(BlueprintCallable, Category = "Ability")
 			virtual int GetChargeAmount() = 0;
-		UFUNCTION(BlueprintCallable, Category = "Ability")
 			virtual int GetChargeCapacity() = 0;
 
 };
@@ -59,10 +51,9 @@ USTRUCT()
 struct FAbilityData {
 	GENERATED_BODY()
 public:
-	int ChargeAmount;
+	int Charge;
 	int ChargeCapacity;
-	int UseAmount;
+	int Use;
 	int UseCapacity;
-	EAbilityState state;
 };
 
