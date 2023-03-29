@@ -68,7 +68,8 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 	{
 		LineVector = GetActorRightVector() * GunRange;
 	}
-	AActor* HitActor = Trace<IHealth>(StartHitScanLoc, (StartHitScanLoc + LineVector) + (AccOffset) * 20);
+	TraceReturn returnedTrace = Trace<IHealth>(StartHitScanLoc, (StartHitScanLoc + LineVector) + (AccOffset) * 20);
+	AActor* HitActor = returnedTrace.TraceActor;
 	if (HitActor)
 	{
 		IHealth* HealthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(HitActor));
@@ -85,7 +86,7 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 		}
 		else
 		{
-			return HitActor->GetActorLocation();
+			return returnedTrace.HitLoc;
 		}
 	}
 	return FVector();
@@ -93,9 +94,10 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 }
 
 template<typename T>
-AActor* AAGun::Trace(FVector StartTrace, FVector EndTrace)
+AAGun::TraceReturn AAGun::Trace(FVector StartTrace, FVector EndTrace)
 {
 	TArray<FHitResult> OutHit;
+	TraceReturn TraceToReturn;
 	GetWorld()->LineTraceMultiByChannel(OutHit, StartTrace, EndTrace, ECollisionChannel::ECC_Visibility);
 	if (!bPlayerGun)
 	{
@@ -113,15 +115,19 @@ AActor* AAGun::Trace(FVector StartTrace, FVector EndTrace)
 			// If the object is of the given type and we have not hit ourselves
 			if (HealthObj && HitActor != PawnEquippedTo)
 			{
-				return HitActor;
+				TraceToReturn.TraceActor = HitActor;
+				TraceToReturn.HitLoc = OutHit[i].ImpactPoint;
+				return TraceToReturn;
 			}
 			else if(HitActor != PawnEquippedTo && EnviornmentHit == nullptr)
 			{
 				EnviornmentHit = OutHit[i].GetActor();
+				TraceToReturn.TraceActor = EnviornmentHit;
+				TraceToReturn.HitLoc = OutHit[i].ImpactPoint;
 			}
 		}
 	}
-	return EnviornmentHit;
+	return TraceToReturn;
 }
 
 void AAGun::Reload()
