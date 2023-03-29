@@ -29,7 +29,7 @@ void AAGun::Tick(float DeltaSeconds)
 			if (CurrentAmmo > 0)
 			{
 				OnStartHitScanLocUpdate();
-				Fire(GunStartHitScanLoc);
+				GunLastHitLoc = Fire(GunStartHitScanLoc);
 				CurrentAmmo -= 1;
 				GunFireRateCounter = 0;
 			}
@@ -99,10 +99,10 @@ AAGun::TraceReturn AAGun::Trace(FVector StartTrace, FVector EndTrace)
 	TArray<FHitResult> OutHit;
 	TraceReturn TraceToReturn;
 	GetWorld()->LineTraceMultiByChannel(OutHit, StartTrace, EndTrace, ECollisionChannel::ECC_Visibility);
-	//if (!bPlayerGun)
-	//{
+	if (!bPlayerGun)
+	{
 		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Red, false, 1.0f);
-	//}
+	}
 	// Actor pointer for if we don't hit the enemy but instead want to record hitting the enviornment
 	AActor* EnviornmentHit = nullptr;
 	for (int i = 0; i < OutHit.Num(); i++)
@@ -134,9 +134,13 @@ void AAGun::Reload()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Purple, "Reloading");
 	if (CurrentAmmo > 0)
+	{
 		bReloadingOnHalfMag = true;
+	}
 	else
+	{
 		bReloadingOnEmpty = true;
+	}
 	PawnEquippedTo->PlayReloadAnimation();
 	GetWorld()->GetTimerManager().SetTimer(ReloadTimer, this, &AAGun::ResetAmmo, ReloadAnimWaitTime, false);
 }
