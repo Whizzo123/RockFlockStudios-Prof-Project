@@ -8,37 +8,56 @@
 #include "PlayableCharacter.generated.h"
 
 UCLASS()
+/*A class for the base functionality of characters within the game*/
 class RFS_PROJECT_API APlayableCharacter : public ACharacter, public IHealth
 {
 	GENERATED_BODY()
 	
 public:	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
-		float HitPoints;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
-		float MaxHitPoints;
-	UPROPERTY(EditAnywhere)
-		UAnimSequence* ReloadAnim;
-	// Sets default values for this actor's properties
+	/*
+	* Called every frame
+	* @param DeltaTime - Time between frames
+	*/
+	virtual void Tick(float DeltaTime) override;
+	/*
+	* Blueprint-callable function for healing the character
+	* @param Health - Amount to heal the character by
+	*/
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
-		void OnHeal(float health) override {};
+		void OnHeal(float Health) override {};
+	/*
+	* Blueprint-callable function for damaging the character
+	* @param Damage - Amount to damage character by
+	* @param ActorDamagedBy - Actor responsible for the damage
+	*/
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
-		void OnDamage(float damage, AActor* actorDamagedBy) override {};
+		void OnDamage(float Damage, AActor* ActorDamagedBy) override {};
+	/*Blueprint-callable function for when the player should die*/
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
 		void OnDeath() override {};
+	/*Blueprint-implementable event for when the character fires they're gun*/
 	UFUNCTION(BlueprintImplementableEvent)
 		void OnGunFire();
+	/*Blueprint-implementable event for when the character stops firing they're gun*/
 	UFUNCTION(BlueprintImplementableEvent)
 		void OnGunFiringStopped();
+	/* Kills the character*/
 	void OnKill() override {};
+	/* Plays the characters reload animation*/
 	void PlayReloadAnimation();
+public:
+	/* Value for amount of hit points the character currently has*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+		float HitPoints;
+	/*Value for max amount of hit points character can have*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+		float MaxHitPoints;
+	/*Animation to play on reload*/
+	UPROPERTY(EditAnywhere)
+		UAnimSequence* ReloadAnim;
 protected:
-	// Called when the game starts or when spawned
+	/*Called when game starts or actor is spawned*/
 	virtual void BeginPlay() override;
-
+	/*Default constructor*/
 	APlayableCharacter();
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 };

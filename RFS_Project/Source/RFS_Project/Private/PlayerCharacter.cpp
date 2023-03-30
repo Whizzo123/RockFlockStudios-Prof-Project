@@ -8,55 +8,47 @@ APlayerCharacter::APlayerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 // Called when the game starts or when spawned
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	MaxHitPoints = HitPoints = characterHealth;
-	respawnPoint = GetActorLocation();
+	MaxHitPoints = HitPoints = CharacterHealth;
+	RespawnPoint = GetActorLocation();
 }
 
 // Called every frame
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
-void APlayerCharacter::OnHeal(float health)
+void APlayerCharacter::OnHeal(float Health)
 {
-	HitPoints += health;
+	HitPoints += Health;
 	if (HitPoints > MaxHitPoints)
 		HitPoints = MaxHitPoints;
 }
 
-void APlayerCharacter::OnDamage(float damage, AActor* actorDamagedBy)
+void APlayerCharacter::OnDamage(float Damage, AActor* ActorDamagedBy)
 {
 	BPI_TakeDamage();
-	HitPoints -= damage;
+	HitPoints -= Damage;
 	if (HitPoints <= 0)
 		OnDeath();
 }
 
 void APlayerCharacter::OnDeath()
 {
-	SetActorLocation(respawnPoint);
+	SetActorLocation(RespawnPoint);
 	HitPoints = MaxHitPoints;
-}
-
-void APlayerCharacter::OnHitByBullet(float bulletDamage)
-{
-	OnDamage(bulletDamage, nullptr);
 }
 
 void APlayerCharacter::CreateHint()
