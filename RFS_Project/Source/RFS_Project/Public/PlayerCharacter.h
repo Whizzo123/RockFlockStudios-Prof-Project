@@ -14,42 +14,56 @@
 
 
 UCLASS()
+/*A class for the base functionality of the player in the game*/
 class RFS_PROJECT_API APlayerCharacter : public APlayableCharacter, public IShadowPawn
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
+	/*
+	* Called every game tick
+	* @param DeltaTime - Time between ticks
+	*/
+	virtual void Tick(float DeltaTime) override;
+	/*
+	*  Called to bind functionality to input
+	*  @param PlayerInputComponent - Input component for the player
+	*/
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	/* Sets default values for this character's properties */
 	APlayerCharacter();
-	//UPROPERTIES
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAIHint, AActor*, Player, float, hintTime);
-	FAIHint OnAIHint;
-	UPROPERTY(EditAnywhere)
-		float characterHealth;
-	//UFUNCTIONS
-	UFUNCTION(BlueprintCallable)
-		void OnHitByBullet(float bulletDamage);
+	/* Blueprint-callable function that creates a hint for the AI of the player location */
 	UFUNCTION(BlueprintCallable)
 		void CreateHint();
+	/* Delegate for when sending hint to AI */
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAIHint, AActor*, Player, float, hintTime);
+	FAIHint OnAIHint;
+	/* Health for the player character */
+	UPROPERTY(EditAnywhere)
+		float CharacterHealth;
 protected:
-	// Called when the game starts or when spawned
+	/* Called when the game starts or this actor is spawned*/
 	virtual void BeginPlay() override;
-
-	void OnHeal(float health) override;
-	void OnDamage(float damage, AActor* actorDamagedBy) override;
+	/*
+	* Called to heal the player
+	* @param Health - Amount to heal player by
+	*/
+	void OnHeal(float Health) override;
+	/*
+	* Called to damage the player
+	* @param Damage - Amount to damage player by
+	* @param ActorDamagedBy - Actor that caused the damage
+	*/
+	void OnDamage(float Damage, AActor* ActorDamagedBy) override;
+	/* Called when player is killed */
 	void OnDeath() override;
+	/* Blueprint-implementable event for defining what happens when player is killed*/
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void OnKill() override;
-	FVector respawnPoint;
-
+		void OnKill() override;
+	/* Blueprint-implementable event for defining what happens when player takes damage*/
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 		void BPI_TakeDamage();
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	
+protected:
+	/* Respawn Point for player*/
+	FVector RespawnPoint;
 };

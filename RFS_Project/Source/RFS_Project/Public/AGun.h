@@ -15,107 +15,152 @@
 #include "AGun.generated.h"
 
 UCLASS()
+/* This is the base class for gun functionality regarding shooting & reloading*/
 class RFS_PROJECT_API AAGun : public AActor
 {
 	GENERATED_BODY()
 	
-	struct TraceReturn
+	/* Struct for containing the Actor and Location of Hit returned by the "Trace" function*/
+	struct FTraceReturn
 	{
 		AActor* TraceActor;
 		FVector HitLoc;
 	};
 
 public:	
+	/* Called at the beginning of play to setup the AGun actor values*/
+	void BeginPlay() override;
+	/*
+	* Called every tick on the actor
+	* @param DeltaSeconds - Time since last frame
+	*/
+	void Tick(float DeltaSeconds) override;
 	// Sets default values for this actor's properties
 	AAGun();
-	void BeginPlay() override;
-	void Tick(float DeltaSeconds) override;
+	/*
+	* Blueprint-callable function that tells the gun to fire
+	* @param StartHitScanLoc - Starting point of the line trace for the gun to fire from
+	* @return Returns the first point of impact for the line trace
+	*/
+	UFUNCTION(BlueprintCallable)
+		FVector Fire(FVector StartHitScanLoc);
+	/*
+	* Blueprint-callable function that applies recoil to the players' camera
+	* @param PlayerCharacter - Player to apply recoil to
+	* @param RecoilAngleYaw - Size of recoil to apply on the yaw angle
+	* @param RecoilAnglePitch - Size of recoil to apply on the pitch angle
+	*/
+	UFUNCTION(BlueprintCallable)
+		void ApplyRecoil(ACharacter* PlayerCharacter, float RecoilAngleYaw, float RecoilAnglePitch);
+	/*
+	* Blueprint-callable function that sets whether the gun is firing
+	* @param Value - The value to bIsGunFiring to
+	*/
+	UFUNCTION(BlueprintCallable)
+		void SetIsGunFiring(bool Value);
+	/*
+	* Blueprint-callable function that returns whether the gun is firing
+	* @return Returns the value of bIsGunFiring
+	*/
+	UFUNCTION(BlueprintCallable)
+		bool IsGunFiring();
+	/*
+	* Blueprint-callable function that returns current ammo in the gun
+	* @return Returns the value of CurrentAmmo
+	*/
+	UFUNCTION(BlueprintCallable)
+		int GetCurrentAmmo();
+	/* Blueprint-Implementable event that is called to update the GunStartHitScanLoc*/
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnStartHitScanLocUpdate();
+	/*Blueprint-callable function that plays the reload animation*/
+	UFUNCTION(BlueprintCallable)
+		void Reload();
+	/*
+	* Blueprint-callable function that returns whether the gun is being reloaded when empty of ammo
+	* @return Returns whether reloading when empty of ammo
+	*/
+	UFUNCTION(BlueprintCallable)
+		bool IsReloadingOnEmpty();
+	/*
+	* Blueprint-callable function that returns whether the gun is being reloaded when not empty of ammo
+	* @return Returns whether reloading when not empty of ammo
+	*/
+	UFUNCTION(BlueprintCallable)
+		bool IsReloadingOnHalfMag();
+public:
 	// EDITOR VARIABLES
+
+	/*Value for base accuracy of the gun 0-1, higher the value higher the accuracy*/
 	UPROPERTY(EditAnywhere)
 		float GunAccuracy;
+	/*Value for the firerate of the gun 0-1, lower the value faster the firerate*/
 	UPROPERTY(EditAnywhere)
 		float GunFirerate;
-	UPROPERTY(EditAnywhere)
-		float ProjectileSpeed;
+	/*Name of the socket that the gun is attached to*/
 	UPROPERTY(EditAnywhere)
 		FName FireSocket;
-	UPROPERTY(EditAnywhere)
-		FVector ProjectileOffset;
-	UPROPERTY(EditAnywhere)
-		TSubclassOf<AAGunProjectile> ProjectileToFire;
-	UPROPERTY(EditAnywhere)
-		USoundBase* FireSoundFX;
+	/*Value for the max ammo in the gun*/
 	UPROPERTY(EditAnywhere)
 		int MaxAmmo;
+	/*Bool for whether the gun is equipped for the player*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		bool bPlayerGun;
+	/*Value for the range of the guns' bullets*/
 	UPROPERTY(EditAnywhere)
 		float GunRange;
+	/*Bool for whether the gun is set to automatic*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		bool bIsGunAutomatic;
 	// BLUEPRINT PROPERTIES
+	/*Reference to the APlayableCharacter actor we are equipped to*/
 	UPROPERTY(BlueprintReadWrite)
 		APlayableCharacter* PawnEquippedTo;
+	/*Vector position of the muzzle of the gun*/
 	UPROPERTY(BlueprintReadWrite)
 		FVector MuzzlePoint;
+	/*Vector position to fire the line trace from for shooting*/
 	UPROPERTY(BlueprintReadWrite)
 		FVector GunStartHitScanLoc;
+	/*Vector position for where the guns' last bullet hit*/
 	UPROPERTY(BlueprintReadOnly)
 		FVector GunLastHitLoc;
 protected:
-	FVector TrajectoryOffset = FVector(1.0f, 0.0f, 0.0f);
-	FTimerHandle ReloadTimer;
-	float ReloadAnimWaitTime = 2.0f;
-	bool bIsGunFiring = false;
-	float GunFireRateCounter;
-	int CurrentAmmo = 0;
-	bool bReloadingOnEmpty = false;
-	bool bReloadingOnHalfMag = false;
-	/// <summary>
-	/// Calculates the accuracy of the guns shot
-	/// </summary>
-	/// <returns>The offset vector for the shot</returns>
+	/*
+	* Calculates the accuracy of the shot
+	* @return Returns a vector offset to the trajectory of the shot
+	*/
 	FVector CalculateAccuracy();
 
-	/// <summary>
-	/// Completes a multi raycast for a component of the given type
-	/// </summary>
-	/// <typeparam name="T">Type to raycast for</typeparam>
-	/// <param name="StartTrace">Start point of the trace</param>
-	/// <param name="EndTrace">End point of the trace</param>
-	/// <returns>The first hit object of that type of the trace or if none found returns just the first hit actor</returns>
+	/*
+	* Completes a multi raycast for a component of the given type
+	* @param StartTrace - Start point of the trace
+	* @param EndTrace - End point of the trace
+	* @return The first hit object whether it was object of the type or piece of enviornment
+	*/
 	template<typename T>
-	TraceReturn Trace(FVector StartTrace, FVector EndTrace);
-
+	FTraceReturn Trace(FVector StartTrace, FVector EndTrace);
 	
-
+	/*
+	* Resets the CurrentAmmo to MaxAmmo 
+	* @note Normally executes after a call to reload
+	*/
 	void ResetAmmo();
-public:	
-	/// <summary>
-	/// Blueprint-callable function that tells the gun to fire
-	/// </summary>
-	UFUNCTION(BlueprintCallable)
-		FVector Fire(FVector startHitScanLoc);
-	/// <summary>
-	/// Blueprint-callable function that applies recoil to the players camera
-	/// </summary>
-	UFUNCTION(BlueprintCallable)
-		void ApplyRecoil(ACharacter* playerCharacter, float recoilAngleYaw, float recoilAnglePitch);
-	UFUNCTION(BlueprintCallable)
-		void SetIsGunFiring(bool Value);
-	UFUNCTION(BlueprintCallable)
-		bool IsGunFiring();
-	UFUNCTION(BlueprintCallable)
-		int GetCurrentAmmo();
-	UFUNCTION(BlueprintImplementableEvent)
-		void OnStartHitScanLocUpdate();
-	/// <summary>
-	/// Function called to reload the gun
-	/// </summary>
-	UFUNCTION(BlueprintCallable)
-		void Reload();
-	UFUNCTION(BlueprintCallable)
-		bool IsReloadingOnEmpty();
-	UFUNCTION(BlueprintCallable)
-		bool IsReloadingOnHalfMag();
+protected:
+	/*Base offset for the trajectory*/
+	FVector TrajectoryOffset = FVector(1.0f, 0.0f, 0.0f);
+	/*Timer handle for the reload timer*/
+	FTimerHandle ReloadTimer;
+	/*Value for the time to wait for the reload timer*/
+	float ReloadAnimWaitTime = 2.0f;
+	/*Bool for whether the gun is firing*/
+	bool bIsGunFiring = false;
+	/*Value for the current count till we can fire*/
+	float GunFireRateCounter;
+	/*Value for the amount of ammo we have in the gun*/
+	int CurrentAmmo = 0;
+	/*Bool for whether or not we are reloading on empty*/
+	bool bReloadingOnEmpty = false;
+	/*Bool for whether or not we are reloading in a half mag*/
+	bool bReloadingOnHalfMag = false;
 };
