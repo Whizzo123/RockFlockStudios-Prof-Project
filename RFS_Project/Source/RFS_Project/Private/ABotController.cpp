@@ -10,96 +10,108 @@ ABotController::ABotController()
 	
 }
 
-//void ABotController::BeginPlay()
-//{
-//	//APlayerCharacter* player = Cast<APlayerCharacter>(UGameplayStatics::GetActorOfClass(GetWorld(), APlayerCharacter::StaticClass()));
-//	//player->OnAIHint.AddDynamic(this, &ABotController::SendHint);
-//}
-
-void ABotController::OnPossess(APawn* pawn)
+void ABotController::OnPossess(APawn* InPawn)
 {
-	Super::OnPossess(pawn);
-	AAEnemyCharacter* my_Pawn = Cast<AAEnemyCharacter>(pawn);
-	my_Pawn->OnRespawn.BindDynamic(this, &ABotController::ResetForRespawn);
-	RunBehaviorTree(tree);
+	Super::OnPossess(InPawn);
+	// Bind delegate for call on pawn respawn
+	AAEnemyCharacter* MyPawn = Cast<AAEnemyCharacter>(InPawn);
+	MyPawn->OnRespawn.BindDynamic(this, &ABotController::ResetForRespawn);
+	// Start the behaviour tree
+	RunBehaviorTree(Tree);
 }
 
 void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
-	bool isPlayer = Actor->ActorHasTag(playerTag);
-	bool success = Stimulus.WasSuccessfullySensed();
-	UBlackboardComponent* board = Blackboard.Get();
-	if (isPlayer && success)
+	bool bIsPlayer = Actor->ActorHasTag(PlayerTag);
+	bool bSuccess = Stimulus.WasSuccessfullySensed();
+	UBlackboardComponent* Board = Blackboard.Get();
+	// Have we successfully sensed and is it the player we saw?
+	if (bIsPlayer && bSuccess)
 	{
-		GetWorld()->GetTimerManager().ClearTimer(sightLossTimer);
- 		board->SetValueAsBool(lineOfSightBBKey, true);
-		board->SetValueAsObject(enemyActorBBKey, Actor);
-		//Set distance to player
-		SetDistanceToPlayer(board);
+		// Stop the timer for losing sight of player
+		GetWorld()->GetTimerManager().ClearTimer(SightLossTimer);
+		// Update blackboard values
+ 		Board->SetValueAsBool(LineOfSightBBKey, true);
+		Board->SetValueAsObject(EnemyActorBBKey, Actor);
+		// Set distance to player
+		SetDistanceToPlayer(Board);
 		BPI_LineOfSight();
 	}
 	else
 	{
-		board->SetValueAsBool(lineOfSightBBKey, false);
-		GetWorld()->GetTimerManager().SetTimer(sightLossTimer, this, &ABotController::EventTimerUp, lineOfSightTime, false);
+		// Update blackboard that we have lost sight
+		Board->SetValueAsBool(LineOfSightBBKey, false);
+		// Start loss of sight timer
+		GetWorld()->GetTimerManager().SetTimer(SightLossTimer, this, &ABotController::LossSightOfEnemy, LineOfSightTime, false);
 	}
 }
 
-void ABotController::SendHint(AActor* Actor, float hintTime)
+void ABotController::SendHint(AActor* Actor, float HintTime)
 {
-	UBlackboardComponent* board = Blackboard.Get();
+	UBlackboardComponent* Board = Blackboard.Get();
 	if (Actor)
 	{
-		board->SetValueAsObject(enemyActorBBKey, Actor);
-		GetWorld()->GetTimerManager().SetTimer(hintDurationTimer, this, &ABotController::HintTimerUp, hintTime, false);
-		GEngine->AddOnScreenDebugMessage(0, 5.0f, FColor::Red, "Sending Hint");
+		// Update blackboard with enemy actor value
+		Board->SetValueAsObject(EnemyActorBBKey, Actor);
+		// Start hint duration timer
+		GetWorld()->GetTimerManager().SetTimer(HintDurationTimer, this, &ABotController::HintTimerUp, HintTime, false);
 	}
 }
 
 void ABotController::ResetForRespawn()
 {
-	UBlackboardComponent* board = Blackboard.Get();
-	board->SetValueAsObject(enemyActorBBKey, nullptr);
+	UBlackboardComponent* Board = Blackboard.Get();
+	Board->SetValueAsObject(EnemyActorBBKey, nullptr);
 }
 
-void ABotController::EventTimerUp()
+void ABotController::LossSightOfEnemy()
 {
-	UBlackboardComponent* board = Blackboard.Get();
-	board->SetValueAsObject(enemyActorBBKey, nullptr);
+	UBlackboardComponent* Board = Blackboard.Get();
+	Board->SetValueAsObject(EnemyActorBBKey, nullptr);
 }
 
 void ABotController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (!local_player)
+	// Do we have a reference to the player in the scene?
+	if (!LocalPlayer)
 	{
-		local_player = Cast<APlayerCharacter>(UGameplayStatics::GetActorOfClass(GetWorld(), APlayerCharacter::StaticClass()));
-		if(local_player)
-			local_player->OnAIHint.AddDynamic(this, &ABotController::SendHint);
+		// If not attempt to grab one
+		LocalPlayer = Cast<APlayerCharacter>(UGameplayStatics::GetActorOfClass(GetWorld(), APlayerCharacter::StaticClass()));
+		if (LocalPlayer)
+		{
+			// If we manage to grab one set the OnAIHint delegate to call SendHit
+			LocalPlayer->OnAIHint.AddDynamic(this, &ABotController::SendHint);
+		}
 	}
+	// Update the distance to the player on the blackboard
 	SetDistanceToPlayer(Blackboard.Get());
 }
 
-void ABotController::SetDistanceToPlayer(UBlackboardComponent* board)
+void ABotController::SetDistanceToPlayer(UBlackboardComponent* Board)
 {
-	APlayerCharacter* player = Cast<APlayerCharacter>(board->GetValueAsObject(enemyActorBBKey));
-	if (player)
+	// If we have a set enemy actor in the Blackboard
+	APlayerCharacter* Player = Cast<APlayerCharacter>(Board->GetValueAsObject(EnemyActorBBKey));
+	if (Player)
 	{
-		FVector loc = player->GetActorLocation();
-		APawn* controlledPawn = GetPawn();
-		if (controlledPawn)
+		// Grab player location
+		FVector Loc = Player->GetActorLocation();
+		APawn* ControlledPawn = GetPawn();
+		if (ControlledPawn)
 		{
-			FVector pawnLoc = controlledPawn->GetActorLocation();
-			float dist = FVector::Dist(loc, pawnLoc);
-			board->SetValueAsFloat(distanceToPlayerBBKey, dist);
+			// Calculate the distance and set it to the Blackboard
+			FVector PawnLoc = ControlledPawn->GetActorLocation();
+			float dist = FVector::Dist(Loc, PawnLoc);
+			Board->SetValueAsFloat(DistanceToPlayerBBKey, dist);
 		}
 	}
 }
 
 void ABotController::HintTimerUp()
 {
-	UBlackboardComponent* board = Blackboard.Get();
-	if(board->GetValueAsBool(lineOfSightBBKey) == false)
-		board->SetValueAsObject(enemyActorBBKey, nullptr);
-	GEngine->AddOnScreenDebugMessage(0, 5.0f, FColor::Red, "Hint Timer Up");
+	UBlackboardComponent* Board = Blackboard.Get();
+	if (Board->GetValueAsBool(LineOfSightBBKey) == false)
+	{
+		Board->SetValueAsObject(EnemyActorBBKey, nullptr);
+	}
 }

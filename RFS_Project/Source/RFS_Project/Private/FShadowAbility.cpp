@@ -10,9 +10,8 @@ UFShadowAbility::UFShadowAbility()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	bPortalUseable = false;
-	bPortalPlaceable = false;
-	State = Inactive;
+	bWithinPortalRange = false;
+	ShadowState = EAbilityState::Inactive;
 	// ...
 }
 
@@ -26,66 +25,34 @@ void UFShadowAbility::BeginPlay()
 	// ...
 
 }
-void UFShadowAbility::Init(APawn* actor)
-{
-	OriginalActor = actor;
-}
 
-FVector UFShadowAbility::GetOriginalActorForwardVector() {
-	if (!OriginalActor)
-		return FVector(0, 0, 1);
-
-	//Use Camera or character
-	FVector fwdVec;
-	UCameraComponent* CameraComps = Cast<UCameraComponent>(OriginalActor->GetComponentByClass(UCameraComponent::StaticClass()));
-	if (CameraComps)
-		return CameraComps->GetForwardVector();
-	else
-		return OriginalActor->GetActorForwardVector();
-
-}
-void UFShadowAbility::DestroyOrHideActor(AActor* actor)
-{
-	if (actor)
-	{
-		bool destroyed = actor->Destroy();
-		if (!destroyed)
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::DestroyOrHideActor : Couldn't destroy actor, attempting to hide"));
-		else {
-			actor->AddActorWorldOffset(FVector(0, 500, 0));
-			actor->SetActorHiddenInGame(true);
-		}
-	}
-	else {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::DestroyOrHideActor : Actor does not exist?"));
-
-	}
-}
 
 #pragma region STATE_FUNCTIONS
 bool UFShadowAbility::InactiveState() {
+	//Spawns a fake wall which gets updated in tick
 	//Do we have uses
-	if (UseAmount <= 0) {
+	if (UseData.Use <= 0) 
+	{
 
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Out of Ability Uses"));
 		return false;
 	}
-	FVector fwdVec = GetOriginalActorForwardVector();
-	FVector location = OriginalActor->GetActorLocation() + (fwdVec * 100);
 
 	//Spawn a portal but do not call Init
-	FVector portalTranslation = FVector(0, 0, 15);
-	AShadowPortal* portal;
+	AShadowPortal* FakePortal;
 	if (PortalBP)
-		portal = GetWorld()->SpawnActor<AShadowPortal>(PortalBP, OriginalActor->GetActorLocation(), FRotator(0));
-	else {
+	{
+		FakePortal = GetWorld()->SpawnActor<AShadowPortal>(PortalBP, OriginalActor->GetActorLocation(), FRotator(0));
+	}
+	else 
+	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::PlacePortal : ShadowPortalBP has not been assigned"));
 		return false;
 	}
-	//Pass in boolean to allow portal to let player inside and translate it so it is infront of the wall
-	portal->AddActorLocalOffset(portalTranslation);
-	Portal = portal;
-	BPI_AbilityCue();
+
+	FakePortal->AddActorLocalOffset(FVector(0, 0, 15));//Translation to make the portal appear in front of the wall
+	Portal = FakePortal;
+	BPI_InactiveState();
 	return true;
 }
 bool UFShadowAbility::CueState() {
@@ -94,37 +61,43 @@ bool UFShadowAbility::CueState() {
 	Portal = nullptr;
 
 	//Place the portal and activate the walls
-	FVector fwdVec = GetOriginalActorForwardVector();
-	FVector location = OriginalActor->GetActorLocation() + (fwdVec * 100);
-	bool success = InitAbility(location, fwdVec);
-	if (!success)
+	FVector FwdVec = GetCameraActorForwardVector(OriginalActor);
+	FVector Location = OriginalActor->GetActorLocation() + (FwdVec * 100);
+	bool bSuccess = InitAbility(Location, FwdVec);
+	if (!bSuccess)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Initialising ability failed"));
 		return false;
 	}
-	else {
-		BPI_AbilityStart();
+	else 
+	{
 		DurationTimer = Duration;
-		UseAmount--;
+		UseData.Use--;
 		DepleteCharge();
+		BPI_CueState();
 		return true;
 	}
 }
 bool UFShadowAbility::ActiveState() {
 	//Are we in portal range
-	if (!bPortalUseable) {
+	if (!bWithinPortalRange)
+	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Portal is not in range"));
 		return false;
 	}
-	bool success = EnterPortal();
+	bool success = EnterWall(PortalWall);
 	if (!success)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Could not enter portal"));
 		return false;
 	}
-	else {
-		BPI_AbilityEnter();
+	else 
+	{
+		DestroyOrHideActor(Portal);
+		Portal = nullptr;
 		DurationTimer = DurationTimer * DurationMultiplier;
+		bInsideWalls = true;
+		BPI_ActiveState();
 		return true;
 	}
 }
@@ -135,53 +108,70 @@ bool UFShadowAbility::EnteredState() {
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Could not exit portal"));
 		return false;
 	}
-	else {
-		BPI_AbilityExit();
+	else 
+	{
 		DurationTimer = DurationEndStart;
 		return true;
 	}
 }
 #pragma endregion
 
-void UFShadowAbility::UseAbility()
+bool UFShadowAbility::Use()
 {
 
-	if (!OriginalActor)
-		return;
+	if (!OriginalActor) 
+	{
+		return false;
+	}
 	
 
-	bool success = false;
-	switch (State)
+	bool bSuccess = false;
+	switch (ShadowState)
 	{
-	case Inactive:
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Current State when called: Inactive"));
-		success = InactiveState();
-		break;
-	case Cue:
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Current State when called: Cue"));
-		success = CueState();
-		if (!success)
-			State = Inactive;
-		break;
-	case Active:
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Current State when called: Active"));
-		success = ActiveState();
-		break;
-	case Entered:
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Current State when called: Entered"));
-		success = EnteredState();
-		if (success)
-			State = Inactive;
-		EndAbility();
-
-		return;
-	default:
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility: Current State when called: Invalid State"));
-		break;
+		case EAbilityState::Inactive:
+		{
+			bSuccess = InactiveState();
+			break;
+		}
+		case EAbilityState::Cue:
+		{
+			bSuccess = CueState();
+			if (!bSuccess)
+			{
+				ShadowState = EAbilityState::Inactive;
+			}
+			break;
+		}
+		case EAbilityState::Active:
+		{
+			//There are two things we can do in Active, enter the portal and exit the portal. 
+			//When we exit, we will go back to the inactive state
+			if (!bInsideWalls)
+			{
+				bSuccess = ActiveState();
+			}
+			else
+			{
+				bSuccess = EnteredState();
+				if (bSuccess)
+				{
+					ShadowState = EAbilityState::Inactive;
+				}
+			}
+			return true;
+		}
+		default:
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility: Current State when called: Invalid State"));
+			break;
+		}
 	}
-	if (success)
-		State = AbilityState(int(State) + 1);
-
+	if (bSuccess) 
+	{
+		ShadowState = EAbilityState(int(ShadowState) + 1);
+		return true;
+	}
+	return false;
 }
 
 
@@ -189,265 +179,125 @@ bool UFShadowAbility::InitAbility(FVector position, FVector fwdVector)
 {
 	//Place a portal and grab the portal wall
 	AliveWalls.Empty();
-	bool success = PlacePortal(position, fwdVector);
-	if (!success)
+	bool bSuccess = PlacePortal(position, fwdVector);
+	if (!bSuccess)
+	{
 		return false;
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Place Portal Complete"));
-	Portal->Init(&bPortalUseable);
+	}
+	Portal->Init(&bWithinPortalRange);
 
 	//Grab all walls in a radius
-	TSet<AUShadowWall*> walls = DiscCastWalls(Portal->GetActorLocation());
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Sphere Cast Walls Complete"));
-	walls.Remove(PortalWall);
+	TSet<AUShadowWall*> Walls = DiscCastWalls(Portal->GetActorLocation());
+	Walls.Remove(PortalWall);
 
 	//Add all chosen walls to AliveWalls
-	AliveWalls = ChooseWalls(walls);
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("FShadowAbility: Enable Walls Complete"));
+	AliveWalls = ChooseWalls(Walls);
 	AliveWalls.Add(PortalWall);
 	
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("NUM OF ALIVE: %i"), AliveWalls.Num()));
 
 	//Turn on every wall chosen
-	int i = 0;
-	for (auto& var : AliveWalls)
+	int VFXId = 0;
+	for (AUShadowWall* Wall : AliveWalls)
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("CODE ID: %i"), i));
-		var->StartWall(i);
-		i++;
+		Wall->StartWall(VFXId);//We have passed in the iterator for VFX
+		VFXId++;
 	}
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility:: Walls activated %i"), i));
-
 	return true;
 }
-bool UFShadowAbility::PlacePortal(FVector position, FVector fwdVector)
+bool UFShadowAbility::PlacePortal(FVector Position, FVector FwdVector)
 {
 
-		FVector endPosition = position + (fwdVector * Range);
-		FCollisionQueryParams traceParams;
-		FVector portalTranslation = FVector(0, 0, 15);
+		FVector EndPosition = Position + (FwdVector * Range);
+		FCollisionQueryParams TraceParams;
+		FVector PortalTranslation = FVector(0, 0, 15);
 
 		//My problem with this implementation is that, if we trace through walls and hit a shadow wall through layers of visible walls, we won't know where our shadow wall has ended up in.
-		TArray<FHitResult> hits;
-		FHitResult hit;
-		AUShadowWall* wall= nullptr;
-		bool wallFound = false;
-		GetWorld()->LineTraceMultiByChannel(hits, position, endPosition, ECC_Visibility, traceParams);
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, FString::Printf(TEXT("hits amount: %i"), hits.Num()));
-		for (int i = 0; i < hits.Num(); i++)
+		TArray<FHitResult> Hits;
+		FHitResult Hit;
+		AUShadowWall* Wall= nullptr;
+		bool WallFound = false;
+		GetWorld()->LineTraceMultiByChannel(Hits, Position, EndPosition, ECC_Visibility, TraceParams);
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, FString::Printf(TEXT("hits amount: %i"), Hits.Num()));
+		for (int i = 0; i < Hits.Num(); i++)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, hits[i].GetActor()->GetName());
-			wall = Cast<AUShadowWall>(hits[i].GetActor());
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, Hits[i].GetActor()->GetName());
+			Wall = Cast<AUShadowWall>(Hits[i].GetActor());
 			if (i >= 4)
-				return false;//We will return false to prevent our trace going through physical walls, If we have hit two walls, assume we have went through too many
-			if (wall)
 			{
-				FVector hitsNormal = hits[i].Normal;
-				int32 hitsInbetween = i;//If there were 4 hits, we may assume that this coming wall hit is behind other walls and should not be executed.			
-				FVector wallNormal = hits[i].GetActor()->GetActorUpVector();
-				if (hitsNormal.Equals(wallNormal))
+				return false;//We will return false to prevent our trace going through physical walls, If we have hit two walls, assume we have went through too many
+			}
+			if (Wall)
+			{
+				FVector HitsNormal = Hits[i].Normal;
+				int32 HitsInbetween = i;//If there were 4 hits, we may assume that this coming wall hit is behind other walls and should not be executed.			
+				FVector WallNormal = Hits[i].GetActor()->GetActorUpVector();
+				if (HitsNormal.Equals(WallNormal))
 				{
 					FActorSpawnParameters SpawnParams;
-					AShadowPortal* portal;
+					AShadowPortal* NewPortal;
 					if (PortalBP)
-						portal = GetWorld()->SpawnActor<AShadowPortal>(PortalBP, hits[i].Location, hits[i].GetActor()->GetActorRotation());
-					else {
+					{
+						NewPortal = GetWorld()->SpawnActor<AShadowPortal>(PortalBP, Hits[i].Location, Hits[i].GetActor()->GetActorRotation());
+					}
+					else 
+					{
 						GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::PlacePortal : ShadowPortalBP has not been assigned"));
 						return false;
 					}
 					//Pass in boolean to allow portal to let player inside and translate it so it is infront of the wall
-					portal->AddActorLocalOffset(portalTranslation);
-					PortalWall = wall;
-					Portal = portal;
-					wallFound = true;
-					hit = hits[i];
+					NewPortal->AddActorLocalOffset(PortalTranslation);
+					PortalWall = Wall;
+					Portal = NewPortal;
+					WallFound = true;
+					Hit = Hits[i];
 					break;
 		
 				}
 
 			}
 		}
-		if (!wallFound || wall == nullptr)
+		if (!WallFound || Wall == nullptr)
 			return false;
 		
 
 		//TODO: Remove
 		//Reposition portal with correct vertical offset
-		FVector savedLineLocation = hit.Location;
-		FVector down = FVector(0, 0, -1);
-		traceParams.AddIgnoredActor(wall);
-		//GetWorld()->LineTraceSingleByChannel(hit, savedLineLocation, (down*Range) + savedLineLocation, ECC_Visibility, traceParams);
-		GetWorld()->LineTraceMultiByChannel(hits, savedLineLocation, (down * Range) + savedLineLocation, ECC_Visibility, traceParams);
+		FVector SavedLineLocation = Hit.Location;
+		FVector Down = FVector(0, 0, -1);
+		TraceParams.AddIgnoredActor(Wall);
+		GetWorld()->LineTraceMultiByChannel(Hits, SavedLineLocation, (Down * Range) + SavedLineLocation, ECC_Visibility, TraceParams);
 		
 
-		float halfHeight = 100;
-		FVector off = FVector(0, 0, (hits[hits.Num() -1].Distance * -1) + halfHeight);
-		Portal->AddActorWorldOffset(off);
+		float HalfHeight = 100;
+		FVector Off = FVector(0, 0, (Hits[Hits.Num() -1].Distance * -1) + HalfHeight);
+		Portal->AddActorWorldOffset(Off);
 		return true;
 
 }
-TSet<AUShadowWall*> UFShadowAbility::SphereCastWalls(FVector origin)
-{
-	TSet<AUShadowWall*> shadowWalls;
-	FCollisionQueryParams traceParams;
-	TArray<FHitResult> hits;
-	GetWorld()->SweepMultiByChannel(hits, origin, origin, FQuat(), ECC_Visibility, FCollisionShape::MakeSphere(WallDetectionRange), traceParams);
 
-	//Goes through all objects hit adn grabs the walls and adds them to TSet
-	for (int i = 0; i < hits.Num(); i++)
-	{
-		AUShadowWall* wall = Cast<AUShadowWall>(hits[i].GetActor());
-		if (wall) {
-			shadowWalls.Add(wall);
-		}
-	}
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility::SphereCastWalls: Walls found %i"), shadowWalls.Num()));
-	return shadowWalls;
-
-}
-TSet<AUShadowWall*> UFShadowAbility::DiscCastWalls(FVector origin) {
-	TSet<AUShadowWall*> shadowWalls;
-	FCollisionQueryParams traceParams;
-	TArray<FHitResult> hits;
-	for (int i = 1; i < DiscAccuracy; i++)
-	{
-		float yawAmount = ((360 / DiscAccuracy) * i);
-		FVector endVector(1, 0, 0);
-		endVector = endVector.RotateAngleAxis(yawAmount, FVector3d(0, 0, 1));
-		endVector *= WallDetectionRange;
-		GetWorld()->LineTraceMultiByChannel(hits, origin, origin + endVector, ECC_Visibility);
-
-		for (int actors = 0; actors < hits.Num(); actors++)
-		{
-			AUShadowWall* wall = Cast<AUShadowWall>(hits[actors].GetActor());
-			if (wall) 
-				shadowWalls.Add(wall);
-				
-		}
-	}
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("WALLS FOUND %i"), shadowWalls.Num()));
-	return shadowWalls;
-}
-TSet<AUShadowWall*> UFShadowAbility::ChooseWalls(TSet<AUShadowWall*> walls)
-{
-	TArray<AUShadowWall*> aWalls = walls.Array();
-	TSet<AUShadowWall*> newWalls = TSet<AUShadowWall*>();
-	int wallCount = 1;//Starting at 1 to account for the initial wall hit
-	if (walls.Num() == 0)
-		return newWalls;
-
-
-	//We start at 1 to account for the original portal wall
-	for (int i = 1; i < WallAmount; i++)
-	{
-		int num = aWalls.Num();
-		int index = FMath::RandRange(0, num - 1);
-		bool valid = aWalls.IsValidIndex(index);
-		//Choose a random wall
-		if (valid)
-		{
-			newWalls.Add(aWalls[index]);
-			aWalls.RemoveAt(index, 1, true);
-		/*	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("FOUND WALLS ALIVE ID: %i"), wallCount));*/
-			wallCount++;
-		}
-		else {
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("FShadowAbility::SphereCastWalls: Index %i , Num %i , Valid %i"), index, num, valid));
-
-		}
-	}
-	return newWalls;
-
-}
-
-bool UFShadowAbility::EnterPortal()
-{
-	IShadowPawn* ShadowComponent = Cast<IShadowPawn>(OriginalActor);
-	if (!ShadowComponent) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::EnterPortal : No IShadowPawn"));
-		return false;
-	}
-	AController* con = OriginalActor->GetController();
-	if (!con)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::EnterPortal : No Controller"));
-		return false;
-	}
-
-	//Spawn and assign RestrictedCharacter
-	FActorSpawnParameters SpawnParams;
-	AARestrictedCamera* restrictedCharacter;
-	if (RestrictedActorBP)
-		restrictedCharacter = GetWorld()->SpawnActor<AARestrictedCamera>(RestrictedActorBP, Portal->GetActorLocation(), Portal->GetActorRotation());
-	else {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::EnterPortal : RestrictedActorBP has not been assigned"));
-		return false;
-	}
-	restrictedCharacter->AddActorLocalRotation(FRotator(90,-90,0));
-	FVector cameraDeepness = FVector(5, 10, 0);
-	restrictedCharacter->AddActorLocalOffset(cameraDeepness);
-	RestrictedActor = restrictedCharacter;
-
-	//Repossess original actor
-	//TODO: Animation should play to make the original character go into the wall
-	IShadowPawn::Execute_ToggleCollisionPhysics(OriginalActor);
-	OriginalActor->SetActorLocationAndRotation(restrictedCharacter->GetActorLocation(), restrictedCharacter->GetActorRotation());
-	OriginalActor->AddActorWorldOffset(FVector(0, 0, 500));
-	//OriginalActor->SetHidden(true);
-	OriginalActor->SetActorHiddenInGame(true);
-
-	con->Possess(RestrictedActor);
-	DestroyOrHideActor(Portal);
-	Portal = nullptr;
-
-	return true;
-}
-
-bool UFShadowAbility::ExitWall()
-{
-
-	IShadowPawn* ShadowComponent = Cast<IShadowPawn>(OriginalActor);
-	if (!ShadowComponent) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::EnterPortal : No IShadowPawn"));
-		return false;
-	}
-	AController* con = RestrictedActor->GetController();
-	if (!con)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::EnterPortal : No Controller"));
-		return false;
-	}
-	con->Possess(OriginalActor);
-	OriginalActor->SetActorLocationAndRotation(RestrictedActor->GetActorLocation(), RestrictedActor->GetActorRotation());
-	OriginalActor->AddActorWorldOffset(OriginalActor->GetActorForwardVector() * 100);//shoudl play animation for exiting
-	OriginalActor->AddActorWorldOffset(FVector(0, 0, 20));
-	IShadowPawn::Execute_ToggleCollisionPhysics(OriginalActor);
-	DestroyOrHideActor(RestrictedActor);
-	RestrictedActor = nullptr;
-	OriginalActor->SetActorHiddenInGame(false);
-		//OriginalActor->SetHidden(false);;
-
-	return true;
-}
 
 void UFShadowAbility::EndAbility()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::End Ability called"));
-	if (State == AbilityState::Entered)
+	//Exit's wall if we are in it, destroys portal if it's active
+	if (ShadowState == EAbilityState::Active){
+		if (bInsideWalls)
 			ExitWall();
-	if (State == AbilityState::Active){
 		DestroyOrHideActor(Portal);
 		Portal = nullptr;
 	}
 
-	for (auto& Elem : AliveWalls)
+	//Destroy walls
+	for (AUShadowWall* Wall : AliveWalls)
 	{
-		Elem->OnDeath();
+		Wall->OnDeath();
 	}
-	BPI_AbilityEnd();
-	State = Inactive;
-	bPortalUseable = false;
-	bPortalPlaceable = false;
+	//Reset parameters
+	ShadowState = EAbilityState::Inactive;
+	bWithinPortalRange = false;
+	bInsideWalls = false;
 	DurationTimer = Duration;
+	BPI_EndAbility();
+
 }
 
 // Called every frame
@@ -455,60 +305,69 @@ void UFShadowAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (State == AbilityState::Cue && OriginalActor && Portal)
-		UpdateFakeWall(OriginalActor->GetActorLocation(), GetOriginalActorForwardVector());
+	if (ShadowState == EAbilityState::Cue && OriginalActor && Portal)
+	{
+		UpdateFakePortal(OriginalActor->GetActorLocation(), GetCameraActorForwardVector(OriginalActor));
+	}
 
-	if (State == Active || State == Entered) {
+	if (ShadowState == EAbilityState::Active || bInsideWalls)
+	{
 		DurationTimer -= DeltaTime;
 		GEngine->AddOnScreenDebugMessage(-2, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility Duration: %f"), DurationTimer, false));
 
+		//If our wall get's destroyed or we run out of time. End the ability
 		if (DurationTimer < 0 || !PortalWall->alive)
+		{
 			EndAbility();
+		}
 	}
 }
 
-void UFShadowAbility::UpdateFakeWall(FVector position, FVector fwdVector) {
-	FVector endPosition = position + (fwdVector * Range);
-	FCollisionQueryParams traceParams;
-	TArray<FHitResult> hits;
-	bool wallFound = false;
-	FVector savedPoint = endPosition;//If we never find any hits, just set it to the end of the array
-	FRotator savedRotation = FRotator(0);//If we never find any hits, just set it to the end of the array
-	GetWorld()->LineTraceMultiByChannel(hits, position, endPosition, ECC_Visibility, traceParams);
-	for (int i = 0; i < hits.Num(); i++)
+void UFShadowAbility::UpdateFakePortal(FVector Position, FVector FwdVector) {
+	/*Will continually line trace for a valid object to hit.
+	If the object is a AUShadowWall, the portal will turn green.
+	If the object is anything else, the portal will turn red.
+	*/
+	bool bWallFound = false;
+	bool bFake = false;
+	FVector EndPosition = Position + (FwdVector * Range);
+	FVector SavedPoint = EndPosition;//If we never find any hits, just set it to the end of the array
+	FRotator SavedRotation = FRotator(0) ;//If we never find any hits, just set it to the end of the array
+	TArray<FHitResult> Hits;
+	GetWorld()->LineTraceMultiByChannel(Hits, Position, EndPosition, ECC_Visibility);
+	for (int i = 0; i < Hits.Num(); i++)
 	{
 
-		AUShadowWall* wall = Cast<AUShadowWall>(hits[i].GetActor());
+		AUShadowWall* wall = Cast<AUShadowWall>(Hits[i].GetActor());
+		//We cannot grab a wall if we have linetraced through this many actors
 		if (i >= 6)
 			break;//We will break out with a false wallFound
 		if (wall)
 		{
-			FVector hitsNormal = hits[i].Normal;
-			FVector wallNormal = hits[i].GetActor()->GetActorUpVector();
-			if (hitsNormal.Equals(wallNormal))
+			//The wall has to be facing us to be considered
+			FVector HitsNormal = Hits[i].Normal;
+			FVector WallNormal = Hits[i].GetActor()->GetActorUpVector();
+			if (HitsNormal.Equals(WallNormal))
 			{
-				savedPoint = hits[i].Location;
-				savedRotation = hits[i].GetActor()->GetActorRotation();
-				wallFound = true;
-
-
+				//We have found a wall
+				SavedPoint = Hits[i].Location;
+				SavedRotation = Hits[i].GetActor()->GetActorRotation();
+				bWallFound = true;
 				break;
 			}
 
 		}
-	}
-
-
-	//If there was no wall found, we want the fake portal to be placed in a valid location
-	if (!wallFound)
-	{
-		for (int i = 0; i < hits.Num(); i++)
-		{
-			if (!Cast<AShadowPortal>(hits[i].GetActor())) {
-				savedPoint = hits[i].Location;//If we don't find a valid wall, put it on the first hit
+		else {
+			//We can't place the portal on itself
+			if (!Cast<AShadowPortal>(Hits[i].GetActor()) && !bFake && Hits[i].GetActor() != OriginalActor) {
+				FString string = Hits[i].GetActor()->GetFName().GetPlainNameString();
+				GEngine->AddOnScreenDebugMessage(5, 15.0f, FColor::Green, string);
+				bFake = true;
+				//If we don't find a valid wall, put it on the first hit
+				SavedPoint = Hits[i].Location;
 				//Get the surface normal and rotate based on that
 				//Source:https://forums.unrealengine.com/t/rotation-from-normal/11543/3 used the two posts from TS100101 and janousch
-				FVector hitsNormal = hits[i].Normal;
+				FVector hitsNormal = Hits[i].Normal;
 				FQuat RootQuat = Portal->GetActorQuat();
 				FVector UpVector = RootQuat.GetUpVector();
 				FVector RotationAxis = FVector::CrossProduct(UpVector, hitsNormal);
@@ -521,37 +380,40 @@ void UFShadowAbility::UpdateFakeWall(FVector position, FVector fwdVector) {
 
 				FQuat NewQuat = Quat * RootQuat;
 				Portal->SetActorRotation(NewQuat.Rotator());
-				break;
 			}
 		}
-
 	}
+
 
 	//Change the material
 	if (GreenMaterial && RedMaterial)
 	{
-		if (wallFound) {
-			if (!bPortalPlaceable)
+		if (bWallFound) 
+		{
+			if (Portal->PortalPlane->GetMaterial(0) != GreenMaterial)
 			{
-				bPortalPlaceable = true;
+				
 				Portal->PortalPlane->SetMaterial(0, GreenMaterial);
 			}
 		}
-		else {
-			if (bPortalPlaceable)
+		else 
+		{
+			if (Portal->PortalPlane->GetMaterial(0) != RedMaterial)
 			{
-				bPortalPlaceable = false;
 				Portal->PortalPlane->SetMaterial(0, RedMaterial);
 			}
 		}
 	}
 	else
+	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Valid and Invalid materials have not been set"));
+	}
 
 	//Set location and rotation
-	Portal->SetActorLocation(savedPoint);
-	FVector portalTranslation = FVector(0, 0, 15);
-	Portal->AddActorLocalOffset(portalTranslation);
-	if (savedRotation != FRotator(0))
-		Portal->SetActorRotation(savedRotation);
+	Portal->SetActorLocation(SavedPoint);
+	Portal->AddActorLocalOffset(FVector(0, 0, 15));//Translation to make the portal appear in front of the wall
+	if (SavedRotation != FRotator(0))
+	{
+		Portal->SetActorRotation(SavedRotation);
+	}
 }

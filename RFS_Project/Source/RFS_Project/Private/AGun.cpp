@@ -13,20 +13,42 @@ AAGun::AAGun()
 void AAGun::BeginPlay()
 {
 	Super::BeginPlay();
+	// Reset gun properties
 	GunFireRateCounter = GunFirerate;
+	CurrentAmmo = MaxAmmo;
 }
 
 void AAGun::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
+	// Are we firing on automatic?
 	if (bIsGunAutomatic)
 	{
+		// Are we firing & has enough time passed to shoot again
 		if (GunFireRateCounter >= GunFirerate && bIsGunFiring == true)
 		{
-			OnStartHitScanLocUpdate();
-			Fire(GunStartHitScanLoc);
-			GunFireRateCounter = 0;
+			// Do we have some ammo?
+			if (CurrentAmmo > 0)
+			{
+				// Let our shooter know we are firing
+				PawnEquippedTo->OnGunFire();
+				// Update the GunStartHitScanLoc
+				OnStartHitScanLocUpdate();
+				GunLastHitLoc = Fire(GunStartHitScanLoc);
+				CurrentAmmo -= 1;
+				GunFireRateCounter = 0;
+			}
+			else
+			{
+				// Check we aren't already reloading before calling Reload()
+				if (!bReloadingOnHalfMag && !bReloadingOnEmpty)
+				{
+					Reload();
+				}
+				// Let our shooter know we are trying to fire on empty
+				PawnEquippedTo->OnGunFire();
+			}
 		}
 		GunFireRateCounter += DeltaSeconds;
 	}
@@ -37,29 +59,29 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 {
 	FVector AccOffset = CalculateAccuracy();
 	FRotator Rotation;
+	FVector LineVector;
+	// Is this gun equipped to the player?
 	if (bPlayerGun)
 	{
 		Rotation = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetCameraRotation();
-	}
-	else
-	{
-		Rotation = GetActorRightVector().Rotation();
-	}
-	FVector LineVector;
-	if (bPlayerGun)
-	{
 		LineVector = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->GetActorForwardVector() * GunRange;
 	}
 	else
 	{
+		Rotation = GetActorRightVector().Rotation();
 		LineVector = GetActorRightVector() * GunRange;
 	}
-	AActor* HitActor = Trace<IHealth>(StartHitScanLoc, (StartHitScanLoc + LineVector) + (AccOffset) * 20);
+	// Fire a line trace
+	FTraceReturn returnedTrace = Trace<IHealth>(StartHitScanLoc, (StartHitScanLoc + LineVector) + (AccOffset) * 20);
+	AActor* HitActor = returnedTrace.TraceActor;
+	// Did we actually hit anything?
 	if (HitActor)
 	{
+		// Did what we hit have health?
 		IHealth* HealthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(HitActor));
 		if (HealthObj != nullptr)
 		{
+			//TODO remove this in favor of having a damage variable on the gun
 			if (bPlayerGun)
 			{
 				HealthObj->OnDamage(1.0f, PawnEquippedTo);
@@ -71,24 +93,22 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 		}
 		else
 		{
-			return HitActor->GetActorLocation();
+			// Return our hit point location
+			return returnedTrace.HitLoc;
 		}
 	}
 	return FVector();
 	
 }
 
-void AAGun::ApplyRecoil(ACharacter* PlayerCharacter, float RecoilAngleYaw, float RecoilAnglePitch)
-{
-	PlayerCharacter->AddControllerYawInput(RecoilAngleYaw);
-	PlayerCharacter->AddControllerPitchInput(RecoilAnglePitch);
-}
-
 template<typename T>
-AActor* AAGun::Trace(FVector StartTrace, FVector EndTrace)
+AAGun::FTraceReturn AAGun::Trace(FVector StartTrace, FVector EndTrace)
 {
 	TArray<FHitResult> OutHit;
+	FTraceReturn TraceToReturn;
+	// Ask Unreal to perform a line trace
 	GetWorld()->LineTraceMultiByChannel(OutHit, StartTrace, EndTrace, ECollisionChannel::ECC_Visibility);
+	// DEBUG PURPOSES 
 	if (!bPlayerGun)
 	{
 		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Red, false, 1.0f);
@@ -105,34 +125,83 @@ AActor* AAGun::Trace(FVector StartTrace, FVector EndTrace)
 			// If the object is of the given type and we have not hit ourselves
 			if (HealthObj && HitActor != PawnEquippedTo)
 			{
-				return HitActor;
+				TraceToReturn.TraceActor = HitActor;
+				TraceToReturn.HitLoc = OutHit[i].ImpactPoint;
+				return TraceToReturn;
 			}
 			else if(HitActor != PawnEquippedTo && EnviornmentHit == nullptr)
 			{
 				EnviornmentHit = OutHit[i].GetActor();
+				TraceToReturn.TraceActor = EnviornmentHit;
+				TraceToReturn.HitLoc = OutHit[i].ImpactPoint;
 			}
 		}
 	}
-	return EnviornmentHit;
+	return TraceToReturn;
+}
+
+void AAGun::Reload()
+{
+	// Decide whether we are reloading on empty or a half full mag
+	if (CurrentAmmo > 0)
+	{
+		bReloadingOnHalfMag = true;
+	}
+	else
+	{
+		bReloadingOnEmpty = true;
+	}
+	// Play the reload animation
+	PawnEquippedTo->PlayReloadAnimation();
+	// Set the timer to execute the ammo reset once the animation has finished
+	GetWorld()->GetTimerManager().SetTimer(ReloadTimer, this, &AAGun::ResetAmmo, ReloadAnimWaitTime, false);
+}
+
+void AAGun::ResetAmmo()
+{
+	CurrentAmmo = MaxAmmo;
+	bReloadingOnEmpty = false;
+	bReloadingOnHalfMag = false;
+}
+
+void AAGun::ApplyRecoil(ACharacter* PlayerCharacter, float RecoilAngleYaw, float RecoilAnglePitch)
+{
+	PlayerCharacter->AddControllerYawInput(RecoilAngleYaw);
+	PlayerCharacter->AddControllerPitchInput(RecoilAnglePitch);
 }
 
 FVector AAGun::CalculateAccuracy()
 {
+	// Grab a random number between 0 and 3
 	int Random = rand() % 4;
+	// Example GunAccuracy of 0.9: 1 - 0.9 -> 0.1
 	int ConvertedAccuracy = 1 - GunAccuracy;
-	int OffsetScale = 10, MaximumVelocityOffset = 300;
+	int OffsetScale = 10;
+	int MaximumVelocityOffset = 300;
+	// Grab current velocity of pawn
 	int CurrentVelocity = PawnEquippedTo->GetVelocity().Length();
 	
 	int MovingOffset;
+	// Calculate Velocity Percentage between 0 - 1
 	int VelocityPercentage = (CurrentVelocity / MaximumVelocityOffset);
+	// If we aren't moving have not moving offset
 	if (VelocityPercentage == 0)
 	{
 		MovingOffset = 0;
 	}
 	else
 	{
+		/* Example: Velocity Percentage - 0.5
+		*  2 - (2 / 0.5) / 10 -> 1.6;
+		* Maximum value is 1.8
+		*/
 		MovingOffset = 2 - (2 / VelocityPercentage) / 10;
 	}
+	/*
+	* Example: Offset Scale -> 10, Gun Accuracy -> 0.9, MovingOffset -> 1.6
+	* CalculatedOffset -> randomNumber between 0 & (10 - ((0.9 - 1.6) * 10)
+	* CalculatedOffset -> randomNumber between 0 & 16
+	*/
 	int CalculatedOffset = rand() % (OffsetScale - (int)((GunAccuracy - MovingOffset) * OffsetScale));
 	if (Random < 2)
 	{
@@ -151,10 +220,26 @@ void AAGun::SetIsGunFiring(bool Value)
 	if (bIsGunFiring == false)
 	{
 		GunFireRateCounter = GunFirerate;
+		PawnEquippedTo->OnGunFiringStopped();
 	}
 }
 
 bool AAGun::IsGunFiring()
 {
 	return bIsGunFiring;
+}
+
+int AAGun::GetCurrentAmmo()
+{
+	return CurrentAmmo;
+}
+
+bool AAGun::IsReloadingOnEmpty()
+{
+	return bReloadingOnEmpty;
+}
+
+bool AAGun::IsReloadingOnHalfMag()
+{
+	return bReloadingOnHalfMag;
 }
