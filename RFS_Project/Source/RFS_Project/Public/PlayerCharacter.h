@@ -7,6 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "IShadowPawn.h"
 #include "../Combat.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "PlayerCharacter.generated.h"
 
 
@@ -35,12 +36,25 @@ public:
 	/* Blueprint-callable function that creates a hint for the AI of the player location */
 	UFUNCTION(BlueprintCallable)
 		void CreateHint();
+	UFUNCTION(BlueprintCallable)
+		void SetToSprint();
+	UFUNCTION(BlueprintCallable)
+		void SetToWalk();
+	UFUNCTION(BlueprintCallable)
+		void SetToCrouch();
+public:
 	/* Delegate for when sending hint to AI */
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAIHint, AActor*, Player, float, hintTime);
 	FAIHint OnAIHint;
 	/* Health for the player character */
 	UPROPERTY(EditAnywhere)
 		float CharacterHealth;
+	UPROPERTY(EditAnywhere)
+		float CharacterSprintSpeed;
+	UPROPERTY(EditAnywhere)
+		float CharacterWalkSpeed;
+	UPROPERTY(EditAnywhere)
+		float CharacterCrouchSpeed;
 protected:
 	/* Called when the game starts or this actor is spawned*/
 	virtual void BeginPlay() override;

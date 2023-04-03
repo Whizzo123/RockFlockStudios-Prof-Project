@@ -55,3 +55,18 @@ void APlayerCharacter::CreateHint()
 {
 	OnAIHint.Broadcast(this, 10.0f);
 }
+
+void APlayerCharacter::SetToSprint()
+{
+	GetCharacterMovement()->MaxWalkSpeed = CharacterSprintSpeed;
+}
+
+void APlayerCharacter::SetToWalk()
+{
+	GetCharacterMovement()->MaxWalkSpeed = CharacterWalkSpeed;
+}
+
+void APlayerCharacter::SetToCrouch()
+{
+	GetCharacterMovement()->MaxWalkSpeedCrouched = CharacterCrouchSpeed;
+}
