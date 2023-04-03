@@ -52,7 +52,7 @@ void AAGun::Tick(float DeltaSeconds)
 		}
 		GunFireRateCounter += DeltaSeconds;
 	}
-	
+
 }
 
 FVector AAGun::Fire(FVector StartHitScanLoc)

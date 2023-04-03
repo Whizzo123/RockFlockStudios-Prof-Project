@@ -22,6 +22,14 @@ void APlayerCharacter::BeginPlay()
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (CurrentMovementState == EPlayerMovementState::Walking)
+	{
+		if (GetCharacterMovement()->IsWalking() == false)
+		{
+			CurrentMovementState = EPlayerMovementState::StandingStill;
+			// Need access to equipped gun -> then sort other transition states pls :)
+		}
+	}
 }
 
 // Called to bind functionality to input

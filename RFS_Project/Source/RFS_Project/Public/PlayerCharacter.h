@@ -10,16 +10,11 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "PlayerCharacter.generated.h"
 
-
-
-
-
 UCLASS()
 /*A class for the base functionality of the player in the game*/
 class RFS_PROJECT_API APlayerCharacter : public APlayableCharacter, public IShadowPawn
 {
 	GENERATED_BODY()
-
 public:
 	/*
 	* Called every game tick
@@ -80,4 +75,15 @@ protected:
 protected:
 	/* Respawn Point for player*/
 	FVector RespawnPoint;
+	EPlayerMovementState CurrentMovementState;
+};
+
+UENUM(BlueprintType)
+enum class EPlayerMovementState : uint8
+{
+	StandingStill UMETA(DisplayName = "Standing Still"),
+	Crouching UMETA(DisplayName = "Crouching"),
+	Walking UMETA(DisplayName = "Walking"),
+	Sprinting UMETA(DisplayName = "Sprinting"),
+	Jumping UMETA(DisplayName = "Jumping")
 };
