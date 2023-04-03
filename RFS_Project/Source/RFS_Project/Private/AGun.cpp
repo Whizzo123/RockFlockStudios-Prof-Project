@@ -186,7 +186,7 @@ FVector AAGun::CalculateAccuracy()
 	}
 
 	// GunShotSpread -> 10 CalculatedGunAccuracy -> 0.1 then 10 * 0.1 = 1 (highly accuracte)
-	float Offset = GunShotSpread * CalculatedGunAccuracy;
+	int Offset = rand() % (int)(GunShotSpread * CalculatedGunAccuracy);
 	if (Random < 2)
 	{
 		return TrajectoryOffset * Offset;

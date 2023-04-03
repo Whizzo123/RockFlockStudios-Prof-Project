@@ -159,7 +159,7 @@ protected:
 	void ResetAmmo();
 protected:
 	/*Base offset for the trajectory*/
-	FVector TrajectoryOffset = FVector(1.0f, 0.0f, 0.0f);
+	FVector TrajectoryOffset = FVector(1.0f, 0.0f, 1.0f);
 	/*Timer handle for the reload timer*/
 	FTimerHandle ReloadTimer;
 	/*Value for the time to wait for the reload timer*/
