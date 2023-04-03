@@ -88,12 +88,23 @@ public:
 	*/
 	UFUNCTION(BlueprintCallable)
 		bool IsReloadingOnHalfMag();
+	/*
+	* Function for altering gun accuracy modifier
+	* @param ValueToAlterBy - Value to add onto the gun accuracy modifier variable
+	*/
+	void AlterGunAccuracyModifier(float ValueToAlterBy);
+	/*
+	* Function for resetting the gun accuracy modifier
+	*/
+	void ResetGunAccuracyModifier();
 public:
 	// EDITOR VARIABLES
 
 	/*Value for base accuracy of the gun 0-1, higher the value higher the accuracy*/
 	UPROPERTY(EditAnywhere)
 		float GunAccuracy;
+	UPROPERTY(EditAnywhere)
+		float GunShotSpread;
 	/*Value for the firerate of the gun 0-1, lower the value faster the firerate*/
 	UPROPERTY(EditAnywhere)
 		float GunFirerate;
@@ -148,11 +159,13 @@ protected:
 	void ResetAmmo();
 protected:
 	/*Base offset for the trajectory*/
-	FVector TrajectoryOffset = FVector(1.0f, 0.0f, 0.0f);
+	FVector TrajectoryOffset = FVector(1.0f, 0.0f, 1.0f);
 	/*Timer handle for the reload timer*/
 	FTimerHandle ReloadTimer;
 	/*Value for the time to wait for the reload timer*/
 	float ReloadAnimWaitTime = 2.0f;
+	/*Value for modifying the base gun accuracy*/
+	float GunAccuracyModifier;
 	/*Bool for whether the gun is firing*/
 	bool bIsGunFiring = false;
 	/*Value for the current count till we can fire*/

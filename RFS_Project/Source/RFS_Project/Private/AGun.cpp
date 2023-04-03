@@ -172,45 +172,47 @@ void AAGun::ApplyRecoil(ACharacter* PlayerCharacter, float RecoilAngleYaw, float
 
 FVector AAGun::CalculateAccuracy()
 {
-	// Grab a random number between 0 and 3
-	int Random = rand() % 4;
-	// Example GunAccuracy of 0.9: 1 - 0.9 -> 0.1
-	int ConvertedAccuracy = 1 - GunAccuracy;
-	int OffsetScale = 10;
-	int MaximumVelocityOffset = 300;
-	// Grab current velocity of pawn
-	int CurrentVelocity = PawnEquippedTo->GetVelocity().Length();
-	
-	int MovingOffset;
-	// Calculate Velocity Percentage between 0 - 1
-	int VelocityPercentage = (CurrentVelocity / MaximumVelocityOffset);
-	// If we aren't moving have not moving offset
-	if (VelocityPercentage == 0)
+	//// Grab a random number between 0 and 3
+	int Random = rand() % 4;	
+
+	// First add modifier to base accuracy
+	float CalculatedGunAccuracy = GunAccuracy + GunAccuracyModifier;
+	// Invert
+	CalculatedGunAccuracy = 1 - CalculatedGunAccuracy;
+	// Check for out of bounds accuracy
+	if (CalculatedGunAccuracy < 0)
 	{
-		MovingOffset = 0;
+		CalculatedGunAccuracy = 0.0f;
 	}
-	else
-	{
-		/* Example: Velocity Percentage - 0.5
-		*  2 - (2 / 0.5) / 10 -> 1.6;
-		* Maximum value is 1.8
-		*/
-		MovingOffset = 2 - (2 / VelocityPercentage) / 10;
-	}
-	/*
-	* Example: Offset Scale -> 10, Gun Accuracy -> 0.9, MovingOffset -> 1.6
-	* CalculatedOffset -> randomNumber between 0 & (10 - ((0.9 - 1.6) * 10)
-	* CalculatedOffset -> randomNumber between 0 & 16
-	*/
-	int CalculatedOffset = rand() % (OffsetScale - (int)((GunAccuracy - MovingOffset) * OffsetScale));
+
+	// GunShotSpread -> 10 CalculatedGunAccuracy -> 0.1 then 10 * 0.1 = 1 (highly accuracte)
+	int Offset = rand() % (int)(GunShotSpread * CalculatedGunAccuracy);
 	if (Random < 2)
 	{
-		return TrajectoryOffset * -CalculatedOffset;
+		return TrajectoryOffset * Offset;
 	}
 	else
 	{
-		return TrajectoryOffset * CalculatedOffset;
+		return TrajectoryOffset * -Offset;
 	}
+}
+
+void AAGun::AlterGunAccuracyModifier(float ValueToAlterBy)
+{
+	GunAccuracyModifier += ValueToAlterBy;
+	if (GunAccuracyModifier > 1)
+	{
+		GunAccuracyModifier = 1.0f;
+	}
+	else if (GunAccuracyModifier < -1)
+	{
+		GunAccuracyModifier = -1.0f;
+	}
+}
+
+void AAGun::ResetGunAccuracyModifier()
+{
+	GunAccuracyModifier = 0.0f;
 }
 
 void AAGun::SetIsGunFiring(bool Value)
