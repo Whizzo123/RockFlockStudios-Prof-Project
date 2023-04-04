@@ -22,27 +22,43 @@ void ABotController::OnPossess(APawn* InPawn)
 
 void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
-	bool bIsPlayer = Actor->ActorHasTag(PlayerTag);
-	bool bSuccess = Stimulus.WasSuccessfullySensed();
-	UBlackboardComponent* Board = Blackboard.Get();
-	// Have we successfully sensed and is it the player we saw?
-	if (bIsPlayer && bSuccess)
+	if (GetTeamAttitudeTowards(*Actor) == ETeamAttitude::Hostile)
 	{
-		// Stop the timer for losing sight of player
-		GetWorld()->GetTimerManager().ClearTimer(SightLossTimer);
-		// Update blackboard values
- 		Board->SetValueAsBool(LineOfSightBBKey, true);
-		Board->SetValueAsObject(EnemyActorBBKey, Actor);
-		// Set distance to player
-		SetDistanceToPlayer(Board);
-		BPI_LineOfSight();
+		bool bIsPlayer = Actor->ActorHasTag(PlayerTag);
+		bool bSuccess = Stimulus.WasSuccessfullySensed();
+		UBlackboardComponent* Board = Blackboard.Get();
+		// Have we successfully sensed and is it the player we saw?
+		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, Actor->GetFName().ToString());
+		if (bIsPlayer && bSuccess)
+		{
+			// Stop the timer for losing sight of player
+			GetWorld()->GetTimerManager().ClearTimer(SightLossTimer);
+			// Update blackboard values
+			Board->SetValueAsBool(LineOfSightBBKey, true);
+			Board->SetValueAsObject(EnemyActorBBKey, Actor);
+			// Set distance to player
+			SetDistanceToPlayer(Board);
+			BPI_LineOfSight();
+		}
+		else
+		{
+			// Update blackboard that we have lost sight
+			Board->SetValueAsBool(LineOfSightBBKey, false);
+			// Start loss of sight timer
+			GetWorld()->GetTimerManager().SetTimer(SightLossTimer, this, &ABotController::LossSightOfEnemy, LineOfSightTime, false);
+		}
+	}
+}
+
+ETeamAttitude::Type ABotController::GetTeamAttitudeTowards(const AActor& Other)
+{
+	if (APlayerCharacter const* PlayerCharacter = Cast<APlayerCharacter>(&Other))
+	{
+		return ETeamAttitude::Hostile;
 	}
 	else
 	{
-		// Update blackboard that we have lost sight
-		Board->SetValueAsBool(LineOfSightBBKey, false);
-		// Start loss of sight timer
-		GetWorld()->GetTimerManager().SetTimer(SightLossTimer, this, &ABotController::LossSightOfEnemy, LineOfSightTime, false);
+		return ETeamAttitude::Neutral;
 	}
 }
 
@@ -62,6 +78,7 @@ void ABotController::ResetForRespawn()
 {
 	UBlackboardComponent* Board = Blackboard.Get();
 	Board->SetValueAsObject(EnemyActorBBKey, nullptr);
+	Board->SetValueAsBool(LineOfSightBBKey, false);
 }
 
 void ABotController::LossSightOfEnemy()

@@ -38,6 +38,8 @@ public:
 	* @param Board - Blackboard to set value on
 	*/
 	void SetDistanceToPlayer(UBlackboardComponent* Board);
+	/* Function called for getting the AI's team alignment*/
+	ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other);
 	/* Called to have AI lose focus on enemy*/
 	UFUNCTION()
 		void LossSightOfEnemy();
