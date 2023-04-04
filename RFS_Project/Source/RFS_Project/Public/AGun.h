@@ -6,7 +6,6 @@
 #include "GameFramework/Actor.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "AGunProjectile.h"
 #include "../Combat.h"
 #include "DrawDebugHelpers.h"
 #include "PlayableCharacter.h"
