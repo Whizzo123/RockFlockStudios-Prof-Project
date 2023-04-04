@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
 #include "UObject/Class.h"
 #include "ShadowPortal.h"
 #include "BaseShadowAbility.h"
@@ -11,7 +10,7 @@
 #include "FShadowAbility.generated.h"
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent), Blueprintable)
-/*Shadow Ability Version 1, Portal Entry, No teleporting, same entry exit*/
+/*Shadow Ability Version 0, Portal Entry, No teleporting, same entry exit*/
 class RFS_PROJECT_API UFShadowAbility : public UBaseShadowAbility
 {
 	GENERATED_BODY()
