@@ -52,7 +52,7 @@ void AAGun::Tick(float DeltaSeconds)
 		}
 		GunFireRateCounter += DeltaSeconds;
 	}
-	
+
 }
 
 FVector AAGun::Fire(FVector StartHitScanLoc)
@@ -186,7 +186,17 @@ FVector AAGun::CalculateAccuracy()
 	}
 
 	// GunShotSpread -> 10 CalculatedGunAccuracy -> 0.1 then 10 * 0.1 = 1 (highly accuracte)
-	int Offset = rand() % (int)(GunShotSpread * CalculatedGunAccuracy);
+	int ShotSpreadRange = static_cast<int>(GunShotSpread * CalculatedGunAccuracy);
+	int Offset;
+	if (ShotSpreadRange != 0)
+	{
+		Offset = rand() % ShotSpreadRange;
+	}
+	else
+	{
+		Offset = 0;
+	}
+
 	if (Random < 2)
 	{
 		return TrajectoryOffset * Offset;

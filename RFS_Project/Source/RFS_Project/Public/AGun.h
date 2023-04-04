@@ -6,7 +6,6 @@
 #include "GameFramework/Actor.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "AGunProjectile.h"
 #include "../Combat.h"
 #include "DrawDebugHelpers.h"
 #include "PlayableCharacter.h"
@@ -89,14 +88,16 @@ public:
 	UFUNCTION(BlueprintCallable)
 		bool IsReloadingOnHalfMag();
 	/*
-	* Function for altering gun accuracy modifier
+	* Blueprint-callable function for altering gun accuracy modifier
 	* @param ValueToAlterBy - Value to add onto the gun accuracy modifier variable
 	*/
-	void AlterGunAccuracyModifier(float ValueToAlterBy);
+	UFUNCTION(BlueprintCallable)
+		void AlterGunAccuracyModifier(float ValueToAlterBy);
 	/*
-	* Function for resetting the gun accuracy modifier
+	* Blueprint-callable function for resetting the gun accuracy modifier
 	*/
-	void ResetGunAccuracyModifier();
+	UFUNCTION(BlueprintCallable)
+		void ResetGunAccuracyModifier();
 public:
 	// EDITOR VARIABLES
 
