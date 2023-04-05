@@ -105,11 +105,12 @@ bool UFShadowAbility::EnteredState() {
 	bool success = ExitWall();
 	if (!success)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Could not exit portal"));
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Could not exit wall"));
 		return false;
 	}
 	else 
 	{
+		bInsideWalls = false;
 		DurationTimer = DurationEndStart;
 		return true;
 	}
@@ -295,7 +296,6 @@ void UFShadowAbility::EndAbility()
 	ShadowState = EAbilityState::Inactive;
 	bWithinPortalRange = false;
 	bInsideWalls = false;
-	DurationTimer = Duration;
 	BPI_EndAbility();
 
 }
@@ -309,18 +309,17 @@ void UFShadowAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	{
 		UpdateFakePortal(OriginalActor->GetActorLocation(), GetCameraActorForwardVector(OriginalActor));
 	}
-
-	if (ShadowState == EAbilityState::Active || bInsideWalls)
+	if (DurationTimer > 0)
 	{
-		DurationTimer -= DeltaTime;
 		GEngine->AddOnScreenDebugMessage(-2, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility Duration: %f"), DurationTimer, false));
-
-		//If our wall get's destroyed or we run out of time. End the ability
-		if (DurationTimer < 0 || !PortalWall->alive)
+		DurationTimer -= DeltaTime;
+		if (DurationTimer <= 0 || !PortalWall->alive)
 		{
 			EndAbility();
 		}
+
 	}
+
 }
 
 void UFShadowAbility::UpdateFakePortal(FVector Position, FVector FwdVector) {
