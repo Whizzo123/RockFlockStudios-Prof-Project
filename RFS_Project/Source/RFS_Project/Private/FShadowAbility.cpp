@@ -283,7 +283,7 @@ void UFShadowAbility::EndAbility()
 	if (ShadowState == EAbilityState::Active){
 		if (bInsideWalls)
 			ExitWall();
-		DestroyOrHideActor(Portal);
+		Portal->PortalDeath();
 		Portal = nullptr;
 	}
 
