@@ -41,6 +41,12 @@ public:
 	/*Blueprint-implementable event for when the character stops firing they're gun*/
 	UFUNCTION(BlueprintImplementableEvent)
 		void OnGunFiringStopped();
+	/*
+	* Blueprint-implementable event for when the character takes damage
+	* @param ActorDamagedBy - The actor who damaged us
+	*/
+	UFUNCTION(BlueprintImplementableEvent)
+		void CharacterDamagedEvent(AActor* ActorDamagedBy);
 	/* Kills the character*/
 	void OnKill() override {};
 	/* Plays the characters reload animation*/
