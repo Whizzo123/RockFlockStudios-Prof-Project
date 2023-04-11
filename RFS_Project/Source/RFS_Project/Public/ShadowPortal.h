@@ -45,7 +45,7 @@ public:
 		UStaticMeshComponent* PortalPlane;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-		void PortalDeath(bool key);
+		void PortalDeath();
 
 	bool* bPlayerInside;
 };
