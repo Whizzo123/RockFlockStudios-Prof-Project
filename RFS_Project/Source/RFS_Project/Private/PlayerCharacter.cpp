@@ -105,7 +105,10 @@ void APlayerCharacter::OnDamage(float Damage, AActor* ActorDamagedBy)
 	BPI_TakeDamage();
 	HitPoints -= Damage;
 	if (HitPoints <= 0)
+	{
 		OnDeath();
+	}
+	CharacterDamagedEvent(ActorDamagedBy);
 }
 
 void APlayerCharacter::OnDeath()

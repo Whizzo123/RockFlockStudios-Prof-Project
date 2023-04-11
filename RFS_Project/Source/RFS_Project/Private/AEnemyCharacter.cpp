@@ -69,6 +69,7 @@ void AAEnemyCharacter::OnDamage(float Damage, AActor* ActorDamagedBy)
 	{
 		OnDeath();
 	}
+	CharacterDamagedEvent(ActorDamagedBy);
 }
 
 void AAEnemyCharacter::OnDeath()

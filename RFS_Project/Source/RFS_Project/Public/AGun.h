@@ -113,7 +113,7 @@ public:
 	UPROPERTY(EditAnywhere)
 		FName FireSocket;
 	/*Value for the max ammo in the gun*/
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 		int MaxAmmo;
 	/*Bool for whether the gun is equipped for the player*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
