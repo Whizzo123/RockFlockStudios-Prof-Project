@@ -24,7 +24,7 @@
 //Public implementation first, then private implementation
 
 /*An Abstract Class for the Shadow Ultimate Ability. Iterations of this ability must inherit from here*/
-UCLASS(Abstract, NotBlueprintable)
+UCLASS(Abstract)
 class RFS_PROJECT_API UBaseShadowAbility : public UActorComponent, public IAbility
 {
 	GENERATED_BODY()
