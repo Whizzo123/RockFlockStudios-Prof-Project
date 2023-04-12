@@ -26,3 +26,8 @@ void APlayableCharacter::Tick(float DeltaTime)
 
 }
 
+void APlayableCharacter::PlayReloadAnimation()
+{
+	GetMesh()->PlayAnimation(ReloadAnim, false);
+}
+
