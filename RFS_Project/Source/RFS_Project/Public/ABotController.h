@@ -10,6 +10,7 @@
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "BrainComponent.h"
 #include "AEnemyCharacter.h"
+#include "UShadowWall.h"
 #include "Kismet/GameplayStatics.h"
 #include "ABotController.generated.h"
 
@@ -37,7 +38,9 @@ public:
 	* Sets the distanceToPlayer key in the AI blackboard
 	* @param Board - Blackboard to set value on
 	*/
-	void SetDistanceToPlayer(UBlackboardComponent* Board);
+	void SetDistanceToPlayer();
+	/* Function called for getting the AI's team alignment*/
+	ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other);
 	/* Called to have AI lose focus on enemy*/
 	UFUNCTION()
 		void LossSightOfEnemy();
@@ -89,4 +92,7 @@ public:
 	FTimerHandle HintDurationTimer;
 	/*Reference to the player in the scene*/
 	APlayerCharacter* LocalPlayer;
+protected:
+	/* Local reference to the behavior trees' blackboard */
+	UBlackboardComponent* Board;
 };
