@@ -18,34 +18,44 @@ void ABotController::OnPossess(APawn* InPawn)
 	MyPawn->OnRespawn.BindDynamic(this, &ABotController::ResetForRespawn);
 	// Start the behaviour tree
 	RunBehaviorTree(Tree);
+	Board = Blackboard.Get();
 }
 
 void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
-{
+{	
 	if (GetTeamAttitudeTowards(*Actor) == ETeamAttitude::Hostile)
 	{
-		bool bIsPlayer = Actor->ActorHasTag(PlayerTag);
+		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, Actor->GetFName().ToString());
+		AActor* boardActor = Cast<AActor>(Board->GetValueAsObject(EnemyActorBBKey));
 		bool bSuccess = Stimulus.WasSuccessfullySensed();
-		UBlackboardComponent* Board = Blackboard.Get();
-		// Have we successfully sensed and is it the player we saw?
-		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, Actor->GetFName().ToString());
-		if (bIsPlayer && bSuccess)
+		// If we have an actor already set and its the player don't set it again
+		if(boardActor != nullptr && boardActor->ActorHasTag(PlayerTag) && bSuccess)
 		{
-			// Stop the timer for losing sight of player
-			GetWorld()->GetTimerManager().ClearTimer(SightLossTimer);
-			// Update blackboard values
-			Board->SetValueAsBool(LineOfSightBBKey, true);
-			Board->SetValueAsObject(EnemyActorBBKey, Actor);
-			// Set distance to player
-			SetDistanceToPlayer(Board);
-			BPI_LineOfSight();
+			return;
 		}
+		// Otherwise this means we don't have the player and we are seeing a wall
 		else
 		{
-			// Update blackboard that we have lost sight
-			Board->SetValueAsBool(LineOfSightBBKey, false);
-			// Start loss of sight timer
-			GetWorld()->GetTimerManager().SetTimer(SightLossTimer, this, &ABotController::LossSightOfEnemy, LineOfSightTime, false);
+			// Have we successfully sensed and is it the player we saw?
+			GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, Actor->GetFName().ToString());
+			if (bSuccess)
+			{
+				// Stop the timer for losing sight of player
+				GetWorld()->GetTimerManager().ClearTimer(SightLossTimer);
+				// Update blackboard values
+				Board->SetValueAsBool(LineOfSightBBKey, true);
+				Board->SetValueAsObject(EnemyActorBBKey, Actor);
+				// Set distance to player
+				SetDistanceToPlayer();
+				BPI_LineOfSight();
+			}
+			else
+			{
+				// Update blackboard that we have lost sight
+				Board->SetValueAsBool(LineOfSightBBKey, false);
+				// Start loss of sight timer
+				GetWorld()->GetTimerManager().SetTimer(SightLossTimer, this, &ABotController::LossSightOfEnemy, LineOfSightTime, false);
+			}
 		}
 	}
 }
@@ -56,15 +66,19 @@ ETeamAttitude::Type ABotController::GetTeamAttitudeTowards(const AActor& Other)
 	{
 		return ETeamAttitude::Hostile;
 	}
-	else
+	else if (AUShadowWall const* ShadowWall = Cast<AUShadowWall>(&Other))
 	{
-		return ETeamAttitude::Neutral;
+		if (ShadowWall->alive == true)
+		{
+			return ETeamAttitude::Hostile;
+		}
 	}
+	return ETeamAttitude::Neutral;
+
 }
 
 void ABotController::SendHint(AActor* Actor, float HintTime)
 {
-	UBlackboardComponent* Board = Blackboard.Get();
 	if (Actor)
 	{
 		// Update blackboard with enemy actor value
@@ -76,14 +90,12 @@ void ABotController::SendHint(AActor* Actor, float HintTime)
 
 void ABotController::ResetForRespawn()
 {
-	UBlackboardComponent* Board = Blackboard.Get();
 	Board->SetValueAsObject(EnemyActorBBKey, nullptr);
 	Board->SetValueAsBool(LineOfSightBBKey, false);
 }
 
 void ABotController::LossSightOfEnemy()
 {
-	UBlackboardComponent* Board = Blackboard.Get();
 	Board->SetValueAsObject(EnemyActorBBKey, nullptr);
 }
 
@@ -101,11 +113,19 @@ void ABotController::Tick(float DeltaTime)
 			LocalPlayer->OnAIHint.AddDynamic(this, &ABotController::SendHint);
 		}
 	}
+	if (AUShadowWall const* ShadowWall = Cast<AUShadowWall>(Board->GetValueAsObject(EnemyActorBBKey)))
+	{
+		if (ShadowWall->alive == false)
+		{
+			Board->SetValueAsObject(EnemyActorBBKey, nullptr);
+			Board->SetValueAsBool(LineOfSightBBKey, false);
+		}
+	}
 	// Update the distance to the player on the blackboard
-	SetDistanceToPlayer(Blackboard.Get());
+	SetDistanceToPlayer();
 }
 
-void ABotController::SetDistanceToPlayer(UBlackboardComponent* Board)
+void ABotController::SetDistanceToPlayer()
 {
 	// If we have a set enemy actor in the Blackboard
 	APlayerCharacter* Player = Cast<APlayerCharacter>(Board->GetValueAsObject(EnemyActorBBKey));
@@ -126,7 +146,6 @@ void ABotController::SetDistanceToPlayer(UBlackboardComponent* Board)
 
 void ABotController::HintTimerUp()
 {
-	UBlackboardComponent* Board = Blackboard.Get();
 	if (Board->GetValueAsBool(LineOfSightBBKey) == false)
 	{
 		Board->SetValueAsObject(EnemyActorBBKey, nullptr);

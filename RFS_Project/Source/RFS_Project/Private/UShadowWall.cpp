@@ -65,6 +65,7 @@ void AUShadowWall::ResetWall()
 		HitPoints = MaxHitPoints;
 		//OnDeath();
 		alive = false;
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Wall is reset"));
 	}
 	else {
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Plane not reset"));
