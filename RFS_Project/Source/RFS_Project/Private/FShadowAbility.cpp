@@ -207,9 +207,8 @@ bool UFShadowAbility::InitAbility(FVector position, FVector fwdVector)
 }
 bool UFShadowAbility::PlacePortal(FVector Position, FVector FwdVector)
 {
-
+	//WARNING: When changing this function, change UpdateFakePortal
 		FVector EndPosition = Position + (FwdVector * Range);
-		FCollisionQueryParams TraceParams;
 		FVector PortalTranslation = FVector(0, 0, 15);
 
 		//My problem with this implementation is that, if we trace through walls and hit a shadow wall through layers of visible walls, we won't know where our shadow wall has ended up in.
@@ -217,13 +216,13 @@ bool UFShadowAbility::PlacePortal(FVector Position, FVector FwdVector)
 		FHitResult Hit;
 		AUShadowWall* Wall= nullptr;
 		bool WallFound = false;
-		GetWorld()->LineTraceMultiByChannel(Hits, Position, EndPosition, ECC_Visibility, TraceParams);
+		GetWorld()->LineTraceMultiByChannel(Hits, Position, EndPosition, ECC_Visibility);
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, FString::Printf(TEXT("hits amount: %i"), Hits.Num()));
 		for (int i = 0; i < Hits.Num(); i++)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, Hits[i].GetActor()->GetName());
 			Wall = Cast<AUShadowWall>(Hits[i].GetActor());
-			if (i >= 4)
+			if (i >= 6)
 			{
 				return false;//We will return false to prevent our trace going through physical walls, If we have hit two walls, assume we have went through too many
 			}
@@ -261,10 +260,11 @@ bool UFShadowAbility::PlacePortal(FVector Position, FVector FwdVector)
 			return false;
 		
 
-		//TODO: Remove
+		//TODO: Remove?
 		//Reposition portal with correct vertical offset
 		FVector SavedLineLocation = Hit.Location;
 		FVector Down = FVector(0, 0, -1);
+		FCollisionQueryParams TraceParams = FCollisionQueryParams::DefaultQueryParam;
 		TraceParams.AddIgnoredActor(Wall);
 		GetWorld()->LineTraceMultiByChannel(Hits, SavedLineLocation, (Down * Range) + SavedLineLocation, ECC_Visibility, TraceParams);
 		
@@ -327,6 +327,8 @@ void UFShadowAbility::UpdateFakePortal(FVector Position, FVector FwdVector) {
 	If the object is a AUShadowWall, the portal will turn green.
 	If the object is anything else, the portal will turn red.
 	*/
+	//WARNING: When changing this function, change PlacePortal
+
 	bool bWallFound = false;
 	bool bFake = false;
 	FVector EndPosition = Position + (FwdVector * Range);

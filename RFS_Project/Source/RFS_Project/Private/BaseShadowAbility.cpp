@@ -130,10 +130,11 @@ TSet<AUShadowWall*> UBaseShadowAbility::SphereCastWalls(FVector Origin)
 	GetWorld()->SweepMultiByChannel(Hits, Origin, Origin, FQuat(), ECC_Visibility, FCollisionShape::MakeSphere(WallDetectionRange), TraceParams);
 
 	//Goes through all objects hit adn grabs the walls and adds them to TSet
-	for (int i = 0; i < Hits.Num(); i++)
+	for (int Actors = 0; Actors < Hits.Num(); Actors++)
 	{
-		AUShadowWall* Wall = Cast<AUShadowWall>(Hits[i].GetActor());
-		if (Wall) {
+		AUShadowWall* Wall = Cast<AUShadowWall>(Hits[Actors].GetActor());
+		if (Wall && !Wall->alive) 
+		{
 			ShadowWalls.Add(Wall);
 		}
 	}
@@ -141,24 +142,28 @@ TSet<AUShadowWall*> UBaseShadowAbility::SphereCastWalls(FVector Origin)
 	return ShadowWalls;
 
 }
-TSet<AUShadowWall*> UBaseShadowAbility::DiscCastWalls(FVector origin) {
+TSet<AUShadowWall*> UBaseShadowAbility::DiscCastWalls(FVector Origin) {
 	TArray<FHitResult> Hits;
 	TSet<AUShadowWall*> ShadowWalls;
 
-	//360 degrees of line tracing to detect and add AUShadowWalls //TODO: If the wall is currently in use, do not add it
+	//360 degrees of line tracing to detect and add AUShadowWalls
 	for (int i = 1; i < DiscAccuracy; i++)
 	{
 		FVector EndVector(1, 0, 0);
 		float YawAmount = ((360 / DiscAccuracy) * i);
 		EndVector = EndVector.RotateAngleAxis(YawAmount, FVector3d(0, 0, 1));
 		EndVector *= WallDetectionRange;
-		GetWorld()->LineTraceMultiByChannel(Hits, origin, origin + EndVector, ECC_Visibility);
+		//Note: There has been no way to continue a trace while the player body is inside it(for FShadowAbility not FShadowAbility1)
+		//GetWorld()->LineTraceMultiByObjectType(Hits, Origin, Origin + EndVector, FCollisionObjectQueryParams::AllObjects, FCollisionParams);
+		GetWorld()->LineTraceMultiByChannel(Hits, Origin, Origin + EndVector, ECC_Visibility);
 
 		//Go through all actors hit and add relevant ones
 		for (int Actors = 0; Actors < Hits.Num(); Actors++)
 		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility::DiscCastWalls: Actors found %i"), Hits.Num()));
+
 			AUShadowWall* Wall = Cast<AUShadowWall>(Hits[Actors].GetActor());
-			if (Wall)
+			if (Wall && !Wall->alive)
 			{
 				ShadowWalls.Add(Wall);
 			}
@@ -260,7 +265,7 @@ bool UBaseShadowAbility::ExitWall()
 	Controller->Possess(OriginalActor);
 	//Repositioning Actor for exiting the wall
 	OriginalActor->SetActorLocationAndRotation(RestrictedActor->GetActorLocation(), RestrictedActor->GetActorRotation());
-	OriginalActor->AddActorWorldOffset(OriginalActor->GetActorForwardVector() * 300);//shoudl play animation for exiting
+	OriginalActor->AddActorWorldOffset(OriginalActor->GetActorForwardVector() * 10);//shoudl play animation for exiting
 	OriginalActor->AddActorWorldOffset(FVector(0, 0, 20));
 	OriginalActor->SetActorHiddenInGame(false);
 
