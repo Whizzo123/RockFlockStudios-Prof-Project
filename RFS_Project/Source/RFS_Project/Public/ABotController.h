@@ -83,6 +83,9 @@ public:
 	/*FName value for referencing DistanceToPlayer in blackboard*/
 	UPROPERTY(EditAnywhere)
 		FName DistanceToPlayerBBKey;
+	/*FName value for referencing Hinting in blackboard*/
+	UPROPERTY(EditAnywhere)
+		FName HintingBBKey;
 	/*FName value for referencing the tag on the Player actor*/
 	UPROPERTY(EditAnywhere)
 		FName PlayerTag;
