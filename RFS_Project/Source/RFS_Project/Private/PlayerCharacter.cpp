@@ -63,7 +63,6 @@ void APlayerCharacter::UpdatePlayerMovementState()
 				{
 					SwitchMovementState(EPlayerMovementState::StandingStill);
 					EquippedGun->ResetGunAccuracyModifier();
-					GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, "Standing Still");
 				}
 			}
 			break;
@@ -74,7 +73,6 @@ void APlayerCharacter::UpdatePlayerMovementState()
 			{
 				SwitchMovementState(EPlayerMovementState::StandingStill);
 				EquippedGun->ResetGunAccuracyModifier();
-				GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, "Standing Still");
 			}
 			break;
 		}
@@ -97,7 +95,9 @@ void APlayerCharacter::OnHeal(float Health)
 {
 	HitPoints += Health;
 	if (HitPoints > MaxHitPoints)
+	{
 		HitPoints = MaxHitPoints;
+	}
 }
 
 void APlayerCharacter::OnDamage(float Damage, AActor* ActorDamagedBy)
@@ -117,9 +117,9 @@ void APlayerCharacter::OnDeath()
 	HitPoints = MaxHitPoints;
 }
 
-void APlayerCharacter::CreateHint()
+void APlayerCharacter::CreateHint(AActor* Actor, float HintTime)
 {
-	OnAIHint.Broadcast(this, 10.0f);
+	OnAIHint.Broadcast(Actor, HintTime);
 }
 
 void APlayerCharacter::SetToSprint(bool ToOverride)
@@ -134,7 +134,6 @@ void APlayerCharacter::SetToSprint(bool ToOverride)
 		SwitchMovementState(EPlayerMovementState::Sprinting);
 		EquippedGun->ResetGunAccuracyModifier();
 		EquippedGun->AlterGunAccuracyModifier(SprintingAccuracyDebuffPercentage);
-		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, "Sprinting");
 	}
 }
 
@@ -150,7 +149,6 @@ void APlayerCharacter::SetToWalk(bool ToOverride)
 		SwitchMovementState(EPlayerMovementState::Walking);
 		EquippedGun->ResetGunAccuracyModifier();
 		EquippedGun->AlterGunAccuracyModifier(WalkingAccuracyDebuffPercentage);
-		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, "Walking");
 	}
 }
 
@@ -160,13 +158,14 @@ void APlayerCharacter::SetToCrouch()
 	SwitchMovementState(EPlayerMovementState::Crouching);
 	EquippedGun->ResetGunAccuracyModifier();
 	EquippedGun->AlterGunAccuracyModifier(CrouchingAccuracyBuffPercentage);
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, "Crouching");
 }
 
 void APlayerCharacter::SetToJump()
 {
 	SwitchMovementState(EPlayerMovementState::Jumping);
-	EquippedGun->ResetGunAccuracyModifier();
-	EquippedGun->AlterGunAccuracyModifier(JumpingAccuracyDebuffPercentage);
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, "Jumping");
+	if (EquippedGun)
+	{
+		EquippedGun->ResetGunAccuracyModifier();
+		EquippedGun->AlterGunAccuracyModifier(JumpingAccuracyDebuffPercentage);
+	}
 }
