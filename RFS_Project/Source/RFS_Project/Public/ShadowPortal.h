@@ -44,6 +44,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UStaticMeshComponent* PortalPlane;
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		void PortalDeath();
+
 	bool* bPlayerInside;
 };
 
