@@ -77,25 +77,29 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 	// Did we actually hit anything?
 	if (HitActor)
 	{
-		// Did what we hit have health?
-		IHealth* HealthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(HitActor));
-		if (HealthObj != nullptr)
-		{
-			//TODO remove this in favor of having a damage variable on the gun
-			if (bPlayerGun)
+		//APlayableCharacter* character = Cast<APlayableCharacter>(HitActor);
+		//if (character)
+		//{
+			// Did what we hit have health?
+			IHealth* HealthObj = Cast<IHealth>(HitActor);
+			if (HealthObj != nullptr)
 			{
-				HealthObj->OnDamage(1.0f, PawnEquippedTo);
+				//TODO remove this in favor of having a damage variable on the gun
+				if (bPlayerGun)
+				{
+					HealthObj->OnDamage(1.0f, PawnEquippedTo);
+				}
+				else
+				{
+					HealthObj->OnDamage(10.0f, PawnEquippedTo);
+				}
 			}
 			else
 			{
-				HealthObj->OnDamage(10.0f, PawnEquippedTo);
+				// Return our hit point location
+				return returnedTrace.HitLoc;
 			}
-		}
-		else
-		{
-			// Return our hit point location
-			return returnedTrace.HitLoc;
-		}
+		//}
 	}
 	return FVector();
 	
