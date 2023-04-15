@@ -31,7 +31,7 @@ public:
 	APlayerCharacter();
 	/* Blueprint-callable function that creates a hint for the AI of the player location */
 	UFUNCTION(BlueprintCallable)
-		void CreateHint();
+		void CreateHint(AActor* Actor, float HintTime);
 	/*
 	* Blueprint-callable function that sets the player to sprint
 	* @param ToOverride - Whether this will switch the state regardless of the current state

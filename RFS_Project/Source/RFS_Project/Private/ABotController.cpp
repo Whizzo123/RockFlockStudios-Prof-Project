@@ -83,6 +83,7 @@ void ABotController::SendHint(AActor* Actor, float HintTime)
 	{
 		// Update blackboard with enemy actor value
 		Board->SetValueAsObject(EnemyActorBBKey, Actor);
+		Board->SetValueAsBool(HintingBBKey, true);
 		// Start hint duration timer
 		GetWorld()->GetTimerManager().SetTimer(HintDurationTimer, this, &ABotController::HintTimerUp, HintTime, false);
 	}
@@ -149,5 +150,6 @@ void ABotController::HintTimerUp()
 	if (Board->GetValueAsBool(LineOfSightBBKey) == false)
 	{
 		Board->SetValueAsObject(EnemyActorBBKey, nullptr);
+		Board->SetValueAsBool(HintingBBKey, false);
 	}
 }
