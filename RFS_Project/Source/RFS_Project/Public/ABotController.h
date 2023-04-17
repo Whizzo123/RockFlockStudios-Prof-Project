@@ -60,7 +60,10 @@ public:
 		void SendHint(AActor* Actor, float HintTime);
 	/*Blueprint-implementable event for when AI sees player*/
 	UFUNCTION(BlueprintImplementableEvent)
-		void BPI_LineOfSight();
+		void BPI_LineOfSightPlayer();	
+	/*Blueprint-implementable event for when AI sees Shadow Wall*/
+	UFUNCTION(BlueprintImplementableEvent)
+		void BPI_LineOfSightWall();
 	/* Called when the time for the current hint is up*/
 	UFUNCTION()
 		void HintTimerUp();

@@ -104,7 +104,8 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 		void OnKill() override { BPI_OnKill(); };
-
+	/*Checks gun, resets accuracy, changes gun accuracy*/
+	void GunAccuracy(float Modifier);
 protected:
 	/* Respawn Point for player*/
 	FVector RespawnPoint;

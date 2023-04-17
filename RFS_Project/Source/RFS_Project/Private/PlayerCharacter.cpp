@@ -62,7 +62,7 @@ void APlayerCharacter::UpdatePlayerMovementState()
 				else
 				{
 					SwitchMovementState(EPlayerMovementState::StandingStill);
-					EquippedGun->ResetGunAccuracyModifier();
+					GunAccuracy(0);
 				}
 			}
 			break;
@@ -72,7 +72,7 @@ void APlayerCharacter::UpdatePlayerMovementState()
 			if (component->Velocity.Length() == 0)
 			{
 				SwitchMovementState(EPlayerMovementState::StandingStill);
-				EquippedGun->ResetGunAccuracyModifier();
+				GunAccuracy(0);
 			}
 			break;
 		}
@@ -83,6 +83,15 @@ void APlayerCharacter::SwitchMovementState(EPlayerMovementState NewState)
 {
 	LastMovementState = CurrentMovementState;
 	CurrentMovementState = NewState;
+}
+
+void APlayerCharacter::GunAccuracy(float Modifier)
+{
+	if (EquippedGun)
+	{
+		EquippedGun->ResetGunAccuracyModifier();
+		EquippedGun->AlterGunAccuracyModifier(Modifier);
+	}
 }
 
 // Called to bind functionality to input
@@ -133,8 +142,8 @@ void APlayerCharacter::SetToSprint(bool ToOverride)
 	else
 	{
 		SwitchMovementState(EPlayerMovementState::Sprinting);
-		EquippedGun->ResetGunAccuracyModifier();
-		EquippedGun->AlterGunAccuracyModifier(SprintingAccuracyDebuffPercentage);
+		GunAccuracy(SprintingAccuracyDebuffPercentage);
+
 	}
 }
 
@@ -148,8 +157,8 @@ void APlayerCharacter::SetToWalk(bool ToOverride)
 	else
 	{
 		SwitchMovementState(EPlayerMovementState::Walking);
-		EquippedGun->ResetGunAccuracyModifier();
-		EquippedGun->AlterGunAccuracyModifier(WalkingAccuracyDebuffPercentage);
+		GunAccuracy(WalkingAccuracyDebuffPercentage);
+
 	}
 }
 
@@ -157,16 +166,13 @@ void APlayerCharacter::SetToCrouch()
 {
 	GetCharacterMovement()->MaxWalkSpeedCrouched = CharacterCrouchSpeed;
 	SwitchMovementState(EPlayerMovementState::Crouching);
-	EquippedGun->ResetGunAccuracyModifier();
-	EquippedGun->AlterGunAccuracyModifier(CrouchingAccuracyBuffPercentage);
+	GunAccuracy(CrouchingAccuracyBuffPercentage);
+
 }
 
 void APlayerCharacter::SetToJump()
 {
 	SwitchMovementState(EPlayerMovementState::Jumping);
-	if (EquippedGun)
-	{
-		EquippedGun->ResetGunAccuracyModifier();
-		EquippedGun->AlterGunAccuracyModifier(JumpingAccuracyDebuffPercentage);
-	}
+	GunAccuracy(JumpingAccuracyDebuffPercentage);
+
 }

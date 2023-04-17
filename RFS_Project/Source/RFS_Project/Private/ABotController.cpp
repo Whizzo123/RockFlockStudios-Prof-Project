@@ -47,7 +47,15 @@ void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus St
 				Board->SetValueAsObject(EnemyActorBBKey, Actor);
 				// Set distance to player
 				SetDistanceToPlayer();
-				BPI_LineOfSight();
+				//Play corresponding spotting sound
+				if (Cast<AUShadowWall>(Actor))
+				{
+					BPI_LineOfSightWall();
+				}
+				else 
+				{
+					BPI_LineOfSightPlayer();
+				}
 			}
 			else
 			{
