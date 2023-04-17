@@ -39,8 +39,11 @@ public:
 		if (HitPoints > MaxHitPoints)
 			HitPoints = MaxHitPoints;
 	};
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+		void OnDeath() override { BPI_OnDeath(); };
+
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Combat")
-		void OnDeath() override;//TODO health ovveride;
+		void BPI_OnDeath();
 
 	void OnKill() override {};
 protected:
@@ -65,7 +68,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* WallPlane;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool alive = false;
 };
 

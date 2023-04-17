@@ -85,7 +85,7 @@ bool UFShadowAbility::ActiveState() {
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Portal is not in range"));
 		return false;
 	}
-	bool success = EnterWall(PortalWall);
+	bool success = EnterWall(CurrentWall);
 	if (!success)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Could not enter portal"));
@@ -189,11 +189,11 @@ bool UFShadowAbility::InitAbility(FVector position, FVector fwdVector)
 
 	//Grab all walls in a radius
 	TSet<AUShadowWall*> Walls = DiscCastWalls(Portal->GetActorLocation());
-	Walls.Remove(PortalWall);
+	Walls.Remove(CurrentWall);
 
 	//Add all chosen walls to AliveWalls
 	AliveWalls = ChooseWalls(Walls);
-	AliveWalls.Add(PortalWall);
+	AliveWalls.Add(CurrentWall);
 	
 
 	//Turn on every wall chosen
@@ -246,7 +246,7 @@ bool UFShadowAbility::PlacePortal(FVector Position, FVector FwdVector)
 					}
 					//Pass in boolean to allow portal to let player inside and translate it so it is infront of the wall
 					NewPortal->AddActorLocalOffset(PortalTranslation);
-					PortalWall = Wall;
+					CurrentWall = Wall;
 					Portal = NewPortal;
 					WallFound = true;
 					Hit = Hits[i];
@@ -282,9 +282,15 @@ void UFShadowAbility::EndAbility()
 	//Exit's wall if we are in it, destroys portal if it's active
 	if (ShadowState == EAbilityState::Active){
 		if (bInsideWalls)
+		{
 			ExitWall();
-		Portal->PortalDeath();
-		Portal = nullptr;
+		}
+		if (Portal)
+		{
+			Portal->PortalDeath();
+			Portal = nullptr;
+		}
+
 	}
 
 	//Destroy walls
@@ -309,16 +315,8 @@ void UFShadowAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	{
 		UpdateFakePortal(OriginalActor->GetActorLocation(), GetCameraActorForwardVector(OriginalActor));
 	}
-	if (DurationTimer > 0)
-	{
-		GEngine->AddOnScreenDebugMessage(-2, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility Duration: %f"), DurationTimer, false));
-		DurationTimer -= DeltaTime;
-		if (DurationTimer <= 0 || !PortalWall->alive)
-		{
-			EndAbility();
-		}
+	AbilityTickResponse(DeltaTime);
 
-	}
 
 }
 

@@ -62,7 +62,6 @@ private:
 
 
 private:
-	AUShadowWall* CurrentWall;
 
 
 };
