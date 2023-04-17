@@ -47,8 +47,18 @@ public:
 	*/
 	UFUNCTION(BlueprintImplementableEvent)
 		void CharacterDamagedEvent(AActor* ActorDamagedBy);
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void BPI_OnDeath();
+	/* Blueprint-implementable event for defining what happens when player is killed*/
+	UFUNCTION(BlueprintImplementableEvent)
+		void BPI_OnKill();
+	/* Blueprint-implementable event for defining what happens when player takes damage*/
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		void BPI_TakeDamage();
 	/* Kills the character*/
-	void OnKill() override {};
+	void OnKill() override { BPI_OnKill(); };
+
 	/* Plays the characters reload animation*/
 	void PlayReloadAnimation();
 public:
