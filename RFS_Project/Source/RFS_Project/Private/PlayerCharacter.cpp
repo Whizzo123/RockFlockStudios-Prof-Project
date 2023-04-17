@@ -113,6 +113,7 @@ void APlayerCharacter::OnDamage(float Damage, AActor* ActorDamagedBy)
 
 void APlayerCharacter::OnDeath()
 {
+	BPI_OnDeath();
 	SetActorLocation(RespawnPoint);
 	HitPoints = MaxHitPoints;
 }
