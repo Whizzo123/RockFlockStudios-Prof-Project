@@ -47,8 +47,12 @@ public:
 	*/
 	UFUNCTION(BlueprintImplementableEvent)
 		void CharacterDamagedEvent(AActor* ActorDamagedBy);
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void BPI_OnDeath();
 	/* Kills the character*/
 	void OnKill() override {};
+
 	/* Plays the characters reload animation*/
 	void PlayReloadAnimation();
 public:
