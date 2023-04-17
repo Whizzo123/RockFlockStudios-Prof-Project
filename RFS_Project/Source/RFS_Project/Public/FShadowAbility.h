@@ -67,7 +67,6 @@ private:
 
 private:
 	AShadowPortal* Portal;
-	AUShadowWall* PortalWall;
 
 
 

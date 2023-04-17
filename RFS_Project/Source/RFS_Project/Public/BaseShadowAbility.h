@@ -154,7 +154,16 @@ public:
 	*/
 	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
 		void BPI_EndAbility();
-
+	/**
+	* Gets called a fake wall is destroyed
+	*/
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
+		void BPI_FakeWallDestroyed();	
+	/**
+	* Gets called a fake wall is destroyed
+	*/
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
+		void BPI_RealWallDestroyed();
 	//MEMBER VARIABLES
 		/**
 		* The current state of the ability
@@ -253,10 +262,12 @@ protected:
 	*/
 	virtual void EndAbility();
 
-
+	void UpdateAliveWalls();
+	void AbilityTickResponse(float DeltaTime);
 	/*The Actor we want to repossess when exiting walls*/
 	APawn* OriginalActor;
 	/*The walls that activate when we use ability*/
 	TSet<AUShadowWall*> AliveWalls;
-
+	AUShadowWall* CurrentWall;
+	
 };

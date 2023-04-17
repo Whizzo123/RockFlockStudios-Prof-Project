@@ -286,3 +286,40 @@ void UBaseShadowAbility::EndAbility()
 	DurationTimer = Duration;
 	BPI_EndAbility();
 }
+
+void UBaseShadowAbility::UpdateAliveWalls()
+{
+	//If the main wall get's destroyed we should exit before this gets updated again. Therefore playing the other audio cue.
+	for (AUShadowWall* Wall : AliveWalls)
+	{
+		if (!Wall->alive)
+		{
+			BPI_FakeWallDestroyed();
+			AliveWalls.Remove(Wall);
+		}
+	}
+	AliveWalls.Compact();
+	AliveWalls.Shrink();
+}
+
+void UBaseShadowAbility::AbilityTickResponse(float DeltaTime)
+{
+	if (DurationTimer > 0)
+	{
+		GEngine->AddOnScreenDebugMessage(-2, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility Duration: %f"), DurationTimer, false));
+		DurationTimer -= DeltaTime;
+		if (DurationTimer <= 0)
+		{
+			EndAbility();
+			return;
+		}
+		if (!CurrentWall->alive)
+		{
+			BPI_RealWallDestroyed();
+			EndAbility();
+			return;
+		}
+		UpdateAliveWalls();
+
+	}
+}
