@@ -57,6 +57,11 @@ void AAGun::Tick(float DeltaSeconds)
 
 FVector AAGun::Fire(FVector StartHitScanLoc)
 {
+	// Can't fire yet
+	if (GunFireRateCounter < GunFirerate)
+	{
+		return FVector();
+	}
 	FVector AccOffset = CalculateAccuracy();
 	FRotator Rotation;
 	FVector LineVector;

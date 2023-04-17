@@ -59,7 +59,6 @@ void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus St
 			}
 			else
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, "Losing Sight: " + Actor->GetFName().ToString());
 				// Update blackboard that we have lost sight
 				Board->SetValueAsBool(LineOfSightBBKey, false);
 				// Start loss of sight timer
