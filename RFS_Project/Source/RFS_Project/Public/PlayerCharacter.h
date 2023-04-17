@@ -101,12 +101,10 @@ protected:
 	void UpdatePlayerMovementState();
 	/* Function for switching player movement states*/
 	void SwitchMovementState(EPlayerMovementState NewState);
-	/* Blueprint-implementable event for defining what happens when player is killed*/
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-		void OnKill() override;
-	/* Blueprint-implementable event for defining what happens when player takes damage*/
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-		void BPI_TakeDamage();
+
+	UFUNCTION(BlueprintCallable)
+		void OnKill() override { BPI_OnKill(); };
+
 protected:
 	/* Respawn Point for player*/
 	FVector RespawnPoint;
