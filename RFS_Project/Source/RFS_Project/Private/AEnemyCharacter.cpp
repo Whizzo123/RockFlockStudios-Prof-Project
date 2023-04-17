@@ -90,5 +90,8 @@ void AAEnemyCharacter::OnDeath()
 
 void AAEnemyCharacter::ShootGun(FVector StartHitScanLoc)
 {
-	EquippedGun->Fire(StartHitScanLoc);
+	if (EquippedGun)
+	{
+		EquippedGun->Fire(StartHitScanLoc);
+	}
 }
