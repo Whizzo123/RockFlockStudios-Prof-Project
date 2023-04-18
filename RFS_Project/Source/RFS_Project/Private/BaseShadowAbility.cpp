@@ -267,7 +267,7 @@ void UBaseShadowAbility::EndAbility()
 	}
 	//Reset parameters
 	ShadowState = EAbilityState::Inactive;
-	DurationTimer = Duration;
+	DurationTimer = -1;
 	BPI_EndAbility();
 }
 
@@ -300,14 +300,14 @@ void UBaseShadowAbility::AbilityTickResponse(float DeltaTime)
 			EndAbility();
 			return;
 		}
-		UpdateAliveWalls();
 		if (!CurrentWall->alive)
 		{
-			GEngine->AddOnScreenDebugMessage(-2, 15.0f, FColor::Green, FString::Printf(TEXT("REal Wall Destroyed"), false));
+
 			BPI_RealWallDestroyed();
 			EndAbility();
 			return;
 		}
+		UpdateAliveWalls();
 
 	}
 }
