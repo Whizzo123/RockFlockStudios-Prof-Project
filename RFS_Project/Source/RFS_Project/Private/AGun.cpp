@@ -26,7 +26,7 @@ void AAGun::Tick(float DeltaSeconds)
 	if (bIsGunAutomatic)
 	{
 		// Are we firing & has enough time passed to shoot again
-		if (GunFireRateCounter >= GunFirerate && bIsGunFiring == true)
+		if (GunFireRateCounter >= GunFirerate && bIsGunFiring == true && (!bReloadingOnHalfMag && !bReloadingOnEmpty))
 		{
 			// Do we have some ammo?
 			if (CurrentAmmo > 0)
