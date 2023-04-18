@@ -57,6 +57,11 @@ void AAGun::Tick(float DeltaSeconds)
 
 FVector AAGun::Fire(FVector StartHitScanLoc)
 {
+	// Can't fire yet
+	if (GunFireRateCounter < GunFirerate)
+	{
+		return FVector();
+	}
 	FVector AccOffset = CalculateAccuracy();
 	FRotator Rotation;
 	FVector LineVector;
@@ -77,12 +82,11 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 	// Did we actually hit anything?
 	if (HitActor)
 	{
-		//APlayableCharacter* character = Cast<APlayableCharacter>(HitActor);
-		//if (character)
-		//{
+		if (APlayableCharacter* character = Cast<APlayableCharacter>(HitActor))
+		{
 			// Did what we hit have health?
-			IHealth* HealthObj = Cast<IHealth>(HitActor);
-			if (HealthObj != nullptr)
+			IHealth* HealthObj = Cast<IHealth>(character);
+			if (HealthObj)
 			{
 				//TODO remove this in favor of having a damage variable on the gun
 				if (bPlayerGun)
@@ -94,12 +98,12 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 					HealthObj->OnDamage(10.0f, PawnEquippedTo);
 				}
 			}
-			else
-			{
-				// Return our hit point location
-				return returnedTrace.HitLoc;
-			}
-		//}
+		}
+		else
+		{
+			// Return our hit point location
+			return returnedTrace.HitLoc;
+		}
 	}
 	return FVector();
 	
@@ -110,12 +114,14 @@ AAGun::FTraceReturn AAGun::Trace(FVector StartTrace, FVector EndTrace)
 {
 	TArray<FHitResult> OutHit;
 	FTraceReturn TraceToReturn;
+	TraceToReturn.TraceActor = nullptr;
+	TraceToReturn.HitLoc = FVector();
 	// Ask Unreal to perform a line trace
 	GetWorld()->LineTraceMultiByChannel(OutHit, StartTrace, EndTrace, ECollisionChannel::ECC_Visibility);
 	// DEBUG PURPOSES 
 	if (!bPlayerGun)
 	{
-		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Red, false, 1.0f);
+		//DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Red, false, 1.0f);
 	}
 	// Actor pointer for if we don't hit the enemy but instead want to record hitting the enviornment
 	AActor* EnviornmentHit = nullptr;
@@ -125,7 +131,8 @@ AAGun::FTraceReturn AAGun::Trace(FVector StartTrace, FVector EndTrace)
 		if (HitActor)
 		{
 			// Cast to determine if the actor hit is of the given type
-			T* HealthObj = dynamic_cast<T*>(Cast<APlayableCharacter>(OutHit[i].GetActor()));
+			APlayableCharacter* character = Cast<APlayableCharacter>(OutHit[i].GetActor());
+			IHealth* HealthObj = Cast<IHealth>(character);
 			// If the object is of the given type and we have not hit ourselves
 			if (HealthObj && HitActor != PawnEquippedTo)
 			{
