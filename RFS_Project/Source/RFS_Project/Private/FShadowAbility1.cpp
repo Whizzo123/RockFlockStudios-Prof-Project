@@ -210,6 +210,7 @@ void UFShadowAbility1::EndAbility()
 	}
 	//Reset parameters
 	ShadowState = EAbilityState::Inactive;
+	DurationTimer = -1;
 	bInsideWalls = false;
 	BPI_EndAbility();
 
