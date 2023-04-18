@@ -131,8 +131,8 @@ AAGun::FTraceReturn AAGun::Trace(FVector StartTrace, FVector EndTrace)
 		if (HitActor)
 		{
 			// Cast to determine if the actor hit is of the given type
-			APlayableCharacter* character = Cast<APlayableCharacter>(OutHit[i].GetActor());
-			IHealth* HealthObj = Cast<IHealth>(character);
+			APlayableCharacter* Character = Cast<APlayableCharacter>(OutHit[i].GetActor());
+			IHealth* HealthObj = Cast<IHealth>(Character);
 			// If the object is of the given type and we have not hit ourselves
 			if (HealthObj && HitActor != PawnEquippedTo)
 			{
