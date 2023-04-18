@@ -82,10 +82,10 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 	// Did we actually hit anything?
 	if (HitActor)
 	{
-		if (APlayableCharacter* character = Cast<APlayableCharacter>(HitActor))
-		{
+		//if (APlayableCharacter* character = Cast<APlayableCharacter>(HitActor))
+		//{
 			// Did what we hit have health?
-			IHealth* HealthObj = Cast<IHealth>(character);
+			IHealth* HealthObj = Cast<IHealth>(HitActor);
 			if (HealthObj)
 			{
 				//TODO remove this in favor of having a damage variable on the gun
@@ -98,7 +98,7 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 					HealthObj->OnDamage(10.0f, PawnEquippedTo);
 				}
 			}
-		}
+		//}
 		else
 		{
 			// Return our hit point location
@@ -131,8 +131,8 @@ AAGun::FTraceReturn AAGun::Trace(FVector StartTrace, FVector EndTrace)
 		if (HitActor)
 		{
 			// Cast to determine if the actor hit is of the given type
-			APlayableCharacter* character = Cast<APlayableCharacter>(OutHit[i].GetActor());
-			IHealth* HealthObj = Cast<IHealth>(character);
+			//APlayableCharacter* Character = Cast<APlayableCharacter>(OutHit[i].GetActor());
+			IHealth* HealthObj = Cast<IHealth>(OutHit[i].GetActor());
 			// If the object is of the given type and we have not hit ourselves
 			if (HealthObj && HitActor != PawnEquippedTo)
 			{

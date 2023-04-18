@@ -31,6 +31,7 @@ void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus St
 		// If we have an actor already set and its the player don't set it again
 		if(boardActor != nullptr && boardActor->ActorHasTag(PlayerTag) && bSuccess)
 		{
+			Board->SetValueAsBool(LineOfSightBBKey, true);
 			return;
 		}
 		// Otherwise this means we don't have the player and we are seeing a wall
