@@ -302,6 +302,7 @@ void UFShadowAbility::EndAbility()
 	ShadowState = EAbilityState::Inactive;
 	bWithinPortalRange = false;
 	bInsideWalls = false;
+	DurationTimer = -1;
 	BPI_EndAbility();
 
 }

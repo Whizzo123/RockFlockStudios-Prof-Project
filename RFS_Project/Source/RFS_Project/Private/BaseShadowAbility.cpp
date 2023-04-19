@@ -57,18 +57,9 @@ void UBaseShadowAbility::DestroyOrHideActor(AActor* Actor)
 		bool bDestroyed = Actor->Destroy();
 		if (!bDestroyed)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::DestroyOrHideActor : Couldn't destroy actor, attempting to hide"));
-		}
-		else 
-		{
 			Actor->AddActorWorldOffset(FVector(0, 500, 0));
 			Actor->SetActorHiddenInGame(true);
 		}
-	}
-	else 
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::DestroyOrHideActor : Actor does not exist"));
-
 	}
 }
 
@@ -116,7 +107,6 @@ bool UBaseShadowAbility::Use()
 	if (bSuccess)
 	{
 		ShadowState = EAbilityState(int(ShadowState) + 1);
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility:: moving onto state %i"), int(ShadowState)));
 		return true;
 	}
 	return false;
@@ -138,7 +128,6 @@ TSet<AUShadowWall*> UBaseShadowAbility::SphereCastWalls(FVector Origin)
 			ShadowWalls.Add(Wall);
 		}
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility::SphereCastWalls: Walls found %i"), ShadowWalls.Num()));
 	return ShadowWalls;
 
 }
@@ -160,7 +149,6 @@ TSet<AUShadowWall*> UBaseShadowAbility::DiscCastWalls(FVector Origin) {
 		//Go through all actors hit and add relevant ones
 		for (int Actors = 0; Actors < Hits.Num(); Actors++)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility::DiscCastWalls: Actors found %i"), Hits.Num()));
 
 			AUShadowWall* Wall = Cast<AUShadowWall>(Hits[Actors].GetActor());
 			if (Wall && !Wall->alive)
@@ -193,10 +181,6 @@ TSet<AUShadowWall*> UBaseShadowAbility::ChooseWalls(TSet<AUShadowWall*> ShadowWa
 			Walls.RemoveAt(Index, 1, true);
 			/*	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("FOUND WALLS ALIVE ID: %i"), wallCount));*/
 			WallCount++;
-		}
-		else {
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("FShadowAbility::SphereCastWalls: Invalid Wall at : Index %i , Num %i , Valid %i"), Index, Num, Valid));
-
 		}
 	}
 	return NewWalls;
@@ -283,23 +267,26 @@ void UBaseShadowAbility::EndAbility()
 	}
 	//Reset parameters
 	ShadowState = EAbilityState::Inactive;
-	DurationTimer = Duration;
+	DurationTimer = -1;
 	BPI_EndAbility();
 }
 
 void UBaseShadowAbility::UpdateAliveWalls()
 {
 	//If the main wall get's destroyed we should exit before this gets updated again. Therefore playing the other audio cue.
+	bool Changed = false;
+	AUShadowWall* DestroyedWall = nullptr;
 	for (AUShadowWall* Wall : AliveWalls)
 	{
 		if (!Wall->alive)
 		{
+			DestroyedWall = Wall;
 			BPI_FakeWallDestroyed();
-			AliveWalls.Remove(Wall);
+			AliveWalls.Remove(DestroyedWall);
+			Changed = true;
 		}
 	}
-	AliveWalls.Compact();
-	AliveWalls.Shrink();
+
 }
 
 void UBaseShadowAbility::AbilityTickResponse(float DeltaTime)
@@ -315,6 +302,7 @@ void UBaseShadowAbility::AbilityTickResponse(float DeltaTime)
 		}
 		if (!CurrentWall->alive)
 		{
+
 			BPI_RealWallDestroyed();
 			EndAbility();
 			return;
