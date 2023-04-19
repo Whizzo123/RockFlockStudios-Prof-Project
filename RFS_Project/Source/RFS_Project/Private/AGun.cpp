@@ -73,8 +73,8 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 	}
 	else
 	{
-		Rotation = GetActorRightVector().Rotation();
-		LineVector = GetActorRightVector() * GunRange;
+		Rotation = GetActorForwardVector().Rotation();
+		LineVector = GetActorForwardVector() * GunRange;
 	}
 	// Fire a line trace
 	FTraceReturn returnedTrace = Trace<IHealth>(StartHitScanLoc, (StartHitScanLoc + LineVector) + (AccOffset) * 20);
