@@ -31,6 +31,7 @@ void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus St
 		// If we have an actor already set and its the player don't set it again
 		if(boardActor != nullptr && boardActor->ActorHasTag(PlayerTag) && bSuccess)
 		{
+			Board->SetValueAsBool(LineOfSightBBKey, true);
 			return;
 		}
 		// Otherwise this means we don't have the player and we are seeing a wall
@@ -47,7 +48,15 @@ void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus St
 				Board->SetValueAsObject(EnemyActorBBKey, Actor);
 				// Set distance to player
 				SetDistanceToPlayer();
-				BPI_LineOfSight();
+				//Play corresponding spotting sound
+				if (Cast<AUShadowWall>(Actor))
+				{
+					BPI_LineOfSightWall();
+				}
+				else 
+				{
+					BPI_LineOfSightPlayer();
+				}
 			}
 			else
 			{
@@ -97,6 +106,7 @@ void ABotController::ResetForRespawn()
 
 void ABotController::LossSightOfEnemy()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Black, "Lost Sight");
 	Board->SetValueAsObject(EnemyActorBBKey, nullptr);
 }
 

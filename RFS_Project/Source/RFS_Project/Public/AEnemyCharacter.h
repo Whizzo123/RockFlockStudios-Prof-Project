@@ -66,11 +66,6 @@ protected:
 	void OnDeath() override;
 	/* For defining what happens when player is killed*/
 	void OnKill() override {};
-	/*Blueprint-implementable event for defining what happens on death of the enemy*/
-	UFUNCTION(BlueprintNativeEvent)
-		void BPI_OnDeath();
-	//TODO investigate this further for necessity
-	void BPI_OnDeath_Implementation() {};
 protected:
 	/* Point for respawn of enemy*/
 	FVector RespawnPoint;

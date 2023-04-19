@@ -210,6 +210,7 @@ void UFShadowAbility1::EndAbility()
 	}
 	//Reset parameters
 	ShadowState = EAbilityState::Inactive;
+	DurationTimer = -1;
 	bInsideWalls = false;
 	BPI_EndAbility();
 
@@ -219,16 +220,7 @@ void UFShadowAbility1::EndAbility()
 void UFShadowAbility1::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if (DurationTimer > 0)
-	{
-		GEngine->AddOnScreenDebugMessage(-2, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility Duration: %f"), DurationTimer, false));
-		DurationTimer -= DeltaTime;
-		if (DurationTimer <= 0)
-		{
-			EndAbility();
-		}
-
-	}
+	AbilityTickResponse(DeltaTime);
 
 }
 

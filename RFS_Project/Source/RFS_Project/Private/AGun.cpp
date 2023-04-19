@@ -26,7 +26,7 @@ void AAGun::Tick(float DeltaSeconds)
 	if (bIsGunAutomatic)
 	{
 		// Are we firing & has enough time passed to shoot again
-		if (GunFireRateCounter >= GunFirerate && bIsGunFiring == true)
+		if (GunFireRateCounter >= GunFirerate && bIsGunFiring == true && (!bReloadingOnHalfMag && !bReloadingOnEmpty))
 		{
 			// Do we have some ammo?
 			if (CurrentAmmo > 0)
@@ -57,6 +57,11 @@ void AAGun::Tick(float DeltaSeconds)
 
 FVector AAGun::Fire(FVector StartHitScanLoc)
 {
+	// Can't fire yet
+	if (GunFireRateCounter < GunFirerate)
+	{
+		return FVector();
+	}
 	FVector AccOffset = CalculateAccuracy();
 	FRotator Rotation;
 	FVector LineVector;
@@ -68,8 +73,8 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 	}
 	else
 	{
-		Rotation = GetActorRightVector().Rotation();
-		LineVector = GetActorRightVector() * GunRange;
+		Rotation = GetActorForwardVector().Rotation();
+		LineVector = GetActorForwardVector() * GunRange;
 	}
 	// Fire a line trace
 	FTraceReturn returnedTrace = Trace<IHealth>(StartHitScanLoc, (StartHitScanLoc + LineVector) + (AccOffset) * 20);
@@ -77,20 +82,23 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 	// Did we actually hit anything?
 	if (HitActor)
 	{
-		// Did what we hit have health?
-		IHealth* HealthObj = dynamic_cast<IHealth*>(Cast<APlayableCharacter>(HitActor));
-		if (HealthObj != nullptr)
-		{
-			//TODO remove this in favor of having a damage variable on the gun
-			if (bPlayerGun)
+		//if (APlayableCharacter* character = Cast<APlayableCharacter>(HitActor))
+		//{
+			// Did what we hit have health?
+			IHealth* HealthObj = Cast<IHealth>(HitActor);
+			if (HealthObj)
 			{
-				HealthObj->OnDamage(1.0f, PawnEquippedTo);
+				//TODO remove this in favor of having a damage variable on the gun
+				if (bPlayerGun)
+				{
+					HealthObj->OnDamage(1.0f, PawnEquippedTo);
+				}
+				else
+				{
+					HealthObj->OnDamage(10.0f, PawnEquippedTo);
+				}
 			}
-			else
-			{
-				HealthObj->OnDamage(10.0f, PawnEquippedTo);
-			}
-		}
+		//}
 		else
 		{
 			// Return our hit point location
@@ -106,12 +114,14 @@ AAGun::FTraceReturn AAGun::Trace(FVector StartTrace, FVector EndTrace)
 {
 	TArray<FHitResult> OutHit;
 	FTraceReturn TraceToReturn;
+	TraceToReturn.TraceActor = nullptr;
+	TraceToReturn.HitLoc = FVector();
 	// Ask Unreal to perform a line trace
 	GetWorld()->LineTraceMultiByChannel(OutHit, StartTrace, EndTrace, ECollisionChannel::ECC_Visibility);
 	// DEBUG PURPOSES 
 	if (!bPlayerGun)
 	{
-		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Red, false, 1.0f);
+		//DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Red, false, 1.0f);
 	}
 	// Actor pointer for if we don't hit the enemy but instead want to record hitting the enviornment
 	AActor* EnviornmentHit = nullptr;
@@ -121,7 +131,8 @@ AAGun::FTraceReturn AAGun::Trace(FVector StartTrace, FVector EndTrace)
 		if (HitActor)
 		{
 			// Cast to determine if the actor hit is of the given type
-			T* HealthObj = dynamic_cast<T*>(Cast<APlayableCharacter>(OutHit[i].GetActor()));
+			//APlayableCharacter* Character = Cast<APlayableCharacter>(OutHit[i].GetActor());
+			IHealth* HealthObj = Cast<IHealth>(OutHit[i].GetActor());
 			// If the object is of the given type and we have not hit ourselves
 			if (HealthObj && HitActor != PawnEquippedTo)
 			{
