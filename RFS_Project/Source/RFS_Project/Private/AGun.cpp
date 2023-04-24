@@ -95,7 +95,7 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 				}
 				else
 				{
-					HealthObj->OnDamage(10.0f, PawnEquippedTo);
+					HealthObj->OnDamage(1.0f, PawnEquippedTo);
 				}
 			}
 		//}
