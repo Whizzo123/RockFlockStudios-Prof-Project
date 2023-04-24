@@ -122,7 +122,61 @@ public:
 		virtual int GetChargeCapacity() override {
 		return UseData.ChargeCapacity;
 	};
+	/**
+	* Gets the amount of walls currently active
+	* @return AliveWall.Num()
+	*/
+	UFUNCTION(BlueprintCallable)
+		int GetAliveWallCount() {
+		return AliveWalls.Num();
+	};
+	/**
+	* Gets the array of Alive Walls
+	* @return Array if aliveWalls
+	*/
+	UFUNCTION(BlueprintCallable)
+		TArray<AUShadowWall*> GetAliveWallArray() {
+		if (AliveWalls.Num() > 0)
+		{
+			return AliveWalls.Array();
 
+		}
+		else 
+		{
+			return TArray<AUShadowWall*>();
+		}
+	};
+	/**
+	* Gets the CurrentWall iterator identifier inside the AliveWall array
+	* @return AliveWall[identifier] where identifier should equal current wall's position
+	*/
+	UFUNCTION(BlueprintCallable)
+		int GetCurrentWallNumber() {
+		TArray<AUShadowWall*> Walls = AliveWalls.Array();
+		for (int i = 0; i < Walls.Num(); i++)
+		{
+			if (Walls[i] == CurrentWall)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+	/**
+	* Gets the current wall object
+	* @return AUShadowWall
+	*/
+	UFUNCTION(BlueprintCallable)
+		AUShadowWall* GetCurrentWall() {
+		if (CurrentWall)
+		{
+			return CurrentWall;
+		}
+		else 
+		{
+			return nullptr;
+		}
+	}
 	//BLUEPRINT IMPLEMENTABLE EVENTS
 	/**
 	* Gets called when we succeed the Inactive State
@@ -202,6 +256,7 @@ public:
 	AARestrictedCamera* RestrictedActor;
 
 
+
 protected:
 	//HELPER FUNCTIONS
 	/**
@@ -269,5 +324,6 @@ protected:
 	/*The walls that activate when we use ability*/
 	TSet<AUShadowWall*> AliveWalls;
 	AUShadowWall* CurrentWall;
+	
 	
 };
