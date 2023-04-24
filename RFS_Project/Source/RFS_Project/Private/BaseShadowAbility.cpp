@@ -78,13 +78,11 @@ bool UBaseShadowAbility::Use()
 		case EAbilityState::Inactive:
 		{
 			bSuccess = InactiveState();
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility:: Current State %i was %i"), int(ShadowState), bSuccess));
 			break;
 		}
 		case EAbilityState::Cue:
 		{
 			bSuccess = CueState();
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility:: Current State %i was %i"), int(ShadowState), bSuccess));
 			if (!bSuccess)
 			{
 				ShadowState = EAbilityState::Inactive;
@@ -94,7 +92,6 @@ bool UBaseShadowAbility::Use()
 		case EAbilityState::Active:
 		{
 			bSuccess = ActiveState();
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility:: Current State %i was %i"), int(ShadowState), bSuccess));
 			return true;
 		}
 		default:
@@ -220,8 +217,7 @@ bool UBaseShadowAbility::EnterWall(AUShadowWall* WallToEnter)
 	//Repossess original actor
 	//TODO: Animation should play to make the original character go into the wall
 	IShadowPawn::Execute_ToggleCollisionPhysics(OriginalActor);
-	OriginalActor->SetActorLocationAndRotation(WallPlayerPawn->GetActorLocation(), WallPlayerPawn->GetActorRotation());
-	OriginalActor->AddActorWorldOffset(FVector(0, 0, 500));
+	OriginalActor->SetActorLocationAndRotation(FVector(9000,9000,9500), WallPlayerPawn->GetActorRotation());
 	OriginalActor->SetActorHiddenInGame(true);
 
 	Controller->Possess(RestrictedActor);
