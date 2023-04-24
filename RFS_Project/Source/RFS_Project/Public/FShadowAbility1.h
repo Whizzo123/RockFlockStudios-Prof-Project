@@ -35,15 +35,6 @@ public:
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 		bool SwitchWalls(int WallID);
-
-	/**
-	* Teleport the player between the walls that are currently alive
-	* @return Charge Capacity
-	*/
-	UFUNCTION(BlueprintCallable, Category = "Ability")
-		int GetAliveWallCount() {
-		return AliveWalls.Num();
-	};
 private:
 	bool InactiveState() override;
 	bool CueState() override;
