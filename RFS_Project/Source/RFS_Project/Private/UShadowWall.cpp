@@ -44,17 +44,17 @@ void AUShadowWall::Tick(float DeltaTime)
 
 }
 
-void AUShadowWall::StartWall(int i)
+
+void AUShadowWall::StartWall(int i, bool Player)
 {
-	if (!WallPlane) 
+	if (!WallPlane)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("No Plane Found"));
 		return;
 	}
-	ChangeWallTextures(i);
+	ChangeWallTextures(i, Player);
 	WallPlane->SetVisibility(true);
 	alive = true;
-
 }
 
 void AUShadowWall::ResetWall()

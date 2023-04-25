@@ -9,7 +9,7 @@ UBaseShadowAbility::UBaseShadowAbility()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
+	
 	// ...
 }
 
@@ -182,6 +182,15 @@ TSet<AUShadowWall*> UBaseShadowAbility::ChooseWalls(TSet<AUShadowWall*> ShadowWa
 	}
 	return NewWalls;
 
+}
+void UBaseShadowAbility::TurnOnWalls()
+{
+	int VFXId = 0;
+	for (AUShadowWall* Wall : AliveWalls)
+	{
+		Wall->StartWall(VFXId, bIsPlayerAbility);//We have passed in the iterator for VFX
+		VFXId++;
+	}
 }
 bool UBaseShadowAbility::EnterWall(AUShadowWall* WallToEnter)
 {

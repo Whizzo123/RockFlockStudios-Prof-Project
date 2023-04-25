@@ -255,7 +255,8 @@ public:
 	/*Wall Actor we possess reference*/
 	AARestrictedCamera* RestrictedActor;
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		bool bIsPlayerAbility = true;
 
 protected:
 	//HELPER FUNCTIONS
@@ -300,6 +301,10 @@ protected:
 	* @return 'WallAmount' of AUShadowWalls
 	*/
 	TSet<AUShadowWall*> ChooseWalls(TSet<AUShadowWall*> walls);
+	/*
+	*
+	*/
+	void TurnOnWalls();
 	/**
 	* Reposses the Original Actor and destroys the old actor
 	* @return true if we have successfully completed the operation
