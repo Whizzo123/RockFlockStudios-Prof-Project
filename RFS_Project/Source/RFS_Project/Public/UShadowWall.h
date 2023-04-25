@@ -18,42 +18,24 @@ public:
 	// Sets default values for this actor's properties
 	AUShadowWall();
 	~AUShadowWall() {};
-	void Spawn();
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 		float HitPoints;
 	UPROPERTY(EditAnywhere, Category = "Combat")
 		float MaxHitPoints;
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
-		void OnDamage(float damage, AActor* actorDamagedBy) override { 
-		if (alive)
-		{
-			HitPoints -= damage;
-			if (HitPoints < 0)
-			{
-				OnDeath();
-				alive = false;
-			}
-		}
-
-	};
+		void OnDamage(float Damage, AActor* ActorDamagedBy) override;
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
-		void OnHeal(float heal) override {
-		if (alive)
-		{
-			HitPoints += heal;
-			if (HitPoints > MaxHitPoints)
-			{
-				HitPoints = MaxHitPoints;
-			}
-		}
-
-	};
+		void OnHeal(float heal) override;
 	UFUNCTION(BlueprintCallable, Category = "Combat")
-		void OnDeath() override { BPI_OnDeath(); };
+		void OnDeath() override;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Combat")
 		void BPI_OnDeath();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		void BPI_FlashActor(AActor* actor);
+
 
 	void OnKill() override {};
 protected:
@@ -65,21 +47,25 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
-	void StartWall(int i, bool Player);
+	void StartWall(int i, bool Player, AActor* NewOwner);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void ChangeWallTextures(int i, bool Player);
 
 
-	UFUNCTION(BlueprintCallable)
-	void ResetWall();
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	USceneComponent* SceneRootComponent;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* WallPlane;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool alive = false;
+	bool bAlive = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	bool bISPlayerInside = false;
+
+private:
+	AActor* OwningPlayer;
 };
 
 

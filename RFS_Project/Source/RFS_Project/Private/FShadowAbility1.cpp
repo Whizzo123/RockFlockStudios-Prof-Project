@@ -36,15 +36,18 @@ bool UFShadowAbility1::SwitchWalls(int WallID)
 {
 	TArray<AUShadowWall*> Walls = AliveWalls.Array();
 	AUShadowWall* ChosenWall = Walls[WallID];
-	if (ChosenWall->alive)
+	if (ChosenWall->bAlive)
 	{
 		//Move our current Actor
 		RestrictedActor->SetActorLocationAndRotation(ChosenWall->GetActorLocation(), ChosenWall->GetActorRotation());
 		RestrictedActor->AddActorLocalRotation(FRotator(90, -90, 0));
 		FVector cameraDeepness = FVector(5, 10, 0);
 		RestrictedActor->AddActorLocalOffset(cameraDeepness);
-		
+
+		CurrentWall->bISPlayerInside = false;
+		ChosenWall->bISPlayerInside = true;
 		CurrentWall = ChosenWall;
+		
 		return true;
 	}
 	else {

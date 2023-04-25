@@ -195,7 +195,7 @@ bool UFShadowAbility::InitAbility(FVector position, FVector fwdVector)
 	AliveWalls = ChooseWalls(Walls);
 	AliveWalls.Add(CurrentWall);
 	
-
+	
 	//Turn on every wall chosen
 	TurnOnWalls();
 	return true;
@@ -245,6 +245,9 @@ bool UFShadowAbility::PlacePortal(FVector Position, FVector FwdVector)
 					Portal = NewPortal;
 					WallFound = true;
 					Hit = Hits[i];
+					//If player is not inside and an enemy destroys this wall, all walls fall, designating this as the correct wall. 
+					//It would not make sense for the enemy to still be punished by being flashed
+					CurrentWall->bISPlayerInside = true;
 					break;
 		
 				}

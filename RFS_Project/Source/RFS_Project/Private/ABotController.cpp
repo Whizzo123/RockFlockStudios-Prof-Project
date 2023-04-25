@@ -131,7 +131,7 @@ ETeamAttitude::Type ABotController::GetTeamAttitudeTowards(const AActor& Other)
 	}
 	else if (AUShadowWall const* ShadowWall = Cast<AUShadowWall>(&Other))
 	{
-		if (ShadowWall->alive == true)
+		if (ShadowWall->bAlive == true)
 		{
 			return ETeamAttitude::Hostile;
 		}
@@ -180,7 +180,7 @@ void ABotController::Tick(float DeltaTime)
 	}
 	if (AUShadowWall const* ShadowWall = Cast<AUShadowWall>(Board->GetValueAsObject(EnemyActorBBKey)))
 	{
-		if (ShadowWall->alive == false)
+		if (ShadowWall->bAlive == false)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, "Clearing wall on tick as unalive");
 			SeenObjects.Remove(Cast<AActor>(Board->GetValueAsObject(EnemyActorBBKey)));
