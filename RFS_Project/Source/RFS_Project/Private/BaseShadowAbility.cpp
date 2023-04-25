@@ -188,7 +188,7 @@ void UBaseShadowAbility::TurnOnWalls()
 	int VFXId = 0;
 	for (AUShadowWall* Wall : AliveWalls)
 	{
-		Wall->StartWall(VFXId, bIsPlayerAbility);//We have passed in the iterator for VFX
+		Wall->StartWall(VFXId, bIsPlayerAbility, OriginalActor);//We have passed in the iterator for VFX
 		VFXId++;
 	}
 }
