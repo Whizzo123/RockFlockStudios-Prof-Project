@@ -65,10 +65,10 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
-	void StartWall(int i);
+	void StartWall(int i, bool Player);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void ChangeWallTextures(int i);
+	void ChangeWallTextures(int i, bool Player);
 
 
 	UFUNCTION(BlueprintCallable)

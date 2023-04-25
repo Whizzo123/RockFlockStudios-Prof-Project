@@ -183,12 +183,7 @@ bool UFShadowAbility1::InitAbility(FVector Position)
 	}
 
 	//Turn on every wall chosen
-	int VFXId = 0;
-	for (AUShadowWall* Wall : AliveWalls)
-	{
-		Wall->StartWall(VFXId);//We have passed in the iterator for VFX
-		VFXId++;
-	}
+	TurnOnWalls();
 	return true;
 }
 
