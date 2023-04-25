@@ -25,47 +25,101 @@ void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus St
 {	
 	if (GetTeamAttitudeTowards(*Actor) == ETeamAttitude::Hostile)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, Actor->GetFName().ToString());
-		AActor* boardActor = Cast<AActor>(Board->GetValueAsObject(EnemyActorBBKey));
 		bool bSuccess = Stimulus.WasSuccessfullySensed();
-		// If we have an actor already set and its the player don't set it again
-		if(boardActor != nullptr && boardActor->ActorHasTag(PlayerTag) && bSuccess)
+		AActor* boardActor = Cast<AActor>(Board->GetValueAsObject(EnemyActorBBKey));
+		// The object is it still within view or is it now exiting our view
+		if (bSuccess)
 		{
-			Board->SetValueAsBool(LineOfSightBBKey, true);
-			return;
+			// Add actor to seenObjects
+			SeenObjects.Add(Actor);
+			GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Green, "Adding:" + Actor->GetName());
 		}
-		// Otherwise this means we don't have the player and we are seeing a wall
 		else
 		{
-			// Have we successfully sensed and is it the player we saw?
-			GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, Actor->GetFName().ToString());
-			if (bSuccess)
-			{
-				// Stop the timer for losing sight of player
-				GetWorld()->GetTimerManager().ClearTimer(SightLossTimer);
-				// Update blackboard values
-				Board->SetValueAsBool(LineOfSightBBKey, true);
-				Board->SetValueAsObject(EnemyActorBBKey, Actor);
-				// Set distance to player
-				SetDistanceToPlayer();
-				//Play corresponding spotting sound
-				if (Cast<AUShadowWall>(Actor))
-				{
-					BPI_LineOfSightWall();
-				}
-				else 
-				{
-					BPI_LineOfSightPlayer();
-				}
-			}
-			else
+			if (boardActor == Actor)
 			{
 				// Update blackboard that we have lost sight
 				Board->SetValueAsBool(LineOfSightBBKey, false);
 				// Start loss of sight timer
 				GetWorld()->GetTimerManager().SetTimer(SightLossTimer, this, &ABotController::LossSightOfEnemy, LineOfSightTime, false);
 			}
+			// The object we just lost sight of is it still in the seen objects set
+			if (SeenObjects.Contains(Actor))
+			{
+				// Remove the actor from our seen objects set
+				SeenObjects.Remove(Actor);
+				GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, "Remove:" + Actor->GetName());
+				GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, FString::Printf(TEXT("Seen Objects Left: %i"),  SeenObjects.Num()));
+			}
 		}
+		// Do we have any targets?
+		if (SeenObjects.Num() > 0)
+		{
+			// Have we already got a target?
+			if (boardActor == nullptr)
+			{
+				bool caughtSightOfThePlayer = false;
+				// Loop through the set
+				AActor* player = SeeingPlayer();
+				if (player)
+				{
+					SetEnemyBoardActor(player);
+					//Play corresponding spotting sound
+					BPI_LineOfSightPlayer();
+					caughtSightOfThePlayer = true;
+				}
+				//We don't have the player so just lock on to the first hostile
+				if (!caughtSightOfThePlayer)
+				{
+					AActor* firstHostileInSet = *SeenObjects.begin();
+					GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, "Setting Target on wall:" + firstHostileInSet->GetName());
+					SetEnemyBoardActor(firstHostileInSet);
+					BPI_LineOfSightWall();
+				}
+			}
+			// We have board actor but if we are seeing the player need to override
+			else
+			{
+				// If our target is the player
+				float const thresholdDistance = 2000.0f;
+				if (boardActor->ActorHasTag(PlayerTag) && FVector::Dist(boardActor->GetActorLocation(), GetPawn()->GetActorLocation()) > thresholdDistance)
+				{
+					// Find another hostile or just clear the target
+					if (SeenObjects.Num() <= 1)
+					{
+						Board->SetValueAsBool(LineOfSightBBKey, false);
+						Board->SetValueAsObject(EnemyActorBBKey, nullptr);
+						SeenObjects.Remove(boardActor);
+					}
+					else
+					{
+						SeenObjects.Remove(boardActor);
+						SetEnemyBoardActor(*SeenObjects.begin());
+					}
+				}
+				// Our target is a shadow wall
+				else
+				{
+					//Have we seen the player
+					AActor* player = SeeingPlayer();
+					if (player && FVector::Dist(boardActor->GetActorLocation(), GetPawn()->GetActorLocation()) > thresholdDistance)
+					{
+						GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Green, "Switching from wall to player");
+						// Switch target to player
+						SetEnemyBoardActor(player);
+					}
+				}
+			}
+		}
+		// If we have no hostiles that we see but still have a target
+		else
+		{
+			// Update blackboard that we have lost sight
+			Board->SetValueAsBool(LineOfSightBBKey, false);
+			// Start loss of sight timer
+			GetWorld()->GetTimerManager().SetTimer(SightLossTimer, this, &ABotController::LossSightOfEnemy, LineOfSightTime, false);
+		}
+		
 	}
 }
 
@@ -128,22 +182,30 @@ void ABotController::Tick(float DeltaTime)
 	{
 		if (ShadowWall->alive == false)
 		{
+			GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, "Clearing wall on tick as unalive");
+			SeenObjects.Remove(Cast<AActor>(Board->GetValueAsObject(EnemyActorBBKey)));
 			Board->SetValueAsObject(EnemyActorBBKey, nullptr);
 			Board->SetValueAsBool(LineOfSightBBKey, false);
+			if (SeenObjects.Num() > 0)
+			{
+				AActor* target = *SeenObjects.begin();
+				Board->SetValueAsObject(EnemyActorBBKey, target);
+				Board->SetValueAsBool(LineOfSightBBKey, true);
+			}
 		}
 	}
 	// Update the distance to the player on the blackboard
-	SetDistanceToPlayer();
+	SetDistanceToTarget();
 }
 
-void ABotController::SetDistanceToPlayer()
+void ABotController::SetDistanceToTarget()
 {
 	// If we have a set enemy actor in the Blackboard
-	APlayerCharacter* Player = Cast<APlayerCharacter>(Board->GetValueAsObject(EnemyActorBBKey));
-	if (Player)
+	AActor* Target = Cast<AActor>(Board->GetValueAsObject(EnemyActorBBKey));
+	if (Target)
 	{
 		// Grab player location
-		FVector Loc = Player->GetActorLocation();
+		FVector Loc = Target->GetActorLocation();
 		APawn* ControlledPawn = GetPawn();
 		if (ControlledPawn)
 		{
@@ -162,4 +224,29 @@ void ABotController::HintTimerUp()
 		Board->SetValueAsObject(EnemyActorBBKey, nullptr);
 		Board->SetValueAsBool(HintingBBKey, false);
 	}
+}
+
+void ABotController::SetEnemyBoardActor(AActor* Actor)
+{
+	// Stop the timer for losing sight of player
+	GetWorld()->GetTimerManager().ClearTimer(SightLossTimer);
+	// Update blackboard values
+	Board->SetValueAsBool(LineOfSightBBKey, true);
+	Board->SetValueAsObject(EnemyActorBBKey, Actor);
+	// Set distance to player
+	SetDistanceToTarget();
+}
+
+AActor* ABotController::SeeingPlayer()
+{
+	for (auto iterator = SeenObjects.CreateConstIterator(); iterator; ++iterator)
+	{
+		AActor* seenObject = *iterator;
+		// Is the object the player
+		if (seenObject->ActorHasTag(PlayerTag))
+		{
+			return seenObject;
+		}
+	}
+	return nullptr;
 }
