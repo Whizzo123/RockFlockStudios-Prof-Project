@@ -120,7 +120,7 @@ TSet<AUShadowWall*> UBaseShadowAbility::SphereCastWalls(FVector Origin)
 	for (int Actors = 0; Actors < Hits.Num(); Actors++)
 	{
 		AUShadowWall* Wall = Cast<AUShadowWall>(Hits[Actors].GetActor());
-		if (Wall && !Wall->alive) 
+		if (Wall && !Wall->bAlive) 
 		{
 			ShadowWalls.Add(Wall);
 		}
@@ -148,7 +148,7 @@ TSet<AUShadowWall*> UBaseShadowAbility::DiscCastWalls(FVector Origin) {
 		{
 
 			AUShadowWall* Wall = Cast<AUShadowWall>(Hits[Actors].GetActor());
-			if (Wall && !Wall->alive)
+			if (Wall && !Wall->bAlive)
 			{
 				ShadowWalls.Add(Wall);
 			}
@@ -230,7 +230,7 @@ bool UBaseShadowAbility::EnterWall(AUShadowWall* WallToEnter)
 	OriginalActor->SetActorHiddenInGame(true);
 
 	Controller->Possess(RestrictedActor);
-
+	CurrentWall->bISPlayerInside = true;
 	BPI_EnterWall();
 	return true;
 }
@@ -283,7 +283,7 @@ void UBaseShadowAbility::UpdateAliveWalls()
 	AUShadowWall* DestroyedWall = nullptr;
 	for (AUShadowWall* Wall : AliveWalls)
 	{
-		if (!Wall->alive)
+		if (!Wall->bAlive)
 		{
 			DestroyedWall = Wall;
 			BPI_FakeWallDestroyed();
@@ -305,7 +305,7 @@ void UBaseShadowAbility::AbilityTickResponse(float DeltaTime)
 			EndAbility();
 			return;
 		}
-		if (!CurrentWall->alive)
+		if (!CurrentWall->bAlive)
 		{
 
 			BPI_RealWallDestroyed();

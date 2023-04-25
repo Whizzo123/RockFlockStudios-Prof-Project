@@ -195,7 +195,7 @@ bool UFShadowAbility::InitAbility(FVector position, FVector fwdVector)
 	AliveWalls = ChooseWalls(Walls);
 	AliveWalls.Add(CurrentWall);
 	
-
+	
 	//Turn on every wall chosen
 	TurnOnWalls();
 	return true;

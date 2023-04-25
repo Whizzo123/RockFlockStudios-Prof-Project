@@ -54,7 +54,7 @@ void AUShadowWall::StartWall(int i, bool Player)
 	}
 	ChangeWallTextures(i, Player);
 	WallPlane->SetVisibility(true);
-	alive = true;
+	bAlive = true;
 }
 
 void AUShadowWall::ResetWall()
@@ -62,7 +62,7 @@ void AUShadowWall::ResetWall()
 	if (WallPlane)
 	{
 		HitPoints = MaxHitPoints;
-		alive = false;
+		bAlive = false;
 	}
 	else 
 	{
