@@ -9,7 +9,7 @@ UBaseShadowAbility::UBaseShadowAbility()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
+	
 	// ...
 }
 
@@ -78,13 +78,11 @@ bool UBaseShadowAbility::Use()
 		case EAbilityState::Inactive:
 		{
 			bSuccess = InactiveState();
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility:: Current State %i was %i"), int(ShadowState), bSuccess));
 			break;
 		}
 		case EAbilityState::Cue:
 		{
 			bSuccess = CueState();
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility:: Current State %i was %i"), int(ShadowState), bSuccess));
 			if (!bSuccess)
 			{
 				ShadowState = EAbilityState::Inactive;
@@ -94,7 +92,6 @@ bool UBaseShadowAbility::Use()
 		case EAbilityState::Active:
 		{
 			bSuccess = ActiveState();
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("FShadowAbility:: Current State %i was %i"), int(ShadowState), bSuccess));
 			return true;
 		}
 		default:
@@ -112,18 +109,18 @@ bool UBaseShadowAbility::Use()
 	return false;
 }
 
-TSet<AUShadowWall*> UBaseShadowAbility::SphereCastWalls(FVector Origin)
+TSet<AUShadowWall*> UBaseShadowAbility::SphereCastWalls(FVector Origin, float SphereRange)
 {
 	TSet<AUShadowWall*> ShadowWalls;
 	FCollisionQueryParams TraceParams;
 	TArray<FHitResult> Hits;
-	GetWorld()->SweepMultiByChannel(Hits, Origin, Origin, FQuat(), ECC_Visibility, FCollisionShape::MakeSphere(WallDetectionRange), TraceParams);
+	GetWorld()->SweepMultiByChannel(Hits, Origin, Origin, FQuat(), ECC_Visibility, FCollisionShape::MakeSphere(SphereRange), TraceParams);
 
 	//Goes through all objects hit adn grabs the walls and adds them to TSet
 	for (int Actors = 0; Actors < Hits.Num(); Actors++)
 	{
 		AUShadowWall* Wall = Cast<AUShadowWall>(Hits[Actors].GetActor());
-		if (Wall && !Wall->alive) 
+		if (Wall && !Wall->bAlive) 
 		{
 			ShadowWalls.Add(Wall);
 		}
@@ -151,7 +148,7 @@ TSet<AUShadowWall*> UBaseShadowAbility::DiscCastWalls(FVector Origin) {
 		{
 
 			AUShadowWall* Wall = Cast<AUShadowWall>(Hits[Actors].GetActor());
-			if (Wall && !Wall->alive)
+			if (Wall && !Wall->bAlive)
 			{
 				ShadowWalls.Add(Wall);
 			}
@@ -185,6 +182,56 @@ TSet<AUShadowWall*> UBaseShadowAbility::ChooseWalls(TSet<AUShadowWall*> ShadowWa
 	}
 	return NewWalls;
 
+}
+void UBaseShadowAbility::TurnOnWalls()
+{
+	int VFXId = 0;
+	for (AUShadowWall* Wall : AliveWalls)
+	{
+		Wall->StartWall(VFXId, bIsPlayerAbility, OriginalActor);//We have passed in the iterator for VFX
+		VFXId++;
+	}
+}
+void UBaseShadowAbility::CueWallVisible(float DeltaTime)
+{
+	CueWallFixedTimeChange -= DeltaTime;
+	if (CueWallFixedTimeChange > 0)
+	{
+		return;
+	}
+	//Gets Walls in our sphere
+	TSet<AUShadowWall*> WallsInSphere;
+	WallsInSphere = SphereCastWalls(OriginalActor->GetActorLocation(), 4000);
+
+	//We go through a first pass of making invalid walls invisible
+	//Then go through a second pass of making new valid walls visible
+
+	//Turn off visibilty on walls no longer inside the sphere and remove them from VisibleWalls Set
+	for (AUShadowWall* Wall : VisibleWalls)
+	{
+		if (!WallsInSphere.Contains(Wall))
+		{
+			Wall->ChangeVisibility(false);
+			VisibleWalls.Remove(Wall);
+		}
+	}
+	//Turn on visibility on walls inside the sphere and add the to VisibleWalls
+	for (AUShadowWall* Wall : WallsInSphere)
+	{
+		Wall->ChangeVisibility(true);
+		VisibleWalls.Add(Wall);
+	}
+	
+	CueWallFixedTimeChange = CueWallFixedTime;
+}
+void UBaseShadowAbility::TurnOffVisibleWalls()
+{
+	for (AUShadowWall* Wall : VisibleWalls)
+	{
+		Wall->ChangeVisibility(false);
+	}
+	VisibleWalls.Empty();
+	CueWallFixedTimeChange = 0;
 }
 bool UBaseShadowAbility::EnterWall(AUShadowWall* WallToEnter)
 {
@@ -220,12 +267,11 @@ bool UBaseShadowAbility::EnterWall(AUShadowWall* WallToEnter)
 	//Repossess original actor
 	//TODO: Animation should play to make the original character go into the wall
 	IShadowPawn::Execute_ToggleCollisionPhysics(OriginalActor);
-	OriginalActor->SetActorLocationAndRotation(WallPlayerPawn->GetActorLocation(), WallPlayerPawn->GetActorRotation());
-	OriginalActor->AddActorWorldOffset(FVector(0, 0, 500));
+	OriginalActor->SetActorLocationAndRotation(FVector(9000,9000,9500), WallPlayerPawn->GetActorRotation());
 	OriginalActor->SetActorHiddenInGame(true);
 
 	Controller->Possess(RestrictedActor);
-
+	CurrentWall->bISPlayerInside = true;
 	BPI_EnterWall();
 	return true;
 }
@@ -266,6 +312,7 @@ void UBaseShadowAbility::EndAbility()
 		Wall->OnDeath();
 	}
 	//Reset parameters
+	AliveWalls.Empty();
 	ShadowState = EAbilityState::Inactive;
 	DurationTimer = -1;
 	BPI_EndAbility();
@@ -278,7 +325,7 @@ void UBaseShadowAbility::UpdateAliveWalls()
 	AUShadowWall* DestroyedWall = nullptr;
 	for (AUShadowWall* Wall : AliveWalls)
 	{
-		if (!Wall->alive)
+		if (!Wall->bAlive)
 		{
 			DestroyedWall = Wall;
 			BPI_FakeWallDestroyed();
@@ -300,7 +347,7 @@ void UBaseShadowAbility::AbilityTickResponse(float DeltaTime)
 			EndAbility();
 			return;
 		}
-		if (!CurrentWall->alive)
+		if (!CurrentWall->bAlive)
 		{
 
 			BPI_RealWallDestroyed();

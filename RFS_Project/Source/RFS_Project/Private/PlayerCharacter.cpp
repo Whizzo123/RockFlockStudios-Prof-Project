@@ -16,6 +16,7 @@ void APlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 	MaxHitPoints = HitPoints = CharacterHealth;
 	RespawnPoint = GetActorLocation();
+
 }
 
 // Called every frame

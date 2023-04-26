@@ -60,6 +60,7 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 	// Can't fire yet
 	if (GunFireRateCounter < GunFirerate)
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("000"));
 		return FVector();
 	}
 	FVector AccOffset = CalculateAccuracy();
@@ -95,16 +96,13 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 				}
 				else
 				{
-					HealthObj->OnDamage(10.0f, PawnEquippedTo);
+					HealthObj->OnDamage(1.0f, PawnEquippedTo);
 				}
 			}
-		//}
-		else
-		{
-			// Return our hit point location
-			return returnedTrace.HitLoc;
-		}
+		// Return our hit point location
+		return returnedTrace.HitLoc;
 	}
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("000"));
 	return FVector();
 	
 }
@@ -127,6 +125,8 @@ AAGun::FTraceReturn AAGun::Trace(FVector StartTrace, FVector EndTrace)
 	AActor* EnviornmentHit = nullptr;
 	for (int i = 0; i < OutHit.Num(); i++)
 	{
+		//GEngine->AddOnScreenDebugMessage(-2, 15.0f, FColor::Green, OutHit[i].GetActor()->GetName()));
+
 		AActor* HitActor = OutHit[i].GetActor();
 		if (HitActor)
 		{

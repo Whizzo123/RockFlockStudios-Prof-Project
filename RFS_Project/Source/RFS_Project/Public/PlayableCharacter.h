@@ -31,10 +31,10 @@ public:
 	* @param ActorDamagedBy - Actor responsible for the damage
 	*/
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
-		void OnDamage(float Damage, AActor* ActorDamagedBy) override {};
+		void OnDamage(float Damage, AActor* ActorDamagedBy) override;
 	/*Blueprint-callable function for when the player should die*/
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
-		void OnDeath() override {};
+		void OnDeath() override;
 	/*Blueprint-implementable event for when the character fires they're gun*/
 	UFUNCTION(BlueprintImplementableEvent)
 		void OnGunFire();
@@ -63,7 +63,7 @@ public:
 	void PlayReloadAnimation();
 public:
 	/* Value for amount of hit points the character currently has*/
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat")
 		float HitPoints;
 	/*Value for max amount of hit points character can have*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
@@ -76,4 +76,8 @@ protected:
 	virtual void BeginPlay() override;
 	/*Default constructor*/
 	APlayableCharacter();
+private:
+	FVector RespawnPoint;
+	AActor* SavedActorDamageBy;
+
 };

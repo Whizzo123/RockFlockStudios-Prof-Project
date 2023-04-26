@@ -122,7 +122,61 @@ public:
 		virtual int GetChargeCapacity() override {
 		return UseData.ChargeCapacity;
 	};
+	/**
+	* Gets the amount of walls currently active
+	* @return AliveWall.Num()
+	*/
+	UFUNCTION(BlueprintCallable)
+		int GetAliveWallCount() {
+		return AliveWalls.Num();
+	};
+	/**
+	* Gets the array of Alive Walls
+	* @return Array if aliveWalls
+	*/
+	UFUNCTION(BlueprintCallable)
+		TArray<AUShadowWall*> GetAliveWallArray() {
+		if (AliveWalls.Num() > 0)
+		{
+			return AliveWalls.Array();
 
+		}
+		else 
+		{
+			return TArray<AUShadowWall*>();
+		}
+	};
+	/**
+	* Gets the CurrentWall iterator identifier inside the AliveWall array
+	* @return AliveWall[identifier] where identifier should equal current wall's position
+	*/
+	UFUNCTION(BlueprintCallable)
+		int GetCurrentWallNumber() {
+		TArray<AUShadowWall*> Walls = AliveWalls.Array();
+		for (int i = 0; i < Walls.Num(); i++)
+		{
+			if (Walls[i] == CurrentWall)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+	/**
+	* Gets the current wall object
+	* @return AUShadowWall
+	*/
+	UFUNCTION(BlueprintCallable)
+		AUShadowWall* GetCurrentWall() {
+		if (CurrentWall)
+		{
+			return CurrentWall;
+		}
+		else 
+		{
+			return nullptr;
+		}
+	}
 	//BLUEPRINT IMPLEMENTABLE EVENTS
 	/**
 	* Gets called when we succeed the Inactive State
@@ -201,7 +255,11 @@ public:
 	/*Wall Actor we possess reference*/
 	AARestrictedCamera* RestrictedActor;
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		bool bIsPlayerAbility = true;
+	/*Whether we are inside the walls or not*/
+	UPROPERTY(BlueprintReadOnly, Category = "Ability")
+		bool bInsideWalls = false;
 protected:
 	//HELPER FUNCTIONS
 	/**
@@ -234,7 +292,7 @@ protected:
 	* @return Camera Forward Vector | Actor Forward Vector
 	* @deprecated This is a depreciated function, we no longer want to grab walls on top or below
 	*/
-	TSet<AUShadowWall*> SphereCastWalls(FVector origin);
+	TSet<AUShadowWall*> SphereCastWalls(FVector origin, float Range);
 	/**
 	* Grabs all AUShadowWalls within a horizontal 360 disc around Origin
 	* @return All inactive walls will be returned.
@@ -245,6 +303,18 @@ protected:
 	* @return 'WallAmount' of AUShadowWalls
 	*/
 	TSet<AUShadowWall*> ChooseWalls(TSet<AUShadowWall*> walls);
+	/*
+	*Turns on walls with ID's and play bool
+	*/
+	void TurnOnWalls();
+	/*
+	*Displays walls around player. Updates every (FixedTime) seconds.
+	*/
+	void CueWallVisible(float DeltaTime);
+	/*
+	*Turns off all visible Cue Walls
+	*/
+	void TurnOffVisibleWalls();
 	/**
 	* Reposses the Original Actor and destroys the old actor
 	* @return true if we have successfully completed the operation
@@ -269,5 +339,10 @@ protected:
 	/*The walls that activate when we use ability*/
 	TSet<AUShadowWall*> AliveWalls;
 	AUShadowWall* CurrentWall;
-	
+
+private:
+
+	const float CueWallFixedTime = 3.0f;
+	float CueWallFixedTimeChange = 0.0f;
+	TSet<AUShadowWall*> VisibleWalls;
 };

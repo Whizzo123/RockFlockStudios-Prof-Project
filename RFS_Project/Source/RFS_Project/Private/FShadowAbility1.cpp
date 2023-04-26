@@ -36,15 +36,18 @@ bool UFShadowAbility1::SwitchWalls(int WallID)
 {
 	TArray<AUShadowWall*> Walls = AliveWalls.Array();
 	AUShadowWall* ChosenWall = Walls[WallID];
-	if (ChosenWall->alive)
+	if (ChosenWall->bAlive)
 	{
 		//Move our current Actor
 		RestrictedActor->SetActorLocationAndRotation(ChosenWall->GetActorLocation(), ChosenWall->GetActorRotation());
 		RestrictedActor->AddActorLocalRotation(FRotator(90, -90, 0));
 		FVector cameraDeepness = FVector(5, 10, 0);
 		RestrictedActor->AddActorLocalOffset(cameraDeepness);
-		
+
+		CurrentWall->bISPlayerInside = false;
+		ChosenWall->bISPlayerInside = true;
 		CurrentWall = ChosenWall;
+		
 		return true;
 	}
 	else {
@@ -64,7 +67,9 @@ bool UFShadowAbility1::InactiveState() {
 	BPI_InactiveState();//Should Play animation for cueing the ability
 	return true;
 }
-bool UFShadowAbility1::CueState() {
+bool UFShadowAbility1::CueState() 
+{
+	TurnOffVisibleWalls();
 
 	//Place the portal and activate the walls
 	FVector Location = OriginalActor->GetActorLocation();
@@ -183,12 +188,7 @@ bool UFShadowAbility1::InitAbility(FVector Position)
 	}
 
 	//Turn on every wall chosen
-	int VFXId = 0;
-	for (AUShadowWall* Wall : AliveWalls)
-	{
-		Wall->StartWall(VFXId);//We have passed in the iterator for VFX
-		VFXId++;
-	}
+	TurnOnWalls();
 	return true;
 }
 
@@ -209,6 +209,7 @@ void UFShadowAbility1::EndAbility()
 		Wall->OnDeath();
 	}
 	//Reset parameters
+	AliveWalls.Empty();
 	ShadowState = EAbilityState::Inactive;
 	DurationTimer = -1;
 	bInsideWalls = false;
@@ -222,5 +223,9 @@ void UFShadowAbility1::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	AbilityTickResponse(DeltaTime);
 
+	if (ShadowState == EAbilityState::Cue && OriginalActor)
+	{
+		CueWallVisible(DeltaTime);
+	}
 }
 
