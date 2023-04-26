@@ -297,6 +297,7 @@ void UFShadowAbility::EndAbility()
 		Wall->OnDeath();
 	}
 	//Reset parameters
+	AliveWalls.Empty();
 	ShadowState = EAbilityState::Inactive;
 	bWithinPortalRange = false;
 	bInsideWalls = false;
