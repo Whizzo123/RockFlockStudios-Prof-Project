@@ -290,7 +290,7 @@ protected:
 	* @return Camera Forward Vector | Actor Forward Vector
 	* @deprecated This is a depreciated function, we no longer want to grab walls on top or below
 	*/
-	TSet<AUShadowWall*> SphereCastWalls(FVector origin);
+	TSet<AUShadowWall*> SphereCastWalls(FVector origin, float Range);
 	/**
 	* Grabs all AUShadowWalls within a horizontal 360 disc around Origin
 	* @return All inactive walls will be returned.
@@ -302,9 +302,17 @@ protected:
 	*/
 	TSet<AUShadowWall*> ChooseWalls(TSet<AUShadowWall*> walls);
 	/*
-	*
+	*Turns on walls with ID's and play bool
 	*/
 	void TurnOnWalls();
+	/*
+	*Displays walls around player. Updates every (FixedTime) seconds.
+	*/
+	void CueWallVisible(float DeltaTime);
+	/*
+	*Turns off all visible Cue Walls
+	*/
+	void TurnOffVisibleWalls();
 	/**
 	* Reposses the Original Actor and destroys the old actor
 	* @return true if we have successfully completed the operation
@@ -329,6 +337,10 @@ protected:
 	/*The walls that activate when we use ability*/
 	TSet<AUShadowWall*> AliveWalls;
 	AUShadowWall* CurrentWall;
-	
-	
+
+private:
+
+	const float CueWallFixedTime = 3.0f;
+	float CueWallFixedTimeChange = 0.0f;
+	TSet<AUShadowWall*> VisibleWalls;
 };

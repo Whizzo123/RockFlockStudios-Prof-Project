@@ -19,7 +19,7 @@ AUShadowWall::AUShadowWall()
 void AUShadowWall::BeginPlay()
 {
 	Super::BeginPlay();
-	WallPlane->SetVisibility(false);
+	ChangeVisibility(false);
 	HitPoints = MaxHitPoints;
 	bAlive = false;
 }
@@ -83,15 +83,20 @@ void AUShadowWall::Tick(float DeltaTime)
 
 void AUShadowWall::StartWall(int i, bool Player, AActor* NewOwner)
 {
+	ChangeVisibility(true);
+	HitPoints = MaxHitPoints;
+	OwningPlayer = NewOwner;
+	bAlive = true;
+
+	ChangeWallTextures(i, Player);
+}
+
+void AUShadowWall::ChangeVisibility(bool Visible)
+{
 	if (!WallPlane)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("No Plane Found"));
 		return;
 	}
-	HitPoints = MaxHitPoints;
-	OwningPlayer = NewOwner;
-	WallPlane->SetVisibility(true);
-	bAlive = true;
-
-	ChangeWallTextures(i, Player);
+	WallPlane->SetVisibility(Visible);
 }
