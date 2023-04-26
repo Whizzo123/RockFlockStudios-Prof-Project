@@ -271,6 +271,7 @@ void UBaseShadowAbility::EndAbility()
 		Wall->OnDeath();
 	}
 	//Reset parameters
+	AliveWalls.Empty();
 	ShadowState = EAbilityState::Inactive;
 	DurationTimer = -1;
 	BPI_EndAbility();
