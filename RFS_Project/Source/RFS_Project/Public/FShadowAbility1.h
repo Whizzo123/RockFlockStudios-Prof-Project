@@ -24,10 +24,6 @@ public:
 
 	bool Use() override;
 
-	/*Whether we are inside the walls or not*/
-	UPROPERTY(BlueprintReadOnly, Category = "Ability")
-		bool bInsideWalls = false;
-
 
 	/**
 	* Teleport the player between the walls that are currently alive

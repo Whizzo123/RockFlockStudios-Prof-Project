@@ -257,7 +257,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		bool bIsPlayerAbility = true;
-
+	/*Whether we are inside the walls or not*/
+	UPROPERTY(BlueprintReadOnly, Category = "Ability")
+		bool bInsideWalls = false;
 protected:
 	//HELPER FUNCTIONS
 	/**
