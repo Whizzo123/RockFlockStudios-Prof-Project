@@ -67,7 +67,9 @@ bool UFShadowAbility1::InactiveState() {
 	BPI_InactiveState();//Should Play animation for cueing the ability
 	return true;
 }
-bool UFShadowAbility1::CueState() {
+bool UFShadowAbility1::CueState() 
+{
+	TurnOffVisibleWalls();
 
 	//Place the portal and activate the walls
 	FVector Location = OriginalActor->GetActorLocation();
@@ -220,5 +222,9 @@ void UFShadowAbility1::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	AbilityTickResponse(DeltaTime);
 
+	if (ShadowState == EAbilityState::Cue && OriginalActor)
+	{
+		CueWallVisible(DeltaTime);
+	}
 }
 

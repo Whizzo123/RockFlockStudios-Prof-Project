@@ -59,7 +59,7 @@ bool UFShadowAbility::CueState() {
 	//Destroy the InactiveState's portal
 	DestroyOrHideActor(Portal);
 	Portal = nullptr;
-
+	TurnOffVisibleWalls();
 	//Place the portal and activate the walls
 	FVector FwdVec = GetCameraActorForwardVector(OriginalActor);
 	FVector Location = OriginalActor->GetActorLocation() + (FwdVec * 100);
@@ -313,9 +313,9 @@ void UFShadowAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	if (ShadowState == EAbilityState::Cue && OriginalActor && Portal)
 	{
 		UpdateFakePortal(OriginalActor->GetActorLocation(), GetCameraActorForwardVector(OriginalActor));
+		CueWallVisible(DeltaTime);
 	}
 	AbilityTickResponse(DeltaTime);
-
 
 }
 

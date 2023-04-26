@@ -52,6 +52,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void ChangeWallTextures(int i, bool Player);
 
+	void ChangeVisibility(bool Visible);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	USceneComponent* SceneRootComponent;

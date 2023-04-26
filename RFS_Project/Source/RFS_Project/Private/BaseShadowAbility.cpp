@@ -109,12 +109,12 @@ bool UBaseShadowAbility::Use()
 	return false;
 }
 
-TSet<AUShadowWall*> UBaseShadowAbility::SphereCastWalls(FVector Origin)
+TSet<AUShadowWall*> UBaseShadowAbility::SphereCastWalls(FVector Origin, float SphereRange)
 {
 	TSet<AUShadowWall*> ShadowWalls;
 	FCollisionQueryParams TraceParams;
 	TArray<FHitResult> Hits;
-	GetWorld()->SweepMultiByChannel(Hits, Origin, Origin, FQuat(), ECC_Visibility, FCollisionShape::MakeSphere(WallDetectionRange), TraceParams);
+	GetWorld()->SweepMultiByChannel(Hits, Origin, Origin, FQuat(), ECC_Visibility, FCollisionShape::MakeSphere(SphereRange), TraceParams);
 
 	//Goes through all objects hit adn grabs the walls and adds them to TSet
 	for (int Actors = 0; Actors < Hits.Num(); Actors++)
@@ -191,6 +191,47 @@ void UBaseShadowAbility::TurnOnWalls()
 		Wall->StartWall(VFXId, bIsPlayerAbility, OriginalActor);//We have passed in the iterator for VFX
 		VFXId++;
 	}
+}
+void UBaseShadowAbility::CueWallVisible(float DeltaTime)
+{
+	CueWallFixedTimeChange -= DeltaTime;
+	if (CueWallFixedTimeChange > 0)
+	{
+		return;
+	}
+	//Gets Walls in our sphere
+	TSet<AUShadowWall*> WallsInSphere;
+	WallsInSphere = SphereCastWalls(OriginalActor->GetActorLocation(), 4000);
+
+	//We go through a first pass of making invalid walls invisible
+	//Then go through a second pass of making new valid walls visible
+
+	//Turn off visibilty on walls no longer inside the sphere and remove them from VisibleWalls Set
+	for (AUShadowWall* Wall : VisibleWalls)
+	{
+		if (!WallsInSphere.Contains(Wall))
+		{
+			Wall->ChangeVisibility(false);
+			VisibleWalls.Remove(Wall);
+		}
+	}
+	//Turn on visibility on walls inside the sphere and add the to VisibleWalls
+	for (AUShadowWall* Wall : WallsInSphere)
+	{
+		Wall->ChangeVisibility(true);
+		VisibleWalls.Add(Wall);
+	}
+	
+	CueWallFixedTimeChange = CueWallFixedTime;
+}
+void UBaseShadowAbility::TurnOffVisibleWalls()
+{
+	for (AUShadowWall* Wall : VisibleWalls)
+	{
+		Wall->ChangeVisibility(false);
+	}
+	VisibleWalls.Empty();
+	CueWallFixedTimeChange = 0;
 }
 bool UBaseShadowAbility::EnterWall(AUShadowWall* WallToEnter)
 {
