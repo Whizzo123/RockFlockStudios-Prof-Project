@@ -39,6 +39,7 @@ void AUShadowWall::OnDamage(float Damage, AActor* ActorDamagedBy)
 
 	//Take Damage and check for Death
 	HitPoints -= Damage;
+	BPI_SparksDamage();
 	if (HitPoints < 0)
 	{
 		OnDeath();

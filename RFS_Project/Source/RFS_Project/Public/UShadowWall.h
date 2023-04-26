@@ -37,6 +37,9 @@ public:
 		void BPI_FlashActor(AActor* actor);
 
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		void BPI_SparksDamage();
+
 	void OnKill() override {};
 protected:
 	// Called when the game starts or when spawned
