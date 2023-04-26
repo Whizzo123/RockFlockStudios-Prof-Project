@@ -15,58 +15,83 @@ AUShadowWall::AUShadowWall()
 	WallPlane->SetupAttachment(RootComponent);
 	
 }
-
-void AUShadowWall::Spawn()
-{
-}
-
 // Called when the game starts or when spawned
 void AUShadowWall::BeginPlay()
 {
 	Super::BeginPlay();
-
-	/*TArray<UActorComponent*> StaticComps;
-	StaticComps = GetOwner()->GetComponentsByClass(UStaticMeshComponent::StaticClass());
-	if (StaticComps.Num() > 0)
-	{
-		plane = Cast<UStaticMeshComponent>(StaticComps[0]);
-
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Plane is more than 0"));
-	}*/
 	WallPlane->SetVisibility(false);
-	ResetWall();
+	HitPoints = MaxHitPoints;
+	bAlive = false;
 }
+
+void AUShadowWall::OnDamage(float Damage, AActor* ActorDamagedBy)
+{
+	//Return if not alive and active
+	if (!bAlive)
+	{
+		return;
+	}
+	//Take no damage if owned
+	if (ActorDamagedBy == OwningPlayer)
+	{
+		return;
+	}
+
+	//Take Damage and check for Death
+	HitPoints -= Damage;
+	if (HitPoints < 0)
+	{
+		OnDeath();
+		//If this is not the 'CurrentWall', flash the player
+		if (!bISPlayerInside)
+		{
+			BPI_FlashActor(ActorDamagedBy);
+		}
+	}
+}
+
+void AUShadowWall::OnHeal(float heal)
+{
+	//Don't heal if we're not alive and active
+	if (bAlive)
+	{
+		return;
+	}
+	//Heal up to max hit points
+	HitPoints += heal;
+	if (HitPoints > MaxHitPoints)
+	{
+		HitPoints = MaxHitPoints;
+	}
+
+}
+
+void AUShadowWall::OnDeath()
+{
+	bAlive = false;
+	OwningPlayer = nullptr;
+	BPI_OnDeath();
+}
+
 
 // Called every frame
 void AUShadowWall::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
-void AUShadowWall::StartWall(int i)
+
+void AUShadowWall::StartWall(int i, bool Player, AActor* NewOwner)
 {
-	if (!WallPlane) 
+	if (!WallPlane)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("No Plane Found"));
 		return;
 	}
-	ChangeWallTextures(i);
+	HitPoints = MaxHitPoints;
+	OwningPlayer = NewOwner;
 	WallPlane->SetVisibility(true);
-	alive = true;
+	bAlive = true;
 
+	ChangeWallTextures(i, Player);
 }
-
-void AUShadowWall::ResetWall()
-{
-	if (WallPlane)
-	{
-		HitPoints = MaxHitPoints;
-		alive = false;
-	}
-	else 
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Plane not reset"));
-	}
-}
-

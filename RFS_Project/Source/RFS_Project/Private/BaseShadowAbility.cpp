@@ -9,7 +9,7 @@ UBaseShadowAbility::UBaseShadowAbility()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
+	
 	// ...
 }
 
@@ -120,7 +120,7 @@ TSet<AUShadowWall*> UBaseShadowAbility::SphereCastWalls(FVector Origin)
 	for (int Actors = 0; Actors < Hits.Num(); Actors++)
 	{
 		AUShadowWall* Wall = Cast<AUShadowWall>(Hits[Actors].GetActor());
-		if (Wall && !Wall->alive) 
+		if (Wall && !Wall->bAlive) 
 		{
 			ShadowWalls.Add(Wall);
 		}
@@ -148,7 +148,7 @@ TSet<AUShadowWall*> UBaseShadowAbility::DiscCastWalls(FVector Origin) {
 		{
 
 			AUShadowWall* Wall = Cast<AUShadowWall>(Hits[Actors].GetActor());
-			if (Wall && !Wall->alive)
+			if (Wall && !Wall->bAlive)
 			{
 				ShadowWalls.Add(Wall);
 			}
@@ -182,6 +182,15 @@ TSet<AUShadowWall*> UBaseShadowAbility::ChooseWalls(TSet<AUShadowWall*> ShadowWa
 	}
 	return NewWalls;
 
+}
+void UBaseShadowAbility::TurnOnWalls()
+{
+	int VFXId = 0;
+	for (AUShadowWall* Wall : AliveWalls)
+	{
+		Wall->StartWall(VFXId, bIsPlayerAbility, OriginalActor);//We have passed in the iterator for VFX
+		VFXId++;
+	}
 }
 bool UBaseShadowAbility::EnterWall(AUShadowWall* WallToEnter)
 {
@@ -221,7 +230,7 @@ bool UBaseShadowAbility::EnterWall(AUShadowWall* WallToEnter)
 	OriginalActor->SetActorHiddenInGame(true);
 
 	Controller->Possess(RestrictedActor);
-
+	CurrentWall->bISPlayerInside = true;
 	BPI_EnterWall();
 	return true;
 }
@@ -274,7 +283,7 @@ void UBaseShadowAbility::UpdateAliveWalls()
 	AUShadowWall* DestroyedWall = nullptr;
 	for (AUShadowWall* Wall : AliveWalls)
 	{
-		if (!Wall->alive)
+		if (!Wall->bAlive)
 		{
 			DestroyedWall = Wall;
 			BPI_FakeWallDestroyed();
@@ -296,7 +305,7 @@ void UBaseShadowAbility::AbilityTickResponse(float DeltaTime)
 			EndAbility();
 			return;
 		}
-		if (!CurrentWall->alive)
+		if (!CurrentWall->bAlive)
 		{
 
 			BPI_RealWallDestroyed();

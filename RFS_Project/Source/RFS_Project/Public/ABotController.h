@@ -38,7 +38,7 @@ public:
 	* Sets the distanceToPlayer key in the AI blackboard
 	* @param Board - Blackboard to set value on
 	*/
-	void SetDistanceToPlayer();
+	void SetDistanceToTarget();
 	/* Function called for getting the AI's team alignment*/
 	ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other);
 	/* Called to have AI lose focus on enemy*/
@@ -70,6 +70,9 @@ public:
 	/* Called to reset AI properties on respawn after death*/
 	UFUNCTION()
 		void ResetForRespawn();
+private:
+	void SetEnemyBoardActor(AActor* Actor);
+	AActor* SeeingPlayer();
 public:
 	/* Reference to the given behaviour tree to use*/
 	UPROPERTY(EditAnywhere)
@@ -98,6 +101,7 @@ public:
 	FTimerHandle HintDurationTimer;
 	/*Reference to the player in the scene*/
 	APlayerCharacter* LocalPlayer;
+	TSet<AActor*> SeenObjects;
 protected:
 	/* Local reference to the behavior trees' blackboard */
 	UBlackboardComponent* Board;
