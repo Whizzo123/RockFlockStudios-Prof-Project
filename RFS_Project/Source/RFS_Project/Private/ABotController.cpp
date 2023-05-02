@@ -33,18 +33,21 @@ void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus St
 		{
 			// Add actor to seenObjects
 			SeenObjects.Add(Actor);
-			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "Adding actor of name " + Actor->GetName());
-			if (SeeingPlayer() != nullptr)
+			//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "Adding actor of name " + Actor->GetName());
+			AActor* player = SeeingPlayer();
+			if (player != nullptr)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, "Found player again so reset loss of sight timer");
-				GetWorld()->GetTimerManager().ClearTimer(SightLossTimer);
+				//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, "Found player again so reset loss of sight timer");
+				SetEnemyBoardActor(player);
+				//Play corresponding spotting sound
+				BPI_LineOfSightPlayer();
 			}
 		}
 		else
 		{
 			if (boardActor == Actor)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Red, "Lost sight of target setting timer to lose sight " + Actor->GetName());
+				//GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Red, "Lost sight of target setting timer to lose sight " + Actor->GetName());
 				// Update blackboard that we have lost sight
 				Board->SetValueAsBool(LineOfSightBBKey, false);
 				// Start loss of sight timer
@@ -54,12 +57,12 @@ void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus St
 			// The object we just lost sight of is it still in the seen objects set
 			else if (SeenObjects.Contains(Actor))
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Purple, "Had seen to remove " + Actor->GetName());
+				//GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Purple, "Had seen to remove " + Actor->GetName());
 				// Remove the actor from our seen objects set
 				SeenObjects.Remove(Actor);
 			}
 		}
-		//UpdateAITarget();
+		UpdateAITarget();
 	}
 }
 
@@ -206,7 +209,7 @@ void ABotController::Tick(float DeltaTime)
 	}
 	// Update the distance to the player on the blackboard
 	SetDistanceToTarget();
-	UpdateAITarget();
+	//UpdateAITarget();
 }
 
 void ABotController::SetDistanceToTarget()
