@@ -21,6 +21,7 @@ void ABotController::OnPossess(APawn* InPawn)
 	Board = Blackboard.Get();
 }
 
+
 void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {	
 	if (GetTeamAttitudeTowards(*Actor) == ETeamAttitude::Hostile)
@@ -32,19 +33,31 @@ void ABotController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus St
 		{
 			// Add actor to seenObjects
 			SeenObjects.Add(Actor);
+			//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "Adding actor of name " + Actor->GetName());
+			AActor* player = SeeingPlayer();
+			if (player != nullptr)
+			{
+				//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, "Found player again so reset loss of sight timer");
+				SetEnemyBoardActor(player);
+				//Play corresponding spotting sound
+				BPI_LineOfSightPlayer();
+			}
 		}
 		else
 		{
 			if (boardActor == Actor)
 			{
+				//GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Red, "Lost sight of target setting timer to lose sight " + Actor->GetName());
 				// Update blackboard that we have lost sight
 				Board->SetValueAsBool(LineOfSightBBKey, false);
 				// Start loss of sight timer
 				GetWorld()->GetTimerManager().SetTimer(SightLossTimer, this, &ABotController::LossSightOfEnemy, LineOfSightTime, false);
+				SeenObjects.Remove(Actor);
 			}
 			// The object we just lost sight of is it still in the seen objects set
-			if (SeenObjects.Contains(Actor))
+			else if (SeenObjects.Contains(Actor))
 			{
+				//GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Purple, "Had seen to remove " + Actor->GetName());
 				// Remove the actor from our seen objects set
 				SeenObjects.Remove(Actor);
 			}
@@ -196,6 +209,7 @@ void ABotController::Tick(float DeltaTime)
 	}
 	// Update the distance to the player on the blackboard
 	SetDistanceToTarget();
+	//UpdateAITarget();
 }
 
 void ABotController::SetDistanceToTarget()
