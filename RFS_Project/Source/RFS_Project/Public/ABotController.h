@@ -70,6 +70,7 @@ public:
 	/* Called to reset AI properties on respawn after death*/
 	UFUNCTION()
 		void ResetForRespawn();
+	void UpdateAITarget();
 private:
 	void SetEnemyBoardActor(AActor* Actor);
 	AActor* SeeingPlayer();

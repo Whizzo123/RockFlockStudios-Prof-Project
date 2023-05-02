@@ -8,7 +8,9 @@
 #include "UShadowWall.h"
 #include "Ability.h"
 #include "IShadowPawn.h"
+#include "PlayerCharacter.h"
 #include "BaseShadowAbility.generated.h"
+
 
 
 //Comment in regards to caller
