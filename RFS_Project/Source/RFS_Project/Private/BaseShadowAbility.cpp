@@ -313,6 +313,7 @@ bool UBaseShadowAbility::ExitWall()
 
 	DestroyOrHideActor(RestrictedActor);
 	RestrictedActor = nullptr;
+	CurrentWall->bISPlayerInside = false;
 	BPI_ExitWall();
 	return true;
 }
