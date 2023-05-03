@@ -191,6 +191,18 @@ void UBaseShadowAbility::TurnOnWalls()
 		Wall->StartWall(VFXId, bIsPlayerAbility, OriginalActor);//We have passed in the iterator for VFX
 		VFXId++;
 	}
+	// Call to send hint to the AI
+	if (APlayerCharacter* player = Cast<APlayerCharacter>(OriginalActor))
+	{
+		int idx = rand() % AliveWalls.Num();
+		auto it = AliveWalls.begin();
+		for (int i = 0; i < idx; i++)
+		{
+			++it;
+		}
+		AUShadowWall* wallForHint = *it;
+		player->CreateHint(wallForHint, 5.0f);
+	}
 }
 void UBaseShadowAbility::CueWallVisible(float DeltaTime)
 {
@@ -301,6 +313,7 @@ bool UBaseShadowAbility::ExitWall()
 
 	DestroyOrHideActor(RestrictedActor);
 	RestrictedActor = nullptr;
+	CurrentWall->bISPlayerInside = false;
 	BPI_ExitWall();
 	return true;
 }
