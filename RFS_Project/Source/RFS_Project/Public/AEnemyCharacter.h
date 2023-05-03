@@ -55,17 +55,17 @@ protected:
 	* Called to heal the player
 	* @param Health - Amount to heal player by
 	*/
-	void OnHeal(float Health) override;
+	void OnHeal_Implementation(float Health) override;
 	/*
 	* Called to damage the player
 	* @param Damage - Amount to damage player by
 	* @param ActorDamagedBy - Actor that caused the damage
 	*/
-	void OnDamage(float Damage, AActor* ActorDamagedBy) override;
+	void OnDamage_Implementation(float Damage, AActor* ActorDamagedBy) override;
 	/* Called when player is killed */
-	void OnDeath() override;
+	void OnDeath_Implementation() override;
 	/* For defining what happens when player is killed*/
-	void OnKill() override {};
+	void OnKill_Implementation() override;
 protected:
 	/* Point for respawn of enemy*/
 	FVector RespawnPoint;

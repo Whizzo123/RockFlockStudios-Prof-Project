@@ -23,24 +23,13 @@ public:
 		float HitPoints;
 	UPROPERTY(EditAnywhere, Category = "Combat")
 		float MaxHitPoints;
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
-		void OnDamage(float Damage, AActor* ActorDamagedBy) override;
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
-		void OnHeal(float heal) override;
-	UFUNCTION(BlueprintCallable, Category = "Combat")
-		void OnDeath() override;
-
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Combat")
-		void BPI_OnDeath();
+		void OnHeal_Implementation(float heal) override;
+		void OnDamage_Implementation(float Damage, AActor* ActorDamagedBy) override;
+		void OnDeath_Implementation() override;
+		void OnKill_Implementation() override;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 		void BPI_FlashActor(AActor* actor);
-
-
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-		void BPI_SparksDamage();
-
-	void OnKill() override {};
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
