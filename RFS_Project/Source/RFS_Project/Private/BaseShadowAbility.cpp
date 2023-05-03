@@ -322,7 +322,7 @@ void UBaseShadowAbility::EndAbility()
 	//Destroy walls
 	for (AUShadowWall* Wall : AliveWalls)
 	{
-		Wall->OnDeath();
+		Wall->OnDeath_Implementation();
 	}
 	//Reset parameters
 	AliveWalls.Empty();

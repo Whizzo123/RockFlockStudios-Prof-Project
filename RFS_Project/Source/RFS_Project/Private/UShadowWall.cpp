@@ -24,7 +24,7 @@ void AUShadowWall::BeginPlay()
 	bAlive = false;
 }
 
-void AUShadowWall::OnDamage(float Damage, AActor* ActorDamagedBy)
+void AUShadowWall::OnDamage_Implementation(float Damage, AActor* ActorDamagedBy)
 {
 	//Return if not alive and active
 	if (!bAlive)
@@ -39,10 +39,10 @@ void AUShadowWall::OnDamage(float Damage, AActor* ActorDamagedBy)
 
 	//Take Damage and check for Death
 	HitPoints -= Damage;
-	BPI_SparksDamage();
+	IHealth::Execute_BPI_OnDamage(this, 1.0f, ActorDamagedBy);
 	if (HitPoints < 0)
 	{
-		OnDeath();
+		IHealth::Execute_OnDeath(this);
 		//If this is not the 'CurrentWall', flash the player
 		if (!bISPlayerInside)
 		{
@@ -51,7 +51,7 @@ void AUShadowWall::OnDamage(float Damage, AActor* ActorDamagedBy)
 	}
 }
 
-void AUShadowWall::OnHeal(float heal)
+void AUShadowWall::OnHeal_Implementation(float heal)
 {
 	//Don't heal if we're not alive and active
 	if (bAlive)
@@ -67,11 +67,15 @@ void AUShadowWall::OnHeal(float heal)
 
 }
 
-void AUShadowWall::OnDeath()
+void AUShadowWall::OnDeath_Implementation()
 {
 	bAlive = false;
 	OwningPlayer = nullptr;
-	BPI_OnDeath();
+	IHealth::Execute_BPI_OnDeath(this);
+}
+
+void AUShadowWall::OnKill_Implementation()
+{
 }
 
 
