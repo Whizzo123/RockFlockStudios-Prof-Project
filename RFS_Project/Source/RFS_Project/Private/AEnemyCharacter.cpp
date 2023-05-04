@@ -52,7 +52,7 @@ void AAEnemyCharacter::UpdateWalkSpeed(float Speed)
 	GetCharacterMovement()->MaxWalkSpeed = Speed;
 }
 
-void AAEnemyCharacter::OnHeal(float Health)
+void AAEnemyCharacter::OnHeal_Implementation(float Health)
 {
 	HitPoints += Health;
 	if (HitPoints > MaxHitPoints)
@@ -61,31 +61,33 @@ void AAEnemyCharacter::OnHeal(float Health)
 	}
 }
 
-void AAEnemyCharacter::OnDamage(float Damage, AActor* ActorDamagedBy)
+void AAEnemyCharacter::OnDamage_Implementation(float Damage, AActor* ActorDamagedBy)
 {
 	SavedActorDamageBy = ActorDamagedBy;
 	HitPoints -= Damage;
 	if (HitPoints <= 0)
 	{
-		OnDeath();
+		IHealth::Execute_OnDeath(this);
 	}
-	CharacterDamagedEvent(ActorDamagedBy);
+	IHealth::Execute_BPI_OnDamage(this, 1.0f, ActorDamagedBy);
 }
 
-void AAEnemyCharacter::OnDeath()
+void AAEnemyCharacter::OnDeath_Implementation()
 {
-	if (SavedActorDamageBy)
+	
+	bool bImplementsHealth = UKismetSystemLibrary::DoesImplementInterface(SavedActorDamageBy, UHealth::StaticClass());
+	if (bImplementsHealth)
 	{
-		IHealth* HealthComponent = Cast<IHealth>(SavedActorDamageBy);
-		if (HealthComponent)
-		{
-			HealthComponent->OnKill();
-		}
+		IHealth::Execute_OnKill(SavedActorDamageBy);
 	}
-	BPI_OnDeath();
+	IHealth::Execute_BPI_OnDeath(this);
 	SetActorLocation(RespawnPoint);
 	OnRespawn.Execute();
 	HitPoints = MaxHitPoints;
+}
+
+void AAEnemyCharacter::OnKill_Implementation()
+{
 }
 
 void AAEnemyCharacter::ShootGun(FVector StartHitScanLoc)

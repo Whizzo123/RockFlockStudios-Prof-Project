@@ -84,26 +84,13 @@ public:
 protected:
 	/* Called when the game starts or this actor is spawned*/
 	virtual void BeginPlay() override;
-	/*
-	* Called to heal the player
-	* @param Health - Amount to heal player by
-	*/
-	void OnHeal(float Health) override;
-	/*
-	* Called to damage the player
-	* @param Damage - Amount to damage player by
-	* @param ActorDamagedBy - Actor that caused the damage
-	*/
-	void OnDamage(float Damage, AActor* ActorDamagedBy) override;
-	/* Called when player is killed */
-	void OnDeath() override;
+
 	/* Function for updating player movement state*/
 	void UpdatePlayerMovementState();
 	/* Function for switching player movement states*/
 	void SwitchMovementState(EPlayerMovementState NewState);
 
-	UFUNCTION(BlueprintCallable)
-		void OnKill() override { BPI_OnKill(); };
+
 	/*Checks gun, resets accuracy, changes gun accuracy*/
 	void GunAccuracy(float Modifier);
 protected:
