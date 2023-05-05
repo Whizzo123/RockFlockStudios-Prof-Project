@@ -30,13 +30,78 @@ void UFShadowAbility1::BeginPlay()
 
 }
 
-
 #pragma region STATE_FUNCTIONS
+
+bool UFShadowAbility1::GoIntoWall()
+{
+	if (ShadowState != EAbilityState::Active)
+	{
+		return false;
+	}
+	bool bSuccess = EnterWall(CurrentWall);
+	if (!bSuccess)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Couldn't enter wall"));
+		return false;
+	}
+	return true;
+}
+
+bool UFShadowAbility1::InactiveState() {
+	//Do we have uses
+	if (UseData.Use <= 0)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Out of Ability Uses"));
+		return false;
+	}
+
+	BPI_CueAbility();//Should Play animation for cueing the ability
+	return true;
+}
+bool UFShadowAbility1::CueState() 
+{
+	TurnOffVisibleWalls();
+
+	FVector Location = OriginalActor->GetActorLocation();
+	bool bSuccess = InitAbility(Location);
+	if (!bSuccess)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Initialising ability failed"));
+		return false;
+	}
+	else
+	{
+		//Try to enter a wall
+		CurrentWall = AliveWalls.Array()[0];
+		
+		//Start ability data
+		DurationTimer = Duration;
+		IAbility::Execute_SubtractUse(this, 1);
+		IAbility::Execute_DepleteCharge(this);
+		
+		BPI_InitAbility();
+		return true;
+	}
+}
+bool UFShadowAbility1::ActiveState() {
+	bool success = ExitWall();
+	if (!success)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Could not exit wall"));
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+#pragma endregion
+
 bool UFShadowAbility1::SwitchWalls(int WallID)
 {
 	TArray<AUShadowWall*> Walls = AliveWalls.Array();
 	AUShadowWall* ChosenWall = Walls[WallID];
-	if (ChosenWall->bAlive)
+	if (ChosenWall->IsAlive())
 	{
 		//Move our current Actor
 		RestrictedActor->SetActorLocationAndRotation(ChosenWall->GetActorLocation(), ChosenWall->GetActorRotation());
@@ -47,126 +112,13 @@ bool UFShadowAbility1::SwitchWalls(int WallID)
 		CurrentWall->bISPlayerInside = false;
 		ChosenWall->bISPlayerInside = true;
 		CurrentWall = ChosenWall;
-		
+
 		return true;
 	}
 	else {
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Unable to enter wall"));
 		return false;
 	}
-}
-bool UFShadowAbility1::InactiveState() {
-	//Do we have uses
-	if (UseData.Use <= 0)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Out of Ability Uses"));
-		return false;
-	}
-
-	
-	BPI_InactiveState();//Should Play animation for cueing the ability
-	return true;
-}
-bool UFShadowAbility1::CueState() 
-{
-	TurnOffVisibleWalls();
-
-	//Place the portal and activate the walls
-	FVector Location = OriginalActor->GetActorLocation();
-	bool bSuccess = InitAbility(Location);
-	if (!bSuccess)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Initialising ability failed"));
-		return false;
-	}
-	else
-	{
-		CurrentWall = AliveWalls.Array()[0];
-		bSuccess = EnterWall(CurrentWall);
-		if (!bSuccess)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Couldn't enter wall"));
-			return false;
-		}
-		//Start ability data
-		DurationTimer = Duration;
-		bInsideWalls = true;
-		UseData.Use--;
-		DepleteCharge();
-		
-		BPI_CueState();//We should be teleported inside the walls
-		return true;
-	}
-}
-bool UFShadowAbility1::ActiveState() {
-	//Are we in portal range
-	bool success = ExitWall();
-	if (!success)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Could not exit wall"));
-		return false;
-	}
-	else
-	{
-		DurationTimer = DurationEndStart;
-		bInsideWalls = false;
-		BPI_ActiveState();
-		return true;
-	}
-}
-#pragma endregion
-
-bool UFShadowAbility1::Use()
-{
-
-	if (!OriginalActor)
-	{
-		return false;
-	}
-
-
-	bool bSuccess = false;
-	switch (ShadowState)
-	{
-	case EAbilityState::Inactive:
-	{
-		bSuccess = InactiveState();
-		break;
-	}
-	case EAbilityState::Cue:
-	{
-		bSuccess = CueState();
-		//When failing Cue for any reason, we will return to default state and not use ability
-		if (!bSuccess)
-		{
-			ShadowState = EAbilityState::Inactive;
-		}
-		break;
-	}
-	case EAbilityState::Active:
-	{
-		//There are two things we can do in Active, switch portals or exit
-		//When we exit, we will go back to the inactive state
-		bSuccess = ActiveState();
-		//We have successfully exited, therefor reset ability.
-		if (bSuccess)
-		{
-			ShadowState = EAbilityState::Inactive;
-		}
-		return true;
-	}
-	default:
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility: Current State when called: Invalid State"));
-		break;
-	}
-	}
-	if (bSuccess)
-	{
-		ShadowState = EAbilityState(int(ShadowState) + 1);
-		return true;
-	}
-	return false;
 }
 
 
@@ -190,31 +142,6 @@ bool UFShadowAbility1::InitAbility(FVector Position)
 	//Turn on every wall chosen
 	TurnOnWalls();
 	return true;
-}
-
-
-void UFShadowAbility1::EndAbility()
-{
-	//Exit's wall if we are in it, destroys portal if it's active
-	if (ShadowState == EAbilityState::Active) {
-		if (bInsideWalls)
-		{
-			ExitWall();
-		}
-	}
-
-	//Destroy walls
-	for (AUShadowWall* Wall : AliveWalls)
-	{
-		Wall->OnDeath_Implementation();
-	}
-	//Reset parameters
-	AliveWalls.Empty();
-	ShadowState = EAbilityState::Inactive;
-	DurationTimer = -1;
-	bInsideWalls = false;
-	BPI_EndAbility();
-
 }
 
 // Called every frame

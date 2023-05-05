@@ -30,110 +30,95 @@ UCLASS(Abstract)
 class RFS_PROJECT_API UBaseShadowAbility : public UActorComponent, public IAbility
 {
 	GENERATED_BODY()
-
-
 protected:
-	// Called when the game starts
 	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 public:	
 	UBaseShadowAbility();
-	
-	//OVERRIDED FUNCTIONS
 	/**
-	 * Called when player attempts to use ability
-	 */
+	* Sets our Original Pawn for later: repossess when exiting Walls. 
+	* @note: THE ACTOR MUST HAVE ISHADOWPAWN INTERFACE
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Ability")
-		virtual bool Use() override;
-		/**
-		 * Sets our Original Pawn to repossess when exiting Walls. MUST HAVE ISHADOWPAWN INTERFACE
-		 */
-	UFUNCTION(BlueprintCallable, Category = "Ability")
-		void Init(APawn* SelfActor) {
-		OriginalActor = SelfActor;
+		void Init(APawn* SelfActor)
+	{
+		bool bImplementsShadowPawn = UKismetSystemLibrary::DoesImplementInterface(SelfActor, UShadowPawn::StaticClass());
+		if (bImplementsShadowPawn)
+		{
+			OriginalActor = SelfActor;
+		}
+		else 
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::Init() SelfActor is either null or does not implement IShadowPawn"));
+		}
 	};
 
-	//SETTERS
-		/**
-		 * Adds a Use until it reaches capacity
-		 */
-	UFUNCTION(BlueprintCallable, Category = "Ability Use")
-		virtual void AddUse() override {
-		UseData.Use++;
-		if (UseData.Use > UseData.UseCapacity)
-			UseData.Use = UseData.UseCapacity;
+	/**
+	* Called when player attempts to use ability
+	*/
+	virtual bool Use_Implementation() override;
+
+	/**
+	 * Adds a Use until it reaches capacity
+	 */
+	virtual void AddUse_Implementation() override
+	{
+		if (UseData.Use < UseData.UseCapacity)
+		{
+			UseData.Use++;
+		}
 	};
-		/**
-		 * Reduces Use to 0
-		 */
-	UFUNCTION(BlueprintCallable, Category = "Ability Use")
-		virtual void DepleteUse() override {
-		UseData.Use = 0;
+	/**
+	 * Reduces use by amount. If the subtraction leads to a negative number, Use is set to 0.
+	 */
+	virtual void SubtractUse_Implementation(int Amount) override
+	{
+		if (UseData.Use < 0 && UseData.Use >= Amount)
+		{
+			UseData.Use -= Amount;
+		}
+		else
+		{
+			UseData.Use = 0;
+		}
 	};
 	/**
 	 * Adds a Charge till it reaches Capacity, automatically adds a Use once ChargeCapacity is reached
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Ability Charge")
-		virtual void AddCharge() override {
+	virtual void AddCharge_Implementation() override
+	{
 		//Add a charge till full, add a use on full charge
 		if (UseData.Charge < UseData.ChargeCapacity)
+		{
 			UseData.Charge++;
-		if (UseData.Charge >= UseData.ChargeCapacity && UseData.Use < UseData.UseCapacity) {
-			AddUse();
-			//DepleteCharge(); // This was to only be in for multiple use cases.
+			//Add use if charge is full
+			if (UseData.Charge >= UseData.ChargeCapacity)
+			{
+				IAbility::Execute_AddUse(this);
+				//Can call DepleteCharge() here if there are multiple uses
+			}
 		}
+
 	};
 	/**
 	 * Reduces Charge to 0
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Ability Charge")
-		virtual void DepleteCharge()override {
+	virtual void DepleteCharge_Implementation()override
+	{
 		UseData.Charge = 0;
 	};
 
-	//GETTERS
+
 	/**
-	* Returns Use
-	*/
-	UFUNCTION(BlueprintCallable, Category = "Ability Use")
-		virtual int GetUseAmount()override {
-		return UseData.Use;
-	};
-	/**
-	* Returns Use Capacity
-	*/
-	UFUNCTION(BlueprintCallable, Category = "Ability Use")
-		virtual int GetUseCapacity()override {
-		return UseData.UseCapacity;
-	};
-	/**
-	* Returns Charge
-	*/
-	UFUNCTION(BlueprintCallable, Category = "Ability Charge")
-		virtual int GetChargeAmount() override {
-		return UseData.Charge;
-	};
-	/**
-	* Gets the Capacity for Charge
-	* @return Charge Capacity
-	*/
-	UFUNCTION(BlueprintCallable, Category = "Ability Charge")
-		virtual int GetChargeCapacity() override {
-		return UseData.ChargeCapacity;
-	};
-	/**
-	* Gets the amount of walls currently active
-	* @return AliveWall.Num()
+	* Gets the amount of walls currently active with the ability
 	*/
 	UFUNCTION(BlueprintCallable)
-		int GetAliveWallCount() {
+		int GetAliveWallCount() 
+	{
 		return AliveWalls.Num();
 	};
 	/**
-	* Gets the array of Alive Walls
+	* Gets the array of the Alive Walls Set
 	* @return Array if aliveWalls
 	*/
 	UFUNCTION(BlueprintCallable)
@@ -141,7 +126,6 @@ public:
 		if (AliveWalls.Num() > 0)
 		{
 			return AliveWalls.Array();
-
 		}
 		else 
 		{
@@ -149,12 +133,14 @@ public:
 		}
 	};
 	/**
-	* Gets the CurrentWall iterator identifier inside the AliveWall array
+	* Gets the CurrentWall identifier inside the AliveWall array
 	* @return AliveWall[identifier] where identifier should equal current wall's position
+	* @note Will return -1 if wall doesn't exist in array or AliveWall has no elements
 	*/
 	UFUNCTION(BlueprintCallable)
-		int GetCurrentWallNumber() {
-		TArray<AUShadowWall*> Walls = AliveWalls.Array();
+		int GetCurrentWallIdentifierInContextOfArray() {
+		TArray<AUShadowWall*> Walls = GetAliveWallArray();
+		//Finds CurrentWall in array
 		for (int i = 0; i < Walls.Num(); i++)
 		{
 			if (Walls[i] == CurrentWall)
@@ -165,12 +151,12 @@ public:
 		return -1;
 	}
 	/**
-	* Gets the current wall object
-	* @return AUShadowWall
+	* Gets the main wall that if destroyed, will collapse all walls. Usually the wall that the player is inside.
+	* @note Will return a nullptr if CurrentWall does not exist.
 	*/
 	UFUNCTION(BlueprintCallable)
 		AUShadowWall* GetCurrentWall() {
-		if (CurrentWall)
+		if (IsValid(CurrentWall))
 		{
 			return CurrentWall;
 		}
@@ -179,22 +165,20 @@ public:
 			return nullptr;
 		}
 	}
+
+	UFUNCTION(BlueprintCallable)
+		virtual void AbortAll();
 	//BLUEPRINT IMPLEMENTABLE EVENTS
 	/**
-	* Gets called when we succeed the Inactive State
+	* Gets called when we are cueing the ability
 	*/
 	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
-		void BPI_InactiveState();
+		void BPI_CueAbility();
 	/**
 	* Gets called when we succeed the Cue State
 	*/
 	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
-		void BPI_CueState();	
-	/**
-	* Gets called when we succeed the Active State
-	*/
-	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
-		void BPI_ActiveState();	
+		void BPI_InitAbility();	
 	/**
 	* Gets called when we Enter the Wall
 	*/
@@ -216,7 +200,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
 		void BPI_FakeWallDestroyed();	
 	/**
-	* Gets called a fake wall is destroyed
+	* Gets called the CurrentWall is destroyed and we endability abruptly
 	*/
 	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
 		void BPI_RealWallDestroyed();
@@ -257,6 +241,7 @@ public:
 	/*Wall Actor we possess reference*/
 	AARestrictedCamera* RestrictedActor;
 
+	/*Boolean required to specifiy the VFX walls for AI Omen Ability*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		bool bIsPlayerAbility = true;
 	/*Whether we are inside the walls or not*/
@@ -334,17 +319,22 @@ protected:
 	*/
 	virtual void EndAbility();
 
+	virtual void EndAbilityAbrupt();
+
 	void UpdateAliveWalls();
 	void AbilityTickResponse(float DeltaTime);
 	/*The Actor we want to repossess when exiting walls*/
 	APawn* OriginalActor;
 	/*The walls that activate when we use ability*/
 	TSet<AUShadowWall*> AliveWalls;
+	/*Designated main wall, usually the wall that the player is in*/
 	AUShadowWall* CurrentWall;
 
 private:
-
+	void AdvanceState();
+	TSet<AUShadowWall*> GetValidWallsFromHits(TArray<FHitResult> Hits);
 	const float CueWallFixedTime = 3.0f;
 	float CueWallFixedTimeChange = 0.0f;
 	TSet<AUShadowWall*> VisibleWalls;
+
 };

@@ -146,7 +146,7 @@ ETeamAttitude::Type ABotController::GetTeamAttitudeTowards(const AActor& Other)
 	}
 	else if (AUShadowWall const* ShadowWall = Cast<AUShadowWall>(&Other))
 	{
-		if (ShadowWall->bAlive == true)
+		if (ShadowWall->bInUse == true)
 		{
 			return ETeamAttitude::Hostile;
 		}
@@ -194,7 +194,7 @@ void ABotController::Tick(float DeltaTime)
 	}
 	if (AUShadowWall const* ShadowWall = Cast<AUShadowWall>(Board->GetValueAsObject(EnemyActorBBKey)))
 	{
-		if (ShadowWall->bAlive == false)
+		if (ShadowWall->bInUse == false)
 		{
 			SeenObjects.Remove(Cast<AActor>(Board->GetValueAsObject(EnemyActorBBKey)));
 			Board->SetValueAsObject(EnemyActorBBKey, nullptr);

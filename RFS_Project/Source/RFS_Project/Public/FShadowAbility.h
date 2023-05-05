@@ -19,7 +19,6 @@ public:
 	UFShadowAbility();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void BeginPlay() override;
-	bool Use() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Parameters")
 		float DurationMultiplier = 1.5f;//How much time should be multiplied on from the current duration when entering the portal
@@ -34,6 +33,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Ability")
 		bool bWithinPortalRange = false;
 
+		void AbortAll() override;
 private:
 	bool InactiveState() override;
 	bool CueState() override;
@@ -60,12 +60,13 @@ private:
 	* Ends walls, portals, and resets parameters
 	*/
 	void EndAbility() override;
+	void EndAbilityAbrupt() override;
 	void TogglePortalUseable() { bWithinPortalRange = !bWithinPortalRange; };
 
 
 private:
 	AShadowPortal* Portal;
-
+	bool SpawnFakePortal();
 
 
 };
