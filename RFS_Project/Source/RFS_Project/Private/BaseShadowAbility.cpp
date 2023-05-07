@@ -35,7 +35,7 @@ void UBaseShadowAbility::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 FVector UBaseShadowAbility::GetCameraActorForwardVector(AActor* ActorFwd) {
 	if (!ActorFwd)
 	{
-		return FVector(0, 0, 0);
+		return FVector(0, 1, 0);
 	}
 
 	//Use Camera or character
@@ -63,36 +63,32 @@ void UBaseShadowAbility::DestroyOrHideActor(AActor* Actor)
 	}
 }
 
-bool UBaseShadowAbility::Use()
+bool UBaseShadowAbility::Use_Implementation()
 {
-
+	//Template for Shadow Abilities to use
 	if (!OriginalActor)
 	{
 		return false;
 	}
 
 
-	bool bSuccess = false;
+	bool bNextState = false;
 	switch (ShadowState)
 	{
 		case EAbilityState::Inactive:
 		{
-			bSuccess = InactiveState();
+			bNextState = InactiveState();
 			break;
 		}
 		case EAbilityState::Cue:
 		{
-			bSuccess = CueState();
-			if (!bSuccess)
-			{
-				ShadowState = EAbilityState::Inactive;
-			}
+			bNextState = CueState();
 			break;
 		}
 		case EAbilityState::Active:
 		{
-			bSuccess = ActiveState();
-			return true;
+			bNextState = ActiveState();
+			break;
 		}
 		default:
 		{
@@ -101,58 +97,52 @@ bool UBaseShadowAbility::Use()
 		}
 	}
 
-	if (bSuccess)
+
+	if (bNextState)
 	{
-		ShadowState = EAbilityState(int(ShadowState) + 1);
+		AdvanceState();
+		return true;
+	}
+	else if (!bNextState && ShadowState != EAbilityState::Active)
+	{
+		ShadowState = EAbilityState::Inactive;
+		return false;
+	}
+	else if(!bNextState)
+	{
 		return true;
 	}
 	return false;
 }
-
+void UBaseShadowAbility::AdvanceState()
+{
+	if (ShadowState != EAbilityState::Active)
+	{
+		ShadowState = EAbilityState(int(ShadowState) + 1);
+	}
+}
 TSet<AUShadowWall*> UBaseShadowAbility::SphereCastWalls(FVector Origin, float SphereRange)
 {
-	TSet<AUShadowWall*> ShadowWalls;
-	FCollisionQueryParams TraceParams;
 	TArray<FHitResult> Hits;
-	GetWorld()->SweepMultiByChannel(Hits, Origin, Origin, FQuat(), ECC_Visibility, FCollisionShape::MakeSphere(SphereRange), TraceParams);
-
-	//Goes through all objects hit adn grabs the walls and adds them to TSet
-	for (int Actors = 0; Actors < Hits.Num(); Actors++)
-	{
-		AUShadowWall* Wall = Cast<AUShadowWall>(Hits[Actors].GetActor());
-		if (Wall && !Wall->bAlive) 
-		{
-			ShadowWalls.Add(Wall);
-		}
-	}
-	return ShadowWalls;
+	GetWorld()->SweepMultiByChannel(Hits, Origin, Origin, FQuat(), ECC_Visibility, FCollisionShape::MakeSphere(SphereRange));
+	return GetValidWallsFromHits(Hits);
 
 }
 TSet<AUShadowWall*> UBaseShadowAbility::DiscCastWalls(FVector Origin) {
-	TArray<FHitResult> Hits;
 	TSet<AUShadowWall*> ShadowWalls;
 
 	//360 degrees of line tracing to detect and add AUShadowWalls
 	for (int i = 1; i < DiscAccuracy; i++)
 	{
+		TArray<FHitResult> Hits;
 		FVector EndVector(1, 0, 0);
 		float YawAmount = ((360 / DiscAccuracy) * i);
-		EndVector = EndVector.RotateAngleAxis(YawAmount, FVector3d(0, 0, 1));
+		EndVector = EndVector.RotateAngleAxis(YawAmount, FVector3d(0, 0, 1));//Rotates linetrace in a 360 around player 
 		EndVector *= WallDetectionRange;
+
 		//Note: There has been no way to continue a trace while the player body is inside it(for FShadowAbility not FShadowAbility1)
-		//GetWorld()->LineTraceMultiByObjectType(Hits, Origin, Origin + EndVector, FCollisionObjectQueryParams::AllObjects, FCollisionParams);
 		GetWorld()->LineTraceMultiByChannel(Hits, Origin, Origin + EndVector, ECC_Visibility);
-
-		//Go through all actors hit and add relevant ones
-		for (int Actors = 0; Actors < Hits.Num(); Actors++)
-		{
-
-			AUShadowWall* Wall = Cast<AUShadowWall>(Hits[Actors].GetActor());
-			if (Wall && !Wall->bAlive)
-			{
-				ShadowWalls.Add(Wall);
-			}
-		}
+		ShadowWalls.Append(GetValidWallsFromHits(Hits));
 	}
 	return ShadowWalls;
 }
@@ -160,14 +150,16 @@ TSet<AUShadowWall*> UBaseShadowAbility::ChooseWalls(TSet<AUShadowWall*> ShadowWa
 {
 	TArray<AUShadowWall*> Walls = ShadowWalls.Array();
 	TSet<AUShadowWall*> NewWalls = TSet<AUShadowWall*>();
-	int WallCount = 1;//Starting at 1 to account for the initial wall hit
 	if (Walls.Num() == 0)
+	{
 		return NewWalls;
+	}
 
 
-	//We start at 1 to account for the original portal wall
+	//We start at 1 to account for the CurrentWall at 0
 	for (int i = 1; i < WallAmount; i++)
 	{
+		//Get a random index from Walls
 		int Num = Walls.Num();
 		int Index = FMath::RandRange(0, Num - 1);
 		bool Valid = Walls.IsValidIndex(Index);
@@ -176,8 +168,6 @@ TSet<AUShadowWall*> UBaseShadowAbility::ChooseWalls(TSet<AUShadowWall*> ShadowWa
 		{
 			NewWalls.Add(Walls[Index]);
 			Walls.RemoveAt(Index, 1, true);
-			/*	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("FOUND WALLS ALIVE ID: %i"), wallCount));*/
-			WallCount++;
 		}
 	}
 	return NewWalls;
@@ -247,105 +237,120 @@ void UBaseShadowAbility::TurnOffVisibleWalls()
 }
 bool UBaseShadowAbility::EnterWall(AUShadowWall* WallToEnter)
 {
-	//Check our actor is valid
-	IShadowPawn* ShadowComponent = Cast<IShadowPawn>(OriginalActor);
-	if (!ShadowComponent) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::EnterWall : No IShadowPawn"));
-		return false;
-	}
-	AController* Controller = OriginalActor->GetController();
-	if (!Controller)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::EnterWall : No Controller"));
-		return false;
-	}
-
 	//Spawn and assign RestrictedCharacter
-	FActorSpawnParameters SpawnParams;
 	AARestrictedCamera* WallPlayerPawn;
 	if (RestrictedActorBP)
 	{
 		WallPlayerPawn = GetWorld()->SpawnActor<AARestrictedCamera>(RestrictedActorBP, WallToEnter->GetActorLocation(), WallToEnter->GetActorRotation());
 	}
-	else {
+	else 
+	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::EnterWall : RestrictedActorBP has not been assigned"));
 		return false;
 	}
+	//Reposition Actor to be within walls
 	WallPlayerPawn->AddActorLocalRotation(FRotator(90, -90, 0));
-	FVector cameraDeepness = FVector(5, 10, 0);
-	WallPlayerPawn->AddActorLocalOffset(cameraDeepness);
+	FVector CameraDeepness = FVector(5, 10, 0);
+	WallPlayerPawn->AddActorLocalOffset(CameraDeepness);
 	RestrictedActor = WallPlayerPawn;
 
-	//Repossess original actor
-	//TODO: Animation should play to make the original character go into the wall
-	IShadowPawn::Execute_ToggleCollisionPhysics(OriginalActor);
-	OriginalActor->SetActorLocationAndRotation(FVector(9000,9000,9500), WallPlayerPawn->GetActorRotation());
+	//Ensures original actor cannot be targeted or seen
+	IShadowPawn::Execute_ToggleCollisionPhysics(OriginalActor);//Character cannot get damaged
+	OriginalActor->SetActorLocation(FVector(9000,9000,9500));
 	OriginalActor->SetActorHiddenInGame(true);
 
+	AController* Controller = OriginalActor->GetController();
 	Controller->Possess(RestrictedActor);
 	CurrentWall->bISPlayerInside = true;
+	bInsideWalls = true;
 	BPI_EnterWall();
 	return true;
 }
 
 bool UBaseShadowAbility::ExitWall()
 {
-	//Safety check to ensure our actor is still alive and we can toggle collision back on
-	IShadowPawn* ShadowComponent = Cast<IShadowPawn>(OriginalActor);
-	if (!ShadowComponent) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::ExitWall : No IShadowPawn"));
-		return false;
-	}
-	IShadowPawn::Execute_ToggleCollisionPhysics(OriginalActor);
-
-	AController* Controller = RestrictedActor->GetController();
-	if (!Controller)
+	if (!RestrictedActor)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::ExitWall : No Controller"));
 		return false;
 	}
-	Controller->Possess(OriginalActor);
 	//Repositioning Actor for exiting the wall
 	OriginalActor->SetActorLocationAndRotation(RestrictedActor->GetActorLocation(), RestrictedActor->GetActorRotation());
 	OriginalActor->AddActorWorldOffset(OriginalActor->GetActorForwardVector() * 10);//shoudl play animation for exiting
 	OriginalActor->AddActorWorldOffset(FVector(0, 0, 20));
 	OriginalActor->SetActorHiddenInGame(false);
+	IShadowPawn::Execute_ToggleCollisionPhysics(OriginalActor);
 
+	AController* Controller = RestrictedActor->GetController();
+	Controller->Possess(OriginalActor);
 	DestroyOrHideActor(RestrictedActor);
 	RestrictedActor = nullptr;
-	CurrentWall->bISPlayerInside = false;
+
 	BPI_ExitWall();
+	CurrentWall->bISPlayerInside = false;
+	bInsideWalls = false;
+	DurationTimer = DurationEndStart;
 	return true;
 }
 void UBaseShadowAbility::EndAbility()
 {
+	//Exit's wall if we are in it, destroys portal if it's active
+	if (ShadowState == EAbilityState::Active && bInsideWalls) 
+	{
+		ExitWall();
+	}
+
 	//Destroy walls
 	for (AUShadowWall* Wall : AliveWalls)
 	{
-		Wall->OnDeath_Implementation();
+		if (Wall->IsAlive())
+		{
+			Wall->EndWall();
+		}
 	}
 	//Reset parameters
-	AliveWalls.Empty();
 	ShadowState = EAbilityState::Inactive;
 	DurationTimer = -1;
+	bInsideWalls = false;
 	BPI_EndAbility();
+}
+
+void UBaseShadowAbility::EndAbilityAbrupt()
+{
+	//Exit's wall if we are in it
+	if (ShadowState == EAbilityState::Active && bInsideWalls) 
+	{
+		ExitWall();
+	}
+
+	//Destroy walls
+	for (AUShadowWall* Wall : AliveWalls)
+	{
+		if (Wall->IsAlive())
+		{
+			AUShadowWall::Execute_OnDeath(Wall);
+
+		}
+	}
+	//Reset parameters
+	ShadowState = EAbilityState::Inactive;
+	DurationTimer = -1;
+	bInsideWalls = false;
+	BPI_RealWallDestroyed();
 }
 
 void UBaseShadowAbility::UpdateAliveWalls()
 {
 	//If the main wall get's destroyed we should exit before this gets updated again. Therefore playing the other audio cue.
-	bool Changed = false;
-	AUShadowWall* DestroyedWall = nullptr;
 	for (AUShadowWall* Wall : AliveWalls)
 	{
-		if (!Wall->bAlive)
+		if (!Wall->IsAlive())
 		{
-			DestroyedWall = Wall;
 			BPI_FakeWallDestroyed();
-			AliveWalls.Remove(DestroyedWall);
-			Changed = true;
+			AliveWalls.Remove(Wall);
 		}
+
 	}
+
 
 }
 
@@ -360,14 +365,57 @@ void UBaseShadowAbility::AbilityTickResponse(float DeltaTime)
 			EndAbility();
 			return;
 		}
-		if (!CurrentWall->bAlive)
+		if (!CurrentWall->IsAlive())
 		{
 
-			BPI_RealWallDestroyed();
-			EndAbility();
+			EndAbilityAbrupt();
 			return;
 		}
-		UpdateAliveWalls();
 
+		UpdateAliveWalls();
 	}
+}
+
+
+
+TSet<AUShadowWall*> UBaseShadowAbility::GetValidWallsFromHits(TArray<FHitResult> Hits)
+{
+	TSet<AUShadowWall*> ShadowWalls;
+	for (int Actors = 0; Actors < Hits.Num(); Actors++)
+	{
+
+		AUShadowWall* Wall = Cast<AUShadowWall>(Hits[Actors].GetActor());
+		if (Wall && !Wall->bInUse)
+		{
+			ShadowWalls.Add(Wall);
+		}
+	}
+	return ShadowWalls;
+}
+
+void UBaseShadowAbility::AbortAll()
+{
+
+	TurnOffVisibleWalls();
+
+	if (ShadowState == EAbilityState::Active && bInsideWalls)
+	{
+		ExitWall();
+	}
+
+	//Destroy walls
+	for (AUShadowWall* Wall : AliveWalls)
+	{
+		if (Wall->IsAlive())
+		{
+			AUShadowWall::Execute_OnDeath(Wall);
+
+		}
+	}
+
+	AliveWalls.Empty();
+	CurrentWall = nullptr;
+	ShadowState = EAbilityState::Inactive;
+	DurationTimer = -1;
+	bInsideWalls = false;
 }

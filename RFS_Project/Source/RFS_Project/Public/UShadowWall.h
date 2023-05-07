@@ -13,11 +13,12 @@ UCLASS()
 class RFS_PROJECT_API AUShadowWall : public AActor, public IHealth
 {
 	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
+protected:
+	virtual void BeginPlay() override;
+public:
 	AUShadowWall();
 	~AUShadowWall() {};
+	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 		float HitPoints;
@@ -30,13 +31,8 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 		void BPI_FlashActor(AActor* actor);
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	void EndWall();
 
 	UFUNCTION(BlueprintCallable)
 	void StartWall(int i, bool Player, AActor* NewOwner);
@@ -46,13 +42,21 @@ public:
 
 	void ChangeVisibility(bool Visible);
 
+	UFUNCTION(BlueprintCallable)
+		bool IsAlive() {
+		if (HitPoints >= 0)
+		{
+			return true;
+		}
+		return false;
+	}
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	USceneComponent* SceneRootComponent;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* WallPlane;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bAlive = false;
+	bool bInUse = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool bISPlayerInside = false;

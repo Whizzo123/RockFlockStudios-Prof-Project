@@ -22,15 +22,19 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	bool Use() override;
-
-
 	/**
 	* Teleport the player between the walls that are currently alive
 	* @return Charge Capacity
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 		bool SwitchWalls(int WallID);
+
+	/**
+* Teleport the player between the walls that are currently alive
+* @return Charge Capacity
+*/
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+		bool GoIntoWall();
 private:
 	bool InactiveState() override;
 	bool CueState() override;
@@ -42,10 +46,6 @@ private:
 	* @return true if all succeed.
 	*/
 	bool InitAbility(FVector position);
-	/**
-	* Ends walls, portals, and resets parameters
-	*/
-	void EndAbility() override;
 
 
 private:
