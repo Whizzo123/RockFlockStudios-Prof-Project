@@ -50,7 +50,7 @@ Build/*
 
 Binaries/*
 Plugins/*/Intermediate/
-
+Plugins/Wwise/Binaries/*
 # Whitelist PakBlacklist-<BuildConfiguration>.txt files
 !Build/*/
 Build/*/**
