@@ -56,6 +56,11 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void Respawn();
+
+	UFUNCTION(BlueprintCallable)
+		void SetRespawnLocation(FVector RespawnWorldLocation) {
+		RespawnPoint = RespawnWorldLocation;
+	};
 public:
 	/* Delegate for when sending hint to AI */
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAIHint, AActor*, Player, float, hintTime);
