@@ -34,7 +34,7 @@ public:
 	/* Character has killed something*/
 	void OnKill_Implementation() override;
 	/*Character has died*/
-	void OnDeath_Implementation() override;
+	virtual void OnDeath_Implementation() override;
 	/*Blueprint-implementable event for when the character fires they're gun*/
 	UFUNCTION(BlueprintImplementableEvent)
 		void OnGunFire();
@@ -59,8 +59,8 @@ protected:
 	virtual void BeginPlay() override;
 	/*Default constructor*/
 	APlayableCharacter();
+	AActor* SavedActorDamageBy;
 private:
 	FVector RespawnPoint;
-	AActor* SavedActorDamageBy;
 
 };

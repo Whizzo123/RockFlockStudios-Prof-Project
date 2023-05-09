@@ -50,6 +50,12 @@ public:
 	/* Blueprint-callable function that sets the player to jump*/
 	UFUNCTION(BlueprintCallable)
 		void SetToJump();
+
+	/*Character has died*/
+	void OnDeath_Implementation() override;
+
+	UFUNCTION(BlueprintCallable)
+		void Respawn();
 public:
 	/* Delegate for when sending hint to AI */
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAIHint, AActor*, Player, float, hintTime);

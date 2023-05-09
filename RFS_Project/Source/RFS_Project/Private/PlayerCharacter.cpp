@@ -150,3 +150,21 @@ void APlayerCharacter::SetToJump()
 	GunAccuracy(JumpingAccuracyDebuffPercentage);
 
 }
+
+void APlayerCharacter::OnDeath_Implementation()
+{
+	bool bImplementsHealth = UKismetSystemLibrary::DoesImplementInterface(SavedActorDamageBy, UHealth::StaticClass());
+
+	if (bImplementsHealth)
+	{
+		IHealth::Execute_OnKill(SavedActorDamageBy);
+	}
+	IHealth::Execute_BPI_OnDeath(this);
+
+}
+
+void APlayerCharacter::Respawn()
+{
+	SetActorLocation(RespawnPoint);
+	HitPoints = MaxHitPoints;
+}
