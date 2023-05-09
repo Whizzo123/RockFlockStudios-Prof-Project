@@ -39,13 +39,18 @@ void APlayableCharacter::OnHeal_Implementation(float Health)
 
 void APlayableCharacter::OnDamage_Implementation(float Damage, AActor* ActorDamagedBy)
 {
+
+	if (HitPoints <= 0)
+	{
+		return;
+	}
 	SavedActorDamageBy = ActorDamagedBy;
 	HitPoints -= Damage;
+	IHealth::Execute_BPI_OnDamage(this, 1.0f, ActorDamagedBy);
 	if (HitPoints <= 0)
 	{
 		IHealth::Execute_OnDeath(this);
 	}
-	IHealth::Execute_BPI_OnDamage(this, 1.0f, ActorDamagedBy);
 }
 
 void APlayableCharacter::OnKill_Implementation()
