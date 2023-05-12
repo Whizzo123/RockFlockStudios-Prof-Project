@@ -195,6 +195,11 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
 		void BPI_EndAbility();
 	/**
+	* Gets called when we succeed the ability ends and walls come down
+	*/
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")
+		void BPI_EndAbilityTime();
+	/**
 	* Gets called a fake wall is destroyed
 	*/
 	UFUNCTION(BlueprintImplementableEvent, Category = "Ability")

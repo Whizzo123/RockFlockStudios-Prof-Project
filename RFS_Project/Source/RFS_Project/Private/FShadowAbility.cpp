@@ -253,6 +253,7 @@ bool UFShadowAbility::PlacePortal(FVector Position, FVector FwdVector)
 void UFShadowAbility::EndAbility()
 {
 	//Exit's wall if we are in it, destroys portal if it's active
+	bool TimerRanOut = bInsideWalls;
 	if (ShadowState == EAbilityState::Active){
 		if (bInsideWalls)
 		{
@@ -277,7 +278,14 @@ void UFShadowAbility::EndAbility()
 	bWithinPortalRange = false;
 	bInsideWalls = false;
 	DurationTimer = -1;
-	BPI_EndAbility();
+	if (TimerRanOut)
+	{
+		BPI_EndAbilityTime();
+	}
+	else
+	{
+		BPI_EndAbility();
+	}
 
 }
 
