@@ -294,6 +294,7 @@ bool UBaseShadowAbility::ExitWall()
 void UBaseShadowAbility::EndAbility()
 {
 	//Exit's wall if we are in it, destroys portal if it's active
+	bool TimerRanOut = bInsideWalls;
 	if (ShadowState == EAbilityState::Active && bInsideWalls) 
 	{
 		ExitWall();
@@ -311,7 +312,14 @@ void UBaseShadowAbility::EndAbility()
 	ShadowState = EAbilityState::Inactive;
 	DurationTimer = -1;
 	bInsideWalls = false;
-	BPI_EndAbility();
+	if (TimerRanOut)
+	{
+		BPI_EndAbilityTime();
+	}
+	else 
+	{
+		BPI_EndAbility();
+	}
 }
 
 void UBaseShadowAbility::EndAbilityAbrupt()
