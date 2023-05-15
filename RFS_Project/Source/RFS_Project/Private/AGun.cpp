@@ -83,20 +83,18 @@ FVector AAGun::Fire(FVector StartHitScanLoc)
 	// Did we actually hit anything?
 	if (HitActor)
 	{
-		//if (APlayableCharacter* character = Cast<APlayableCharacter>(HitActor))
-		//{
-			// Did what we hit have health?
-			IHealth* HealthObj = Cast<IHealth>(HitActor);
-			if (HealthObj)
+		//Note we do not use the KismetLibrary implements interface here because it actually makes sense to check if we hit something or nothing beforehand
+		bool bImplementsHealth = HitActor->GetClass()->ImplementsInterface(UHealth::StaticClass());
+			if (bImplementsHealth)
 			{
 				//TODO remove this in favor of having a damage variable on the gun
 				if (bPlayerGun)
 				{
-					HealthObj->OnDamage(1.0f, PawnEquippedTo);
+					IHealth::Execute_OnDamage(HitActor, 1.0f, PawnEquippedTo);
 				}
 				else
 				{
-					HealthObj->OnDamage(1.0f, PawnEquippedTo);
+					IHealth::Execute_OnDamage(HitActor, 1.0f, PawnEquippedTo);
 				}
 			}
 		// Return our hit point location
@@ -132,9 +130,9 @@ AAGun::FTraceReturn AAGun::Trace(FVector StartTrace, FVector EndTrace)
 		{
 			// Cast to determine if the actor hit is of the given type
 			//APlayableCharacter* Character = Cast<APlayableCharacter>(OutHit[i].GetActor());
-			IHealth* HealthObj = Cast<IHealth>(OutHit[i].GetActor());
+			bool bImplementsHealth = OutHit[i].GetActor()->GetClass()->ImplementsInterface(UHealth::StaticClass());
 			// If the object is of the given type and we have not hit ourselves
-			if (HealthObj && HitActor != PawnEquippedTo)
+			if (bImplementsHealth && HitActor != PawnEquippedTo)
 			{
 				TraceToReturn.TraceActor = HitActor;
 				TraceToReturn.HitLoc = OutHit[i].ImpactPoint;

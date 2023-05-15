@@ -101,33 +101,6 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void APlayerCharacter::OnHeal(float Health)
-{
-	HitPoints += Health;
-	if (HitPoints > MaxHitPoints)
-	{
-		HitPoints = MaxHitPoints;
-	}
-}
-
-void APlayerCharacter::OnDamage(float Damage, AActor* ActorDamagedBy)
-{
-	BPI_TakeDamage();
-	HitPoints -= Damage;
-	if (HitPoints <= 0)
-	{
-		OnDeath();
-	}
-	CharacterDamagedEvent(ActorDamagedBy);
-}
-
-void APlayerCharacter::OnDeath()
-{
-	BPI_OnDeath();
-	SetActorLocation(RespawnPoint);
-	HitPoints = MaxHitPoints;
-}
-
 void APlayerCharacter::CreateHint(AActor* Actor, float HintTime)
 {
 	OnAIHint.Broadcast(Actor, HintTime);
@@ -176,4 +149,22 @@ void APlayerCharacter::SetToJump()
 	SwitchMovementState(EPlayerMovementState::Jumping);
 	GunAccuracy(JumpingAccuracyDebuffPercentage);
 
+}
+
+void APlayerCharacter::OnDeath_Implementation()
+{
+	bool bImplementsHealth = UKismetSystemLibrary::DoesImplementInterface(SavedActorDamageBy, UHealth::StaticClass());
+
+	if (bImplementsHealth)
+	{
+		IHealth::Execute_OnKill(SavedActorDamageBy);
+	}
+	IHealth::Execute_BPI_OnDeath(this);
+
+}
+
+void APlayerCharacter::Respawn()
+{
+	SetActorLocation(RespawnPoint);
+	HitPoints = MaxHitPoints;
 }

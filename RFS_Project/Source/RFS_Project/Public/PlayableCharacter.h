@@ -20,48 +20,31 @@ public:
 	*/
 	virtual void Tick(float DeltaTime) override;
 	/*
-	* Blueprint-callable function for healing the character
+	* Character increases HitPoints by amount
 	* @param Health - Amount to heal the character by
 	*/
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
-		void OnHeal(float Health) override {};
+	void OnHeal_Implementation(float Health) override;
 	/*
-	* Blueprint-callable function for damaging the character
+	* Damage player by amount and by actor damaged by
 	* @param Damage - Amount to damage character by
 	* @param ActorDamagedBy - Actor responsible for the damage
 	*/
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
-		void OnDamage(float Damage, AActor* ActorDamagedBy) override;
-	/*Blueprint-callable function for when the player should die*/
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Combat")
-		void OnDeath() override;
+	void OnDamage_Implementation(float Damage, AActor* ActorDamagedBy) override;
+
+	/* Character has killed something*/
+	void OnKill_Implementation() override;
+	/*Character has died*/
+	virtual void OnDeath_Implementation() override;
 	/*Blueprint-implementable event for when the character fires they're gun*/
 	UFUNCTION(BlueprintImplementableEvent)
 		void OnGunFire();
 	/*Blueprint-implementable event for when the character stops firing they're gun*/
 	UFUNCTION(BlueprintImplementableEvent)
 		void OnGunFiringStopped();
-	/*
-	* Blueprint-implementable event for when the character takes damage
-	* @param ActorDamagedBy - The actor who damaged us
-	*/
-	UFUNCTION(BlueprintImplementableEvent)
-		void CharacterDamagedEvent(AActor* ActorDamagedBy);
 
-	UFUNCTION(BlueprintImplementableEvent)
-		void BPI_OnDeath();
-	/* Blueprint-implementable event for defining what happens when player is killed*/
-	UFUNCTION(BlueprintImplementableEvent)
-		void BPI_OnKill();
-	/* Blueprint-implementable event for defining what happens when player takes damage*/
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-		void BPI_TakeDamage();
-	/* Kills the character*/
-	void OnKill() override { BPI_OnKill(); };
 
 	/* Plays the characters reload animation*/
 	void PlayReloadAnimation();
-public:
 	/* Value for amount of hit points the character currently has*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat")
 		float HitPoints;
@@ -76,8 +59,8 @@ protected:
 	virtual void BeginPlay() override;
 	/*Default constructor*/
 	APlayableCharacter();
+	AActor* SavedActorDamageBy;
 private:
 	FVector RespawnPoint;
-	AActor* SavedActorDamageBy;
 
 };

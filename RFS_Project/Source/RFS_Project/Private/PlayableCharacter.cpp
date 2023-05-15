@@ -28,28 +28,45 @@ void APlayableCharacter::Tick(float DeltaTime)
 
 }
 
-void APlayableCharacter::OnDamage(float Damage, AActor* ActorDamagedBy)
+void APlayableCharacter::OnHeal_Implementation(float Health)
 {
-	SavedActorDamageBy = ActorDamagedBy;
-	HitPoints -= Damage;
-	if (HitPoints <= 0)
+	HitPoints += Health;
+	if (HitPoints > MaxHitPoints)
 	{
-		OnDeath();
+		HitPoints = MaxHitPoints;
 	}
-	CharacterDamagedEvent(ActorDamagedBy);
 }
 
-void APlayableCharacter::OnDeath()
+void APlayableCharacter::OnDamage_Implementation(float Damage, AActor* ActorDamagedBy)
 {
-	if (SavedActorDamageBy)
+
+	if (HitPoints <= 0)
 	{
-		IHealth* HealthComponent = Cast<IHealth>(SavedActorDamageBy);
-		if (HealthComponent)
-		{
-			HealthComponent->OnKill();
-		}
+		return;
 	}
-	BPI_OnDeath();
+	SavedActorDamageBy = ActorDamagedBy;
+	HitPoints -= Damage;
+	IHealth::Execute_BPI_OnDamage(this, 1.0f, ActorDamagedBy);
+	if (HitPoints <= 0)
+	{
+		IHealth::Execute_OnDeath(this);
+	}
+}
+
+void APlayableCharacter::OnKill_Implementation()
+{
+	IHealth::Execute_BPI_OnKill(this);
+}
+
+void APlayableCharacter::OnDeath_Implementation()
+{
+	bool bImplementsHealth = UKismetSystemLibrary::DoesImplementInterface(SavedActorDamageBy, UHealth::StaticClass());
+	
+	if (bImplementsHealth)
+	{
+		IHealth::Execute_OnKill(SavedActorDamageBy);
+	}
+	IHealth::Execute_BPI_OnDeath(this);
 	SetActorLocation(RespawnPoint);
 	HitPoints = MaxHitPoints;
 }

@@ -10,8 +10,7 @@ UFShadowAbility::UFShadowAbility()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	bWithinPortalRange = false;
-	ShadowState = EAbilityState::Inactive;
+
 	// ...
 }
 
@@ -23,11 +22,41 @@ void UFShadowAbility::BeginPlay()
 
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Starting Shadow Ability"));
 	// ...
-
+	bWithinPortalRange = false;
+	ShadowState = EAbilityState::Inactive;
 }
 
-
 #pragma region STATE_FUNCTIONS
+void UFShadowAbility::AbortAll()
+{
+	TurnOffVisibleWalls();
+
+	if (ShadowState == EAbilityState::Active && bInsideWalls)
+	{
+		ExitWall();
+	}
+	if (Portal)
+	{
+		DestroyOrHideActor(Portal);
+		Portal = nullptr;
+	}
+
+	//Destroy walls
+	for (AUShadowWall* Wall : AliveWalls)
+	{
+		if (Wall->IsAlive())
+		{
+			AUShadowWall::Execute_OnDeath(Wall);
+
+		}
+	}
+
+	AliveWalls.Empty();
+	CurrentWall = nullptr;
+	ShadowState = EAbilityState::Inactive;
+	DurationTimer = -1;
+	bInsideWalls = false;
+}
 bool UFShadowAbility::InactiveState() {
 	//Spawns a fake wall which gets updated in tick
 	//Do we have uses
@@ -38,28 +67,24 @@ bool UFShadowAbility::InactiveState() {
 		return false;
 	}
 
-	//Spawn a portal but do not call Init
-	AShadowPortal* FakePortal;
-	if (PortalBP)
+	bool bPortalSpawnedSuccessfully = SpawnFakePortal();
+	if (bPortalSpawnedSuccessfully)
 	{
-		FakePortal = GetWorld()->SpawnActor<AShadowPortal>(PortalBP, OriginalActor->GetActorLocation(), FRotator(0));
+		BPI_CueAbility();
+		return true;
 	}
-	else 
+	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::PlacePortal : ShadowPortalBP has not been assigned"));
-		return false;
+		return true;
 	}
-
-	FakePortal->AddActorLocalOffset(FVector(0, 0, 15));//Translation to make the portal appear in front of the wall
-	Portal = FakePortal;
-	BPI_InactiveState();
-	return true;
+	
 }
 bool UFShadowAbility::CueState() {
-	//Destroy the InactiveState's portal
+	//Destroy fake objects
+	TurnOffVisibleWalls();
 	DestroyOrHideActor(Portal);
 	Portal = nullptr;
-	TurnOffVisibleWalls();
+
 	//Place the portal and activate the walls
 	FVector FwdVec = GetCameraActorForwardVector(OriginalActor);
 	FVector Location = OriginalActor->GetActorLocation() + (FwdVec * 100);
@@ -72,34 +97,43 @@ bool UFShadowAbility::CueState() {
 	else 
 	{
 		DurationTimer = Duration;
-		UseData.Use--;
-		DepleteCharge();
-		BPI_CueState();
+		IAbility::Execute_SubtractUse(this, 1);
+		IAbility::Execute_DepleteCharge(this);
+		BPI_InitAbility();
 		return true;
 	}
 }
 bool UFShadowAbility::ActiveState() {
-	//Are we in portal range
-	if (!bWithinPortalRange)
+	//If we are not inside walls, try to enter
+	//Otherwise try to exit
+	if (!bInsideWalls)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Portal is not in range"));
-		return false;
-	}
-	bool success = EnterWall(CurrentWall);
-	if (!success)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Could not enter portal"));
-		return false;
+		if (!bWithinPortalRange)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Portal is not in range"));
+			return false;
+		}
+
+		bool success = EnterWall(CurrentWall);
+		if (!success)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Could not enter portal"));
+			return false;
+		}
+		else
+		{
+			DestroyOrHideActor(Portal);
+			Portal = nullptr;
+
+			DurationTimer = DurationTimer * DurationMultiplier;
+			return false;//EnteredState should be the only return true, as such we do not return true here despite succeeding.
+		}
 	}
 	else 
 	{
-		DestroyOrHideActor(Portal);
-		Portal = nullptr;
-		DurationTimer = DurationTimer * DurationMultiplier;
-		bInsideWalls = true;
-		BPI_ActiveState();
-		return true;
+		return EnteredState();
 	}
+
 }
 bool UFShadowAbility::EnteredState() {
 	bool success = ExitWall();
@@ -110,70 +144,12 @@ bool UFShadowAbility::EnteredState() {
 	}
 	else 
 	{
-		bInsideWalls = false;
-		DurationTimer = DurationEndStart;
 		return true;
 	}
 }
 #pragma endregion
 
-bool UFShadowAbility::Use()
-{
 
-	if (!OriginalActor) 
-	{
-		return false;
-	}
-	
-
-	bool bSuccess = false;
-	switch (ShadowState)
-	{
-		case EAbilityState::Inactive:
-		{
-			bSuccess = InactiveState();
-			break;
-		}
-		case EAbilityState::Cue:
-		{
-			bSuccess = CueState();
-			if (!bSuccess)
-			{
-				ShadowState = EAbilityState::Inactive;
-			}
-			break;
-		}
-		case EAbilityState::Active:
-		{
-			//There are two things we can do in Active, enter the portal and exit the portal. 
-			//When we exit, we will go back to the inactive state
-			if (!bInsideWalls)
-			{
-				bSuccess = ActiveState();
-			}
-			else
-			{
-				bSuccess = EnteredState();
-				if (bSuccess)
-				{
-					ShadowState = EAbilityState::Inactive;
-				}
-			}
-			return true;
-		}
-		default:
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility: Current State when called: Invalid State"));
-			break;
-		}
-	}
-	if (bSuccess) 
-	{
-		ShadowState = EAbilityState(int(ShadowState) + 1);
-		return true;
-	}
-	return false;
-}
 
 
 bool UFShadowAbility::InitAbility(FVector position, FVector fwdVector)
@@ -226,7 +202,7 @@ bool UFShadowAbility::PlacePortal(FVector Position, FVector FwdVector)
 				FVector HitsNormal = Hits[i].Normal;
 				int32 HitsInbetween = i;//If there were 4 hits, we may assume that this coming wall hit is behind other walls and should not be executed.			
 				FVector WallNormal = Hits[i].GetActor()->GetActorUpVector();
-				if (HitsNormal.Equals(WallNormal))
+				if (HitsNormal.Equals(WallNormal) && !Wall->bInUse)
 				{
 					FActorSpawnParameters SpawnParams;
 					AShadowPortal* NewPortal;
@@ -246,7 +222,7 @@ bool UFShadowAbility::PlacePortal(FVector Position, FVector FwdVector)
 					WallFound = true;
 					Hit = Hits[i];
 					//If player is not inside and an enemy destroys this wall, all walls fall, designating this as the correct wall. 
-					//It would not make sense for the enemy to still be punished by being flashed
+					//It would not make sense for the enemy to still be punished by being flashed, so we will say the player exists inside the wall
 					CurrentWall->bISPlayerInside = true;
 					break;
 		
@@ -258,7 +234,6 @@ bool UFShadowAbility::PlacePortal(FVector Position, FVector FwdVector)
 			return false;
 		
 
-		//TODO: Remove?
 		//Reposition portal with correct vertical offset
 		FVector SavedLineLocation = Hit.Location;
 		FVector Down = FVector(0, 0, -1);
@@ -278,6 +253,7 @@ bool UFShadowAbility::PlacePortal(FVector Position, FVector FwdVector)
 void UFShadowAbility::EndAbility()
 {
 	//Exit's wall if we are in it, destroys portal if it's active
+	bool TimerRanOut = bInsideWalls;
 	if (ShadowState == EAbilityState::Active){
 		if (bInsideWalls)
 		{
@@ -294,7 +270,7 @@ void UFShadowAbility::EndAbility()
 	//Destroy walls
 	for (AUShadowWall* Wall : AliveWalls)
 	{
-		Wall->OnDeath();
+		Wall->EndWall();
 	}
 	//Reset parameters
 	AliveWalls.Empty();
@@ -302,11 +278,66 @@ void UFShadowAbility::EndAbility()
 	bWithinPortalRange = false;
 	bInsideWalls = false;
 	DurationTimer = -1;
-	BPI_EndAbility();
+	if (TimerRanOut)
+	{
+		BPI_EndAbilityTime();
+	}
+	else
+	{
+		BPI_EndAbility();
+	}
 
 }
 
-// Called every frame
+void UFShadowAbility::EndAbilityAbrupt()
+{
+	//Exit's wall if we are in it, destroys portal if it's active
+	if (ShadowState == EAbilityState::Active) {
+		if (bInsideWalls)
+		{
+			ExitWall();
+		}
+		if (Portal)
+		{
+			Portal->PortalDeath();
+			Portal = nullptr;
+		}
+
+	}
+
+	//Destroy walls
+	for (AUShadowWall* Wall : AliveWalls)
+	{
+		Wall->OnDeath_Implementation();
+	}
+	//Reset parameters
+	AliveWalls.Empty();
+	ShadowState = EAbilityState::Inactive;
+	bWithinPortalRange = false;
+	bInsideWalls = false;
+	DurationTimer = -1;
+	BPI_RealWallDestroyed();
+}
+
+bool UFShadowAbility::SpawnFakePortal()
+{
+	//Spawn a portal but do not call Init
+	AShadowPortal* FakePortal;
+	if (PortalBP)
+	{
+		FakePortal = GetWorld()->SpawnActor<AShadowPortal>(PortalBP, OriginalActor->GetActorLocation(), FRotator(0));
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FShadowAbility::PlacePortal : ShadowPortalBP has not been assigned"));
+		return false;
+	}
+
+	FakePortal->AddActorLocalOffset(FVector(0, 0, 15));//Translation to make the portal appear in front of the wall
+	Portal = FakePortal;
+	return true;
+}
+
 void UFShadowAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
@@ -337,16 +368,16 @@ void UFShadowAbility::UpdateFakePortal(FVector Position, FVector FwdVector) {
 	for (int i = 0; i < Hits.Num(); i++)
 	{
 
-		AUShadowWall* wall = Cast<AUShadowWall>(Hits[i].GetActor());
+		AUShadowWall* Wall = Cast<AUShadowWall>(Hits[i].GetActor());
 		//We cannot grab a wall if we have linetraced through this many actors
 		if (i >= 6)
 			break;//We will break out with a false wallFound
-		if (wall)
+		if (Wall)
 		{
 			//The wall has to be facing us to be considered
 			FVector HitsNormal = Hits[i].Normal;
 			FVector WallNormal = Hits[i].GetActor()->GetActorUpVector();
-			if (HitsNormal.Equals(WallNormal))
+			if (HitsNormal.Equals(WallNormal) && !Wall->bInUse)
 			{
 				//We have found a wall
 				SavedPoint = Hits[i].Location;

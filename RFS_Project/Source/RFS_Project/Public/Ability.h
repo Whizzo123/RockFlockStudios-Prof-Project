@@ -7,7 +7,7 @@
 #include "Ability.generated.h"
 
 // This class does not need to be modified.
-UINTERFACE(MinimalAPI, NotBlueprintable)
+UINTERFACE(MinimalAPI)
 class UAbility : public UInterface
 {
 	GENERATED_BODY()
@@ -22,21 +22,17 @@ class RFS_PROJECT_API IAbility
 
 		// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	//UFUNCTION(BlueprintCallable, Category = "Ability") //Should have this UFUNCTION Specifier
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability")
+		bool Use();
 
-			virtual bool Use() = 0;
-
-		//Setters
-			virtual void AddUse() = 0;
-			virtual void DepleteUse() = 0;
-			virtual void AddCharge() = 0;
-			virtual void DepleteCharge() = 0;
-
-		//Getters
-			virtual int GetUseAmount() = 0;
-			virtual int GetUseCapacity() = 0;
-			virtual int GetChargeAmount() = 0;
-			virtual int GetChargeCapacity() = 0;
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability")
+		void AddUse();
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability")
+		void SubtractUse(int Amount);
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability")
+		void AddCharge();
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability")
+		void DepleteCharge();
 
 };
 
@@ -48,18 +44,18 @@ enum class EAbilityState : uint8
 	Active UMETA(DisplayName = "Active"),
 };
 
+/*Struct containing Valorant's Ultimate charging and usage system*/
 USTRUCT(BlueprintType)
 struct FAbilityData {
 	GENERATED_BODY()
 public:
-	//////////////////////BASE ABILITY FUNCTIONALITY
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Uses")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Data")
 		int Use;//Current amount of ability usages that can be used.
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Uses")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Data")
 		int UseCapacity;//How many ability usages can be stored.
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Charge")
-		int Charge;//The ultimate charge counter
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Charge")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Data")
+		int Charge;//The ultimate charge counter.
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability Data")
 		int ChargeCapacity;//Ultimate charge capacity, once full, ability can be used.
 };
 
